@@ -1,59 +1,42 @@
-# Waegwiiser
+# Wägwiiser
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.5.
+Willkommen bei **Wägwiiser**, dem Frontend-Projekt für die offizielle Website der Pfadi St. Justus Flums! Dieses Projekt wurde mit **Angular** entwickelt und kommuniziert mit einem separaten **Backend-API**, das für die Daten und Inhalte zuständig ist.
 
-## Development server
+---
 
-To start a local development server, run:
+## Status: In Entwicklung (Work in Progress)
 
-```bash
-ng serve
-```
+Diese Website befindet sich noch im Aufbau und wird aktiv entwickelt. Wir arbeiten daran, euch eine informative und ansprechende Online-Präsenz zu bieten.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## Features
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Hier werden die Features des **Frontend-Projekts "Wägwiiser"** aufgeführt.
 
-```bash
-ng generate component component-name
-```
+### Kernfunktionalität (Frontend)
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+*   [ ] **Informationsseiten:** Darstellung von Inhalten wie "Über uns", "Aktuelles", "Gruppen/Stufen", "Kontakt", "Termine".
+*   [ ] **Navigation:** Klare und intuitive Menüführung durch die gesamte Website.
+*   [ ] **Responsive Design:** Optimale Darstellung auf allen Geräten (Desktop, Tablet, Mobile).
+*   [ ] **Medienintegration:** Anzeige von Bildern und Videos.
+*   [ ] **Verlinkung zu externen Ressourcen:** Links zu MiData, Instagram, etc.
 
-```bash
-ng generate --help
-```
+### Benutzeroberfläche & Design
 
-## Building
+*   [ ] **Custom Branding:** Anpassung an das Pfadi St. Justus Flums Design (Logo, Farben, Schriftarten).
+*   [ ] **UI-Bibliothek:** Integration und Nutzung von z.B. Angular Material für konsistente Komponenten.
+*   [ ] **Barrierefreiheit:** Berücksichtigung von Zugänglichkeitsstandards.
 
-To build the project run:
+### Dynamische Inhalte (Frontend-Integration)
 
-```bash
-ng build
-```
+*   [ ] **Integration von Backend-Daten:** Abruf und Anzeige von Inhalten wie aktuellen Anlässen, Neuigkeiten etc. vom Backend-API.
+*   [ ] **Formulare:** Implementierung von Kontaktformularen oder Anmeldeformularen (falls das Backend dies unterstützt).
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Geplante Features (Frontend-Perspektive)
 
-## Running unit tests
+*   [ ] **Mehrsprachigkeit:** Unterstützung für Deutsch und eventuell Englisch.
+*   [ ] **SEO-Optimierung:** Sicherstellung, dass die Website gut von Suchmaschinen gefunden wird.
+*   [ ] **Interaktive Elemente:** Z.B. Bildergalerien, Karten für Standorte.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---

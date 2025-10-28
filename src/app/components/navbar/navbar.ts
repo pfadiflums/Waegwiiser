@@ -11,8 +11,8 @@ import { NavLink } from '../../models/nav-link.model';
   styleUrl: './navbar.scss'
 })
 export class Navbar implements OnInit {
-  isMenuOpen: boolean = false;
-  isScrolled: boolean = false;
+  isMenuOpen = false;
+  isScrolled = false;
 
   navLinks: NavLink[] = [
     { label: 'STUFEN', path: '/stufen' },

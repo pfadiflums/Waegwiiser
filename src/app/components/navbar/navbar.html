@@ -1,0 +1,36 @@
+<nav class="navbar" [class.scrolled]="isScrolled">
+  <div class="navbar-container">
+    <div class="navbar-links" [class.open]="isMenuOpen">
+      <ul>
+        @for (link of navLinks; track $index) {
+        <li>
+          <a
+            [routerLink]="link.path"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="closeMenu()"
+            >{{ link.label }}</a
+          >
+        </li>
+        }
+      </ul>
+    </div>
+
+    <button
+      class="menu-toggle"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="isMenuOpen"
+    >
+      <span class="bar" [class.open]="isMenuOpen"></span>
+      <span class="bar" [class.open]="isMenuOpen"></span>
+      <span class="bar" [class.open]="isMenuOpen"></span>
+    </button>
+
+    <a routerLink="/" class="navbar-logo" (click)="closeMenu()">
+      <img
+        src="assets/images/pfadi-st-justus-flums-logo.png"
+        alt="Pfadi St. Justus Flums Logo"
+      />
+    </a>
+  </div>
+</nav>

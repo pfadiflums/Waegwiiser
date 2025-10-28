@@ -7,6 +7,8 @@ $color-accent-grey: #5C6196;
 $color-light-off-white: #F7F5EE;
 $color-dark-dunkelgrau: #373841;
 
+$font-family-base: 'Outfit', sans-serif;
+
 // Schriftgrössen (Figma px zu em Konversion mit math.div)
 $font-size-h1: math.div(64px, 16px) * 1em;   // 64px
 $font-size-h2: math.div(48px, 16px) * 1em;   // 48px
@@ -28,4 +30,4 @@ $font-weight-extrabold: 800; // For h2, h4
 $letter-spacing-wide: 0.1em;
 $letter-spacing-normal: 0;
 
-$spacing-unit: 1em; // Grundabstandseinheit
+$spacing-unit: 1em;

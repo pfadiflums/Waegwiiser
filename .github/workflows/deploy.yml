@@ -36,12 +36,12 @@ jobs:
           --base-href /${{ github.event.repository.name }}/
 
       - name: Add .nojekyll
-        run: touch dist/<project-name>/browser/.nojekyll
+        run: touch dist/Waegwiiser/browser/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/<project-name>/browser
+          path: dist/Waegwiiser/browser
 
   deploy:
     needs: build

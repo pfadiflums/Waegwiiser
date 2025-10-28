@@ -1,0 +1,31 @@
+@use 'sass:math';
+
+// Farben
+$color-primary-gelb: #EBC531;
+$color-secondary-blau-matt: #4251D5;
+$color-accent-grey: #5C6196;
+$color-light-off-white: #F7F5EE;
+$color-dark-dunkelgrau: #373841;
+
+// Schriftgrössen (Figma px zu em Konversion mit math.div)
+$font-size-h1: math.div(64px, 16px) * 1em;   // 64px
+$font-size-h2: math.div(48px, 16px) * 1em;   // 48px
+$font-size-h3: math.div(48px, 16px) * 1em;   // 48px
+$font-size-h4: math.div(36px, 16px) * 1em;   // 36px
+$font-size-h5: math.div(36px, 16px) * 1em;   // 36px
+$font-size-h6: math.div(20px, 16px) * 1em;   // 20px
+$font-size-p: math.div(20px, 16px) * 1em;    // 20px
+$font-size-button: 1.1em;
+
+// Schriftgewichte (based on Outfit font weights from Figma)
+$font-weight-extralight: 200; // For h1
+$font-weight-light: 300;     // For h3, h5
+$font-weight-regular: 400;  // For p
+$font-weight-bold: 700;     // For h6
+$font-weight-extrabold: 800; // For h2, h4
+
+// Letter Spacing (Figma 10% translates to 0.1em)
+$letter-spacing-wide: 0.1em;
+$letter-spacing-normal: 0;
+
+$spacing-unit: 1em; // Grundabstandseinheit

@@ -1,6 +1,6 @@
 @use 'sass:color';
 @use 'sass:math';
-@use '../variables' as *;
+@use '../../../variables' as *;
 
 $padding-horizontal: calc(3em + #{math.div(30px, 1440px) * 100vw});
 .home-container {

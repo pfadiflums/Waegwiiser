@@ -1,0 +1,250 @@
+@use 'sass:color';
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: white;
+  transition: background-color 0.4s ease;
+}
+
+
+/* ============================= */
+/* HERO SECTION (LAYOUT)         */
+/* ============================= */
+.hero-section {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 5vw 8vw;
+  position: relative;
+  overflow: hidden;
+
+  @media (max-width: 1024px) {
+    padding: 8vw 6vw;
+  }
+
+  /* 👉 Handy & Tablet: Bild unter Text */
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: 2rem;
+    padding: 18vw 6vw 10vw;
+  }
+}
+
+/* ============================= */
+/* HERO CONTENT (TEXT)           */
+/* ============================= */
+.hero-content {
+  position: relative;
+  top: -50px;
+
+  .heading-1 {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+    line-height: 1.05;
+  }
+
+  .heading-2 {
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
+    font-weight: 600;
+    margin-top: 0.2rem;
+    margin-bottom: 2.4rem;
+    line-height: 1.2;
+    opacity: 0.9;
+  }
+
+  .hero-text {
+    font-size: clamp(1rem, 2.6vw, 1.7rem);
+    margin-top: 0;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    max-width: 90%;
+  }
+
+  /* Tablet */
+  @media (max-width: 1024px) {
+    top: -30px;
+
+    .heading-1 {
+      font-size: clamp(2.8rem, 7vw, 5rem);
+    }
+
+    .heading-2 {
+      font-size: clamp(1.5rem, 3.8vw, 2.5rem);
+      margin-bottom: 1.8rem;
+    }
+
+    .hero-text {
+      font-size: clamp(1rem, 2.4vw, 1.4rem);
+      max-width: 95%;
+    }
+  }
+
+  /* Handy */
+  @media (max-width: 768px) {
+    top: 0;
+    text-align: center;
+    align-items: center;
+    padding: 0;
+
+    .heading-1 {
+      padding-top: 5vw;
+      font-size: clamp(2.2rem, 10vw, 4rem);
+    }
+
+    .heading-2 {
+      font-size: clamp(1.4rem, 6vw, 2rem);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-text {
+      font-size: clamp(1rem, 4vw, 1.3rem);
+      line-height: 1.5;
+      max-width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}
+
+/* ============================= */
+/* HERO IMAGE & BLOB             */
+/* ============================= */
+.hero-image-container {
+  position: relative;
+  display: flex;
+  justify-content: center; // mittig auf kleineren Geräten
+  align-items: center;
+  overflow: visible;
+
+  .hero-image {
+    position: relative;
+    z-index: 2;
+    width: 80%;
+    max-width: 700px;
+    border-radius: 16px;
+    object-fit: cover;
+    margin-right: 120px;
+    transition: all 0.3s ease;
+
+    @media (max-width: 1024px) {
+      width: 85%;
+      max-width: 600px;
+      margin-right: 60px;
+    }
+
+    /* 👉 Handy: Bild weiter nach rechts */
+    @media (max-width: 768px) {
+      width: 90%;
+      max-width: 450px;
+      margin: 0 auto;
+      transform: translateX(50%) translateY(-140px);
+    }
+  }
+
+  .hero-blob {
+    position: absolute;
+    z-index: 1;
+    right: -8vw;
+    top: 70%;
+    transform: translateY(-50%) scale(1);
+    width: 70%;
+    max-width: 550px;
+    opacity: 1;
+    pointer-events: none;
+    color: #4251d5;
+    transition: all 0.3s ease;
+
+    @media (max-width: 1024px) {
+      right: -10vw;
+      top: 72%;
+      width: 80%;
+      max-width: 480px;
+    }
+
+    /* 👉 Handy: Blob unter dem Bild, leicht nach unten versetzt */
+    @media (max-width: 768px) {
+      position: relative;
+      top: auto;
+      right: auto;
+      left: 50%;
+      transform: translateX(-50%) scale(0.9);
+      width: 100%;
+      max-width: 400px;
+      opacity: 0.85;
+      margin-top: -2rem;
+    }
+  }
+}
+
+.uebung-container {
+  padding: 3rem 2rem;
+  max-width: 700px;
+  margin: 0 auto;
+  border-radius: 8px;
+  text-align: left;
+  color: #1e1e1e;
+
+  /* 👉 Tabelle leicht nach links rücken */
+  @media (min-width: 1025px) {
+    margin-left: 5vw; // verschiebt Container etwas nach links
+  }
+
+  .uebung-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #e9bf4a; // Pfadi-Gold
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.05rem;
+  }
+
+  .uebung-datum {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #e9bf4a;
+    margin-bottom: 2rem;
+  }
+
+  .uebung-tabelle {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+
+    th {
+      text-align: left;
+      padding: 0.75rem 0;
+      font-weight: 700;
+      width: 30%;
+    }
+
+    td {
+      padding: 0.75rem 0;
+      font-weight: 400;
+    }
+
+    tr:not(:last-child) {
+      border-bottom: 1px solid #ccc;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem 1rem;
+
+    .uebung-title {
+      font-size: 1.4rem;
+    }
+
+    .uebung-datum {
+      font-size: 1rem;
+    }
+
+    .uebung-tabelle {
+      font-size: 0.95rem;
+    }
+  }
+}
+

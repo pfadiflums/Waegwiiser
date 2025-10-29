@@ -67,23 +67,16 @@ $padding-horizontal: calc(3em + #{math.div(30px, 1440px) * 100vw});
 }
 
 .hero-image-container {
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
 
-    @media (max-width: 900px) {
-        grid-column: 1 / -1;
-        grid-row: 2 / 3;
-        margin-top: 3vw;
-    }
 }
 
 .hero-image {
-    max-width: 90%;
-    height: auto;
-    display: block;
+  width: 100%;
+  max-width: 665px;
+  max-height: 631px;
+}
+
+.hero-blob {
+  width: 100%;
+  max-width: 686px;
 }

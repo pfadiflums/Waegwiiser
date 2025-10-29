@@ -1,18 +1,22 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, effect, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { NgOptimizedImage } from '@angular/common';
 import { NavLink } from '../../models/nav-link.model';
 
 @Component({
   selector: 'app-navbar',
-  standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.scss'
+  styleUrl: './navbar.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, RouterLinkActive, NgOptimizedImage],
+  host: {
+    '(window:scroll)': 'onWindowScroll()',
+    '(window:keydown.escape)': 'onEscapeKey()'
+  }
 })
-export class Navbar implements OnInit {
-  isMenuOpen = false;
-  isScrolled = false;
+export class Navbar {
+  isMenuOpen = signal(false);
+  isScrolled = signal(false);
 
   navLinks: NavLink[] = [
     { label: 'STUFEN', path: '/stufen' },
@@ -23,24 +27,37 @@ export class Navbar implements OnInit {
     { label: 'PFADIHAUS', path: '/pfadihaus' }
   ];
 
-  ngOnInit(): void {
+  constructor() {
+    this.checkScroll();
+
+    effect(() => {
+      if (this.isMenuOpen()) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    });
+  }
+
+  onWindowScroll(): void {
     this.checkScroll();
   }
 
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    this.checkScroll();
+  onEscapeKey(): void {
+    if (this.isMenuOpen()) {
+      this.closeMenu();
+    }
   }
 
-  checkScroll() {
-    this.isScrolled = window.scrollY > 50;
+  checkScroll(): void {
+    this.isScrolled.set(window.scrollY > 50);
   }
 
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+  toggleMenu(): void {
+    this.isMenuOpen.update(open => !open);
   }
 
-  closeMenu() {
-    this.isMenuOpen = false;
+  closeMenu(): void {
+    this.isMenuOpen.set(false);
   }
 }

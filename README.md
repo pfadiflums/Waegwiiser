@@ -17,7 +17,7 @@ Hier werden die Features des **Frontend-Projekts "Wägwiiser"** aufgeführt.
 ### Kernfunktionalität (Frontend)
 
 *   [ ] **Informationsseiten:** Darstellung von Inhalten wie "Über uns", "Aktuelles", "Gruppen/Stufen", "Kontakt", "Termine".
-*   [ ] **Navigation:** Klare und intuitive Menüführung durch die gesamte Website.
+*   [x] **Navigation:** Klare und intuitive Menüführung durch die gesamte Website.
 *   [ ] **Responsive Design:** Optimale Darstellung auf allen Geräten (Desktop, Tablet, Mobile).
 *   [ ] **Medienintegration:** Anzeige von Bildern und Videos.
 *   [ ] **Verlinkung zu externen Ressourcen:** Links zu MiData, Instagram, etc.

@@ -37,6 +37,14 @@ jobs:
       - name: Build
         run: npx ng build --configuration development --base-href /Waegwiiser/dev/
 
+      - name: Debug - List build output
+        run: |
+          echo "Listing dist directory structure:"
+          ls -laR dist/
+          echo "---"
+          echo "Files to be deployed from dist/Waegwiiser:"
+          ls -la dist/Waegwiiser/
+
       - name: Add .nojekyll
         run: touch dist/Waegwiiser/.nojekyll
 

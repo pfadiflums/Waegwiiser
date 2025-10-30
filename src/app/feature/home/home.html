@@ -1,0 +1,47 @@
+ <div class="home">
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="hero-content">
+          <div class="hero-text">
+            <h1>Willkommen bei Pfadi St. Justus in Flums</h1>
+            <button class="cta-button">Mitglied werden</button>
+          </div>
+          <div class="hero-image-container">
+            <img class="blob" src="assets/elements/blob.svg" alt="">
+            <img
+              src="assets/images/group.png"
+              alt="Pfadi Gruppenfoto"
+              width="1157"
+              height="685"
+              priority
+              class="hero-image"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- Scout Groups Section -->
+      <section class="scout-groups">
+        <div class="container">
+          <div class="groups-grid">
+            @for (group of scoutGroups; track group.name) {
+              <div class="group-card" [style.background-color]="group.color">
+                <h3>{{ group.name }}</h3>
+              </div>
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- Instagram Section -->
+      <section class="instagram-section">
+        <div class="container">
+          <h2 class="section-title">Das läuft bei uns gerade</h2>
+          <div class="instagram-grid">
+            @for (post of instagramPosts; track $index) {
+              <div class="instagram-post"></div>
+            }
+          </div>
+        </div>
+      </section>
+    </div>

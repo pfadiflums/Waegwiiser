@@ -37,22 +37,14 @@ jobs:
       - name: Build
         run: npx ng build --configuration development --base-href /Waegwiiser/dev/
 
-      - name: Debug - List build output
-        run: |
-          echo "Listing dist directory structure:"
-          ls -laR dist/
-          echo "---"
-          echo "Files to be deployed from dist/Waegwiiser:"
-          ls -la dist/Waegwiiser/
-
       - name: Add .nojekyll
-        run: touch dist/Waegwiiser/.nojekyll
+        run: touch dist/Waegwiiser/browser/.nojekyll
 
       - name: Deploy to GitHub Pages (dev)
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/Waegwiiser
+          publish_dir: ./dist/Waegwiiser/browser
           destination_dir: dev
           keep_files: true
 

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/app.scss", "src/app/app.scss"],
+  "sourcesContent": [":host {\n  display: block;\n  min-height: 100vh;\n  background: #F7F5EE;\n}\n", ":host {\n  display: block;\n  min-height: 100vh;\n  background: #F7F5EE;\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJmaWxlOi8vL2hvbWUvcnVubmVyL3dvcmsvV2FlZ3dpaXNlci9XYWVnd2lpc2VyL3NyYy9hcHAvYXBwLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRTtFQUNBO0VBQ0EiLCJzb3VyY2VzQ29udGVudCI6WyI6aG9zdCB7XG4gIGRpc3BsYXk6IGJsb2NrO1xuICBtaW4taGVpZ2h0OiAxMDB2aDtcbiAgYmFja2dyb3VuZDogI0Y3RjVFRTtcbn1cbiJdfQ== */"],
+  "mappings": ";AAAA;AACE,WAAA;AACA,cAAA;AACA,cAAA;ACCF;",
+  "names": []
+}

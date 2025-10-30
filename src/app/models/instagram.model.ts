@@ -1,6 +1,3 @@
-export interface NewsItem {
+export interface InstagramPost {
   id: string;
-  title: string;
-  date: string;
-  description: string;
 }

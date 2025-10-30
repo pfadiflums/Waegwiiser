@@ -1,115 +1,23 @@
-@use 'sass:color';
-@use 'variables' as *;
-@use 'sass:math';
-@use 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap');
+
+* {
+  box-sizing: border-box;
+}
 
 html, body {
-  font-family: $font-family-base;
   margin: 0;
   padding: 0;
-  color: $color-dark-dunkelgrau;
-  background-color: $color-light-off-white;
-  overflow-x: hidden;
+  font-family: 'Outfit', sans-serif;
+  background: #F7F5EE;
+  color: #000000;
 }
 
-h1, .heading-1 {
-  font-family: $font-family-base;
-  font-size: $font-size-h1;
-  font-weight: $font-weight-extralight;
-  letter-spacing: $letter-spacing-wide;
-  color: $color-dark-dunkelgrau;
-  margin-top: 0;
-  margin-bottom: $spacing-unit * 1.5;
-  line-height: auto;
+button {
+  font-family: inherit;
 }
 
-h2, .heading-2 {
-  font-family: $font-family-base;
-  font-size: $font-size-h2;
-  font-weight: $font-weight-extrabold;
-  letter-spacing: $letter-spacing-wide;
-  color: $color-dark-dunkelgrau;
-  margin-top: 0;
-  margin-bottom: $spacing-unit;
-  line-height: auto;
-}
-
-h3, .heading-3 {
-  font-family: $font-family-base;
-  font-size: $font-size-h3;
-  font-weight: $font-weight-light;
-  letter-spacing: $letter-spacing-wide;
-  color: $color-dark-dunkelgrau;
-  margin-top: 0;
-  margin-bottom: $spacing-unit;
-  line-height: auto;
-}
-
-h4, .heading-4 {
-  font-family: $font-family-base;
-  font-size: $font-size-h4;
-  font-weight: $font-weight-extrabold;
-  letter-spacing: $letter-spacing-wide;
-  color: $color-dark-dunkelgrau;
-  margin-top: 0;
-  margin-bottom: $spacing-unit * 0.75;
-  line-height: auto;
-}
-
-h5, .heading-5 {
-  font-family: $font-family-base;
-  font-size: $font-size-h5;
-  font-weight: $font-weight-light;
-  letter-spacing: $letter-spacing-wide;
-  color: $color-dark-dunkelgrau;
-  margin-top: 0;
-  margin-bottom: $spacing-unit * 0.5;
-  line-height: auto;
-}
-
-h6, .heading-6 {
-  font-family: $font-family-base;
-  font-size: $font-size-h6;
-  font-weight: $font-weight-bold;
-  letter-spacing: $letter-spacing-normal;
-  color: $color-dark-dunkelgrau;
-  margin-top: 0;
-  margin-bottom: $spacing-unit * 0.25;
-  line-height: auto;
-}
-
-p, .paragraph {
-  font-family: $font-family-base;
-  font-size: $font-size-p;
-  font-weight: $font-weight-regular;
-  letter-spacing: $letter-spacing-normal;
-  color: $color-dark-dunkelgrau;
-  line-height: auto;
-  margin-bottom: $spacing-unit;
-}
-
-.btn {
-  display: inline-block;
-  padding: 0.8em 2em;
-  border: none;
-  border-radius: 50px;
-  font-family: $font-family-base;
-  font-size: $font-size-button;
-  font-weight: $font-weight-bold;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-
-  &.back-home-button {
-    background-color: $color-primary-gelb;
-    color: $color-dark-dunkelgrau;
-    border: 2px solid $color-dark-dunkelgrau;
-
-    &:hover {
-      background-color: color.adjust($color-primary-gelb, $lightness: -8%);
-      border-color: color.adjust($color-dark-dunkelgrau, $lightness: -8%);
-      transform: translateY(-2px);
-    }
-  }
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }

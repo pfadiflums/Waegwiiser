@@ -29,7 +29,8 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npx ng build --configuration production
+
+        run: npx ng build --configuration production --base-href /${{ github.event.repository.name }}/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4

@@ -35,17 +35,20 @@ jobs:
         run: npm run test:ci -- --watch=false --browsers=ChromeHeadless
 
       - name: Build
-        run: npx ng build --configuration development --base-href /${{ github.event.repository.name }}/dev/
+        run: npx ng build --configuration development --base-href /Waegwiiser/dev/
+
+      - name: Add .nojekyll
+        run: touch dist/Waegwiiser/.nojekyll
 
       - name: Deploy to GitHub Pages (dev)
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/Waegwiiser/browser
+          publish_dir: ./dist/Waegwiiser
           destination_dir: dev
           keep_files: true
 
       - name: Deployment Summary
         run: |
           echo "🚀 Development deployment successful!" >> $GITHUB_STEP_SUMMARY
-          echo "📦 Dev URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/dev/" >> $GITHUB_STEP_SUMMARY
+          echo "📦 Dev URL: https://pfadiflums.github.io/Waegwiiser/dev/" >> $GITHUB_STEP_SUMMARY

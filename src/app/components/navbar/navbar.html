@@ -1,45 +1,20 @@
-<nav class="navbar" [class.scrolled]="isScrolled()">
-  <div class="navbar-container">
-    <div class="navbar-links" [class.open]="isMenuOpen()">
-      <ul>
-        @for (link of navLinks; track link.path) {
-        <li>
-          <a
-            [routerLink]="link.path"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="closeMenu()"
-            >{{ link.label }}</a
-          >
-        </li>
-        }
-      </ul>
-    </div>
-
-    <button
-      class="menu-toggle"
-      (click)="toggleMenu()"
-      [attr.aria-expanded]="isMenuOpen()"
-      [attr.aria-label]="isMenuOpen() ? 'Close menu' : 'Open menu'"
-      type="button"
-    >
-      <span class="bar" [class.open]="isMenuOpen()"></span>
-      <span class="bar" [class.open]="isMenuOpen()"></span>
-      <span class="bar" [class.open]="isMenuOpen()"></span>
-    </button>
-
-    <a routerLink="/" class="navbar-logo" (click)="closeMenu()">
-      <img
-        ngSrc="assets/images/logo.svg"
-        alt="Pfadi St. Justus Flums Logo"
-        width="269"
-        height="137"
-        priority
-      />
-    </a>
-  </div>
-
-  @if (isMenuOpen()) {
-  <div class="menu-overlay" aria-hidden="true"></div>
-  }
-</nav>
+    <nav class="navbar">
+      <div class="nav-content">
+        <ul class="nav-links">
+          @for (item of navItems; track item.path) {
+            <li>
+              <a
+                [routerLink]="item.path"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: item.path === '/'}"
+              >
+                {{ item.label }}
+              </a>
+            </li>
+          }
+        </ul>
+        <div class="logo">
+          <img src="assets/images/logo.svg" alt="Pfadi St. Justus Logo" />
+        </div>
+      </div>
+    </nav>

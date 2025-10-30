@@ -1,15 +1,15 @@
-name: Deploy to GitHub Pages
+name: Deploy Dev to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [develop]
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: 'pages-main'
+  group: 'pages-dev'
   cancel-in-progress: true
 
 jobs:
@@ -35,17 +35,17 @@ jobs:
         run: npm run test:ci -- --watch=false --browsers=ChromeHeadless
 
       - name: Build
-        run: npx ng build --configuration production --base-href /${{ github.event.repository.name }}/
+        run: npx ng build --configuration development --base-href /${{ github.event.repository.name }}/dev/
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages (dev)
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist/Waegwiiser/browser
-          destination_dir: .
-          cname: false
+          destination_dir: dev
+          keep_files: true
 
       - name: Deployment Summary
         run: |
-          echo "🚀 Production deployment successful!" >> $GITHUB_STEP_SUMMARY
-          echo "📦 Live URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/" >> $GITHUB_STEP_SUMMARY
+          echo "🚀 Development deployment successful!" >> $GITHUB_STEP_SUMMARY
+          echo "📦 Dev URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/dev/" >> $GITHUB_STEP_SUMMARY

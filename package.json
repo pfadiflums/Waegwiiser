@@ -42,7 +42,6 @@
     "@angular/build": "^20.3.5",
     "@angular/cli": "^20.3.5",
     "@angular/compiler-cli": "^20.3.0",
-    "@rollup/rollup-win32-x64-msvc": "^4.52.5",
     "@types/jasmine": "~5.1.0",
     "angular-eslint": "20.5.0",
     "eslint": "^9.38.0",

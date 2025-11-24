@@ -1,0 +1,54 @@
+name: Deploy Dev to GitHub Pages
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: 'pages-dev'
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Run tests
+        run: npm run test:ci -- --watch=false --browsers=ChromeHeadless
+
+      - name: Build
+        run: npx ng build --configuration development --base-href /Waegwiiser/dev/
+
+      - name: Add .nojekyll
+        run: touch dist/Waegwiiser/browser/.nojekyll
+
+      - name: Deploy to GitHub Pages (dev)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist/Waegwiiser/browser
+          destination_dir: dev
+          keep_files: true
+
+      - name: Deployment Summary
+        run: |
+          echo "🚀 Development deployment successful!" >> $GITHUB_STEP_SUMMARY
+          echo "📦 Dev URL: https://pfadiflums.github.io/Waegwiiser/dev/" >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,62 @@
+<div class="home-container" [ngStyle]="{ backgroundColor: data.color }">
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1 class="heading-1" [ngStyle]="{ color: data.titleColor }">
+        {{ data.title }}
+      </h1>
+
+      <h2
+        class="heading-2"
+        [ngStyle]="{ color: data.titleColor }"
+        *ngIf="data.secondTitle"
+      >
+        {{ data.secondTitle }}
+      </h2>
+
+      <p class="hero-text">{{ data.text }}</p>
+    </div>
+
+    <div class="hero-image-container">
+      <img
+        class="hero-image"
+        src="assets/images/group.png"
+        alt="Pfadi St. Justus Gruppenbild"
+      />
+      <img class="hero-blob" src="assets/elements/blob.svg" alt="blob" />
+    </div>
+
+    <div class="uebung-container">
+      <h2 class="uebung-title">NÄCHSTE ÜBUNG</h2>
+      <p class="uebung-datum">1. JANUAR 2025</p>
+
+      <table class="uebung-tabelle">
+        <tr>
+          <th>Antreten</th>
+          <td>13.15 Uhr, Pfadihaus Flums</td>
+        </tr>
+        <tr>
+          <th>Abtreten</th>
+          <td>16.45 Uhr, Pfadihaus Flums</td>
+        </tr>
+        <tr>
+          <th>Motto</th>
+          <td>Globi baut eine Seilbrücke</td>
+        </tr>
+        <tr>
+          <th>Tenue</th>
+          <td>Wetterentsprechende Kleidung, Pfadikrawatte (wer hat), gute Schuhe</td>
+        </tr>
+        <tr>
+          <th>Mitnehmen</th>
+          <td>SBB (Schnur, Block, Bleistift), Sackmesser, Trinkflasche</td>
+        </tr>
+        <tr>
+          <th>Weiteres</th>
+          <td>–</td>
+        </tr>
+      </table>
+    </div>
+
+
+  </div>
+</div>

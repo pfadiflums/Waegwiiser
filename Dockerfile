@@ -16,4 +16,4 @@ COPY --from=build /app/dist/Waegwiiser/browser ./dist
 
 EXPOSE 3000
 
-CMD ["serve", "-s", "dist", "-l", "3000", "-a", "0.0.0.0"]
+CMD ["serve", "-s", "dist", "-l", "3000"]

@@ -1,0 +1,33 @@
+@import '../../../../../variables';
+
+.title-text {
+  font-weight: 600;
+  color: var(--slate);
+}
+
+.category-tag {
+  display: inline-flex;
+  padding: 4px 12px;
+  background-color: var(--surface);
+  color: var(--text);
+  border-radius: 16px;
+  font-size: 0.875rem;
+}
+
+.type-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+
+  svg {
+    color: var(--primary);
+  }
+}
+
+.action-group {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}

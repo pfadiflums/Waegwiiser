@@ -61,12 +61,38 @@ export const routes: Routes = [
       {
         path: 'leitende',
         canActivate: [adminGuard],
-        loadComponent: () => import('./feature/home/home').then(m => m.Home), // Placeholder
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./feature/admin/leitende/leitende-list/leitende-list').then(m => m.LeitendeListComponent),
+          },
+          {
+            path: 'new',
+            loadComponent: () => import('./feature/admin/leitende/leitende-form/leitende-form').then(m => m.LeitendeFormComponent),
+          },
+          {
+            path: 'edit/:id',
+            loadComponent: () => import('./feature/admin/leitende/leitende-form/leitende-form').then(m => m.LeitendeFormComponent),
+          }
+        ]
       },
       {
         path: 'downloads',
         canActivate: [adminGuard],
-        loadComponent: () => import('./feature/home/home').then(m => m.Home), // Placeholder
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./feature/admin/downloads/downloads-list/downloads-list').then(m => m.DownloadsListComponent),
+          },
+          {
+            path: 'new',
+            loadComponent: () => import('./feature/admin/downloads/downloads-form/downloads-form').then(m => m.DownloadsFormComponent),
+          },
+          {
+            path: 'edit/:id',
+            loadComponent: () => import('./feature/admin/downloads/downloads-form/downloads-form').then(m => m.DownloadsFormComponent),
+          }
+        ]
       }
     ]
   },

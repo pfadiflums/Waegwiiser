@@ -1,0 +1,17 @@
+@import '../../../../../variables';
+
+.info-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background-color: var(--surface);
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+
+  svg {
+    flex-shrink: 0;
+    color: var(--primary);
+  }
+}

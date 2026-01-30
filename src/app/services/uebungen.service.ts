@@ -17,6 +17,15 @@ export class UebungenService {
     );
   }
 
+  getUpcomingUebungen(limit: number = 5) {
+    const now = new Date().toISOString().split('T')[0];
+    return this.http.get<{ docs: Uebungen[] }>(
+      `${this.apiUrl}/api/uebungen?where[datum][greater_than_equal]=${now}&sort=datum&limit=${limit}&depth=1`
+    ).pipe(
+      map(response => response.docs)
+    );
+  }
+
   getUebung(id: string) {
     return this.http.get<Uebungen>(`${this.apiUrl}/api/uebungen/${id}?depth=1`);
   }

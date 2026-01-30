@@ -1,0 +1,69 @@
+<div class="admin-page">
+  <div class="page-header">
+    <div class="header-content">
+      <a routerLink="/admin/downloads" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        <span>Zurück zur Übersicht</span>
+      </a>
+      <h1>{{ isEditMode() ? 'Download bearbeiten' : 'Neuen Download hinzufügen' }}</h1>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <form [formGroup]="downloadForm" (ngSubmit)="onSubmit()" class="admin-form">
+      <div class="form-grid">
+        <div class="form-card full-width">
+          <div class="card-header">
+            <h3>Download Details</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="titel">Titel</label>
+              <input type="text" id="titel" formControlName="titel" placeholder="z.B. Jahresprogramm 2026" [class.error]="downloadForm.get('titel')?.invalid && downloadForm.get('titel')?.touched">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="kategorie">Kategorie</label>
+                <select id="kategorie" formControlName="kategorie">
+                  @for (cat of categories; track cat) {
+                    <option [value]="cat">{{ cat }}</option>
+                  }
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="typ">Typ</label>
+                <select id="typ" formControlName="typ">
+                  <option value="file">Datei</option>
+                  <option value="link">Link (URL)</option>
+                </select>
+              </div>
+            </div>
+
+            @if (downloadForm.get('typ')?.value === 'link') {
+              <div class="form-group">
+                <label for="url">Link URL</label>
+                <input type="url" id="url" formControlName="url" placeholder="https://...">
+              </div>
+            } @else {
+              <div class="form-group">
+                <label>Datei</label>
+                <div class="info-box">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="16" y2="12"/><line x1="12" x2="12.01" y1="8" y2="8"/></svg>
+                  <span>Dateien können aktuell nur direkt im Payload CMS hochgeladen werden.</span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" routerLink="/admin/downloads" class="action-btn secondary">Abbrechen</button>
+        <button type="submit" class="action-btn primary" [disabled]="downloadForm.invalid">
+          {{ isEditMode() ? 'Änderungen speichern' : 'Download erstellen' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

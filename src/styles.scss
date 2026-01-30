@@ -2,6 +2,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;700;800&display=swap');
 @import 'variables';
 
+:root {
+  --primary: #1B4332;
+  --primary-light: #2D6A4F;
+  --accent: #D97706;
+  --surface: #F8FAFC;
+  --border: #E2E8F0;
+  --slate: #0F172A;
+  --text: #334155;
+  --text-muted: #64748B;
+  --white: #ffffff;
+}
+
 * {
   margin: 0;
   padding: 0;

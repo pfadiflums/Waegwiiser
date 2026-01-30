@@ -4,7 +4,7 @@
 
       <div class="hero-text">
         <h1 class="stufe-title" [style.color]="data.color">{{ data.name }}</h1>
-        <h3 class="stufe-motto" [style.color]="data.color">Mit freude dabei</h3>
+        <h3 class="stufe-motto" [style.color]="data.color">{{ data.slogan }}</h3>
         <div class="stufe-description">
           <app-rich-text-renderer [content]="data.beschreibung"></app-rich-text-renderer>
         </div>
@@ -42,7 +42,6 @@
           </div>
         </div>
 
-        <!-- Google Calendar Part -->
         <div class="calendar-wrapper">
           <div class="calendar-mockup"></div>
           <h4 class="calendar-title">Google Kalender</h4>
@@ -50,7 +49,6 @@
       </div>
     </section>
 
-    <!-- LEITUNGSTEAM SECTION -->
     <section class="team-section">
       <div class="team-grid">
         @for (leader of data.stammLeiter; track leader) {

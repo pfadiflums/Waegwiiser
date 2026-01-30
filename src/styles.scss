@@ -1,6 +1,7 @@
 @use 'sass:math';
+@use 'variables' as *;
+
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;700;800&display=swap');
-@import 'variables';
 
 :root {
   --primary: #1B4332;

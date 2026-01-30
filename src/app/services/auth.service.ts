@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { User } from '../models/payload-types/collections/user';
 import { UserAuthOperations } from '../models/payload-types/common';
-import { catchError, map, of, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -117,5 +117,18 @@ export class AuthService {
     this.userSignal.set(null);
     this.eraseCookie('payload-token');
     this.router.navigate(['/login']);
+  }
+
+  update(data: Partial<User>): Observable<User | null> {
+    const userId = this.userSignal()?.id;
+    if (!userId) return of(null);
+
+    return this.http.patch<User>(`${this.apiUrl}/api/users/${userId}`, data).pipe(
+      tap((user) => {
+        if (user) {
+          this.userSignal.set(user);
+        }
+      })
+    );
   }
 }

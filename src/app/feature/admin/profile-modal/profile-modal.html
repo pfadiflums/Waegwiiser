@@ -1,0 +1,74 @@
+<div class="modal-overlay" (click)="close.emit()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <header class="modal-header">
+      <div class="header-content">
+        <div class="icon-bg">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div>
+          <h2>Profil bearbeiten</h2>
+          <p>Verwalte deine persönlichen Informationen.</p>
+        </div>
+      </div>
+      <button class="close-btn" (click)="close.emit()" aria-label="Schliessen">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </header>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="modal-body">
+      <div class="form-group">
+        <label for="email">E-Mail Adresse</label>
+        <div class="input-wrapper">
+          <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="Deine E-Mail Adresse"
+            [class.error]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Neues Passwort (optional)</label>
+        <div class="input-wrapper">
+          <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="Mindestens 6 Zeichen"
+            [class.error]="profileForm.get('password')?.invalid && profileForm.get('password')?.touched"
+          />
+        </div>
+      </div>
+
+      @if (error()) {
+        <div class="alert error">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+          <span>{{ error() }}</span>
+        </div>
+      }
+
+      @if (success()) {
+        <div class="alert success">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Profil erfolgreich aktualisiert!</span>
+        </div>
+      }
+
+      <footer class="modal-footer">
+        <button type="button" class="btn secondary" (click)="close.emit()">Abbrechen</button>
+        <button type="submit" class="btn primary" [disabled]="profileForm.invalid || isSaving()">
+          @if (isSaving()) {
+            <span class="spinner"></span>
+            <span>Wird gespeichert...</span>
+          } @else {
+            <span>Änderungen speichern</span>
+          }
+        </button>
+      </footer>
+    </form>
+  </div>
+</div>

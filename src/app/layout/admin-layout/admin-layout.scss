@@ -208,6 +208,23 @@
   border-radius: 100px;
   border: 1px solid var(--border);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--primary);
+    background: #f8fafc;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    .user-avatar {
+      transform: scale(1.05);
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 
   .user-info {
     display: flex;
@@ -242,6 +259,7 @@
     font-weight: 700;
     font-size: 0.875rem;
     box-shadow: 0 4px 8px rgba(27, 67, 50, 0.2);
+    transition: transform 0.2s ease;
   }
 }
 

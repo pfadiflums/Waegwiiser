@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, input, signal, effect } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { StufenService } from '../../services/stufen.service';
 import { Stufen } from '../../models/payload-types/collections/stufen';
 import { Uebungen } from '../../models/payload-types/collections/uebungen';
@@ -10,7 +10,7 @@ import { Leitende } from '../../models/payload-types/collections/leitende';
 
 @Component({
   selector: 'app-stufe-detail',
-  imports: [CommonModule, NgOptimizedImage, RichTextRendererComponent],
+  imports: [CommonModule, RichTextRendererComponent],
   templateUrl: './stufe-detail.html',
   styleUrl: './stufe-detail.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

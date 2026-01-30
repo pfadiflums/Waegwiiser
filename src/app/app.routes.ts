@@ -43,7 +43,20 @@ export const routes: Routes = [
       {
         path: 'uebungen',
         canActivate: [leaderGuard],
-        loadComponent: () => import('./feature/home/home').then(m => m.Home), // Placeholder
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./feature/admin/uebungen/uebungen-list/uebungen-list').then(m => m.UebungenListComponent),
+          },
+          {
+            path: 'new',
+            loadComponent: () => import('./feature/admin/uebungen/uebungen-form/uebungen-form').then(m => m.UebungenFormComponent),
+          },
+          {
+            path: 'edit/:id',
+            loadComponent: () => import('./feature/admin/uebungen/uebungen-form/uebungen-form').then(m => m.UebungenFormComponent),
+          }
+        ]
       },
       {
         path: 'leitende',

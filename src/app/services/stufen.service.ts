@@ -12,6 +12,12 @@ export class StufenService {
   private http = inject(HttpClient);
   private apiUrl = environment.apiUrl;
 
+  getStufen() {
+    return this.http.get<{ docs: Stufen[] }>(`${this.apiUrl}/api/stufen?sort=name`).pipe(
+      map(response => response.docs)
+    );
+  }
+
   getStufeBySlug(slug: string) {
     return this.http.get<{ docs: Stufen[] }>(`${this.apiUrl}/api/stufen?where[slug][equals]=${slug}&depth=2`).pipe(
       map(response => response.docs[0] || null)

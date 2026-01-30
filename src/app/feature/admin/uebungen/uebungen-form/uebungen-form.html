@@ -1,0 +1,112 @@
+<div class="admin-page">
+  <div class="page-header">
+    <div class="header-content">
+      <a routerLink="/admin/uebungen" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        <span>Zurück zur Übersicht</span>
+      </a>
+      <h1>{{ isEditMode() ? 'Übung bearbeiten' : 'Neue Übung erstellen' }}</h1>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <form [formGroup]="uebungForm" (ngSubmit)="onSubmit()" class="admin-form">
+      <div class="form-grid">
+        <!-- Basic Info -->
+        <div class="form-card main-info">
+          <div class="card-header">
+            <h3>Allgemeine Informationen</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="motto">Motto / Titel</label>
+              <input type="text" id="motto" formControlName="motto" placeholder="z.B. Waldabenteuer" [class.error]="uebungForm.get('motto')?.invalid && uebungForm.get('motto')?.touched">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="datum">Datum</label>
+                <input type="date" id="datum" formControlName="datum" [class.error]="uebungForm.get('datum')?.invalid && uebungForm.get('datum')?.touched">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Stufen</label>
+              <div class="stufen-selection">
+                @for (stufe of stufen(); track stufe.id) {
+                  <label class="checkbox-container">
+                    <input type="checkbox" [checked]="isStufeSelected(stufe.id)" (change)="onStufeChange(stufe.id, $event)">
+                    <span class="checkbox-label">{{ stufe.name }}</span>
+                  </label>
+                }
+              </div>
+              @if (uebungForm.get('stufen')?.invalid && uebungForm.get('stufen')?.touched) {
+                <span class="error-text">Bitte wähle mindestens eine Stufe aus.</span>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Times & Locations -->
+        <div class="form-card details">
+          <div class="card-header">
+            <h3>Zeit & Ort</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="antretenZeit">Besammlung Zeit</label>
+                <input type="text" id="antretenZeit" formControlName="antretenZeit" placeholder="14:00">
+              </div>
+              <div class="form-group">
+                <label for="antretenOrt">Besammlung Ort</label>
+                <input type="text" id="antretenOrt" formControlName="antretenOrt" placeholder="Pfadihaus">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="abtretenZeit">Schluss Zeit</label>
+                <input type="text" id="abtretenZeit" formControlName="abtretenZeit" placeholder="17:00">
+              </div>
+              <div class="form-group">
+                <label for="abtretenOrt">Schluss Ort</label>
+                <input type="text" id="abtretenOrt" formControlName="abtretenOrt" placeholder="Pfadihaus">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Info -->
+        <div class="form-card full-width">
+          <div class="card-header">
+            <h3>Weitere Details</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="tenue">Tenue</label>
+                <input type="text" id="tenue" formControlName="tenue" placeholder="Pfadihemd, Krawatte, gute Schuhe">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="mitnehmen">Mitnehmen</label>
+              <textarea id="mitnehmen" formControlName="mitnehmen" rows="3" placeholder="Zvieri, Trinken, dem Wetter angepasste Kleidung"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="weiteres">Weiteres</label>
+              <textarea id="weiteres" formControlName="weiteres" rows="2" placeholder="z.B. Kosten 5.-"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" routerLink="/admin/uebungen" class="action-btn secondary">Abbrechen</button>
+        <button type="submit" class="action-btn primary" [disabled]="uebungForm.invalid">
+          {{ isEditMode() ? 'Änderungen speichern' : 'Übung erstellen' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -41,7 +41,7 @@
               <td>
                 <div class="stufen-tags">
                   @for (stufe of item.stufen; track stufe) {
-                    <span class="stufe-tag">
+                    <span class="stufe-tag" [attr.data-stufe]="getStufeName(stufe)">
                       {{ getStufeName(stufe) }}
                     </span>
                   }

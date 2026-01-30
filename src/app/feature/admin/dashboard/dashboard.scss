@@ -372,6 +372,12 @@
     }
   }
 
+  .stufen-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
   .stufe-tag {
     display: inline-flex;
     padding: 0.375rem 0.75rem;
@@ -380,11 +386,12 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    border: 1px solid var(--border);
 
-    &[data-stufe="Wölfe"] { background: #e0f2fe; color: #0369a1; }
-    &[data-stufe="Pfader"] { background: #fef3c7; color: #b45309; }
-    &[data-stufe="Biber"] { background: #fff7ed; color: #c2410c; }
-    &[data-stufe="Pios"] { background: #fee2e2; color: #b91c1c; }
+    &[data-stufe="Wölfe"] { background: #e0f2fe; color: #0369a1; border-color: #bae6fd; }
+    &[data-stufe="Pfader"] { background: #fef3c7; color: #b45309; border-color: #fde68a; }
+    &[data-stufe="Biber"] { background: #fff7ed; color: #c2410c; border-color: #ffedd5; }
+    &[data-stufe="Pios"] { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
   }
 
   .status-pill {

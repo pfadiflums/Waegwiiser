@@ -65,4 +65,11 @@ export class Dashboard implements OnInit {
       .filter(name => !!name)
       .join(', ');
   }
+
+  getStufeName(stufe: string | Stufen): string {
+    if (typeof stufe === 'object' && stufe !== null) {
+      return stufe.name || '';
+    }
+    return stufe as string;
+  }
 }

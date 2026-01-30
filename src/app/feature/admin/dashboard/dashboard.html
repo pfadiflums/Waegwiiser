@@ -107,9 +107,13 @@
                 </div>
               </td>
               <td>
-                <span class="stufe-tag">
-                  {{ getStufenNames(item) }}
-                </span>
+                <div class="stufen-tags">
+                  @for (stufe of item.stufen; track stufe) {
+                    <span class="stufe-tag" [attr.data-stufe]="getStufeName(stufe)">
+                      {{ getStufeName(stufe) }}
+                    </span>
+                  }
+                </div>
               </td>
               <td>
                 <span class="status-pill active">

@@ -1,0 +1,69 @@
+@if (stufe(); as data) {
+  <div class="detail-stage container">
+    <section class="hero-section">
+
+      <div class="hero-text">
+        <h1 class="stufe-title" [style.color]="data.color">{{ data.name }}</h1>
+        <h3 class="stufe-motto" [style.color]="data.color">Mit freude dabei</h3>
+        <div class="stufe-description">
+          <app-rich-text-renderer [content]="data.beschreibung"></app-rich-text-renderer>
+        </div>
+      </div>
+    </section>
+
+    <section class="uebung-section">
+      <h2 class="uebung-header" [style.color]="data.color">Nächste Übung {{ nextUebung() ? formatDate(nextUebung()!.datum) : '' }}</h2>
+
+      <div class="uebung-content">
+        <div class="uebung-table">
+          <div class="row">
+            <span class="label">Antreten</span>
+            <span class="value">{{ nextUebung()?.antretenZeit || '' }} {{ nextUebung()?.antretenOrt || '' }}</span>
+          </div>
+          <div class="row">
+            <span class="label">Abtreten</span>
+            <span class="value">{{ nextUebung()?.abtretenZeit || '' }} {{ nextUebung()?.abtretenOrt || '' }}</span>
+          </div>
+          <div class="row">
+            <span class="label">Motto</span>
+            <span class="value">{{ nextUebung()?.motto || '' }}</span>
+          </div>
+          <div class="row">
+            <span class="label">Tenue</span>
+            <span class="value">{{ nextUebung()?.tenue || '' }}</span>
+          </div>
+          <div class="row">
+            <span class="label">Mitnehmen</span>
+            <span class="value">{{ nextUebung()?.mitnehmen || '' }}</span>
+          </div>
+          <div class="row">
+            <span class="label">Weiteres</span>
+            <span class="value">{{ nextUebung()?.weiteres || '-' }}</span>
+          </div>
+        </div>
+
+        <!-- Google Calendar Part -->
+        <div class="calendar-wrapper">
+          <div class="calendar-mockup"></div>
+          <h4 class="calendar-title">Google Kalender</h4>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEITUNGSTEAM SECTION -->
+    <section class="team-section">
+      <div class="team-grid">
+        @for (leader of data.stammLeiter; track leader) {
+          <div class="leader-card">
+            <div class="avatar-circle">
+              <img [src]="getLeaderImage(leader)" [alt]="getLeaderName(leader)">
+            </div>
+            <h5 class="leader-name">{{ getLeaderName(leader) }}</h5>
+          </div>
+        }
+      </div>
+    </section>
+  </div>
+} @else if (isLoading()) {
+  <div class="loading">Laden...</div>
+}

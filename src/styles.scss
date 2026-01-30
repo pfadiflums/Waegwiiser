@@ -1,37 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
-
-:root {
-  --primary: #1B4332;
-  --primary-light: #2d6a4f;
-  --accent: #D97706;
-  --accent-light: #F59E0B;
-  --surface: #F8FAFC;
-  --slate: #0F172A;
-  --slate-light: #1E293B;
-  --border: #E2E8F0;
-  --text: #0F172A;
-  --text-muted: #64748B;
-}
+@use 'sass:math';
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;700;800&display=swap');
+@import 'variables';
 
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
+body {
+  background-color: $color-bg;
+  color: $color-dark;
   font-family: 'Outfit', sans-serif;
-  background: var(--surface);
-  color: var(--text);
-  height: 100%;
+  -webkit-font-smoothing: antialiased;
 }
 
-button {
-  font-family: inherit;
+.container {
+  width: 100%;
+  max-width: $design-width;
+  margin: 0 auto;
+  padding: 0 $container-padding;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
+h1, h2, h3, h4, h5, h6, p {
+  letter-spacing: 0.1em;
+  line-height: 1.2;
 }
+
+h1 { font-size: rem(64); font-weight: $fw-extralight; }
+h2 { font-size: rem(48); font-weight: $fw-extrabold; }
+h3 { font-size: rem(48); font-weight: $fw-light; }
+h4 { font-size: rem(36); font-weight: $fw-extrabold; }
+h5 { font-size: rem(36); font-weight: $fw-light; }
+h6 { font-size: rem(20); font-weight: $fw-bold; }
+p  { font-size: rem(20); font-weight: $fw-regular; }

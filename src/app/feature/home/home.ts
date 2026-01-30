@@ -1,43 +1,50 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { NgOptimizedImage } from '@angular/common';
 import { Stufe } from '../../models/stufe.model';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [RouterLink, NgOptimizedImage],
   templateUrl: './home.html',
   styleUrl: './home.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Home {
-  scoutGroups: Stufe[] = [
+  scoutGroups = signal<Stufe[]>([
     {
-      name: 'Biber', color: '#EAC04A',
-      slug: '',
+      name: 'Biber',
+      color: '#EAC04A',
+      slug: 'biber',
       motto: '',
       description: '',
-      ageRange: ''
+      ageRange: '',
     },
     {
-      name: 'Wölfe', color: '#1380A3',
-      slug: '',
+      name: 'Wölfe',
+      color: '#1380A3',
+      slug: 'woelfe',
       motto: '',
       description: '',
-      ageRange: ''
+      ageRange: '',
     },
     {
-      name: 'Pfader', color: '#B78E60',
-      slug: '',
+      name: 'Pfader',
+      color: '#B78E60',
+      slug: 'pfader',
       motto: '',
       description: '',
-      ageRange: ''
+      ageRange: '',
     },
     {
-      name: 'Pios', color: '#BF2E26',
-      slug: '',
+      name: 'Pios',
+      color: '#BF2E26',
+      slug: 'pios',
       motto: '',
       description: '',
-      ageRange: ''
-    }
-  ];
+      ageRange: '',
+    },
+  ]);
 
-  instagramPosts = Array(9).fill(null);
+  instagramPosts = signal<any[]>(Array(9).fill(null));
 }

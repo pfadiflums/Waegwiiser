@@ -1,76 +1,55 @@
- .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: #F7F5EE;
-      padding: 2rem 0;
+@import '../../../variables';
+
+.navbar-wrapper {
+  width: 100%;
+  padding-top: rem(45);
+}
+
+.navbar-container {
+  max-width: $design-width;
+  height: rem(137);
+  margin: 0 auto;
+  padding: 0 $container-padding;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  gap: rem(40);
+
+  li a {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: rem(16);
+    line-height: rem(20);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #000000;
+    letter-spacing: 0.1em;
+
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $color-accent;
     }
+  }
+}
 
-    .nav-content {
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: 0 clamp(2rem, 5vw, 4rem);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 2rem;
-    }
+.logo {
+  height: 100%;
+  display: flex;
+  align-items: center;
 
-    @media (min-width: 1921px) {
-      .nav-content {
-        max-width: 1920px;
-      }
-    }
-
-    .nav-links {
-      display: flex;
-      gap: clamp(1.5rem, 3vw, 3rem);
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      flex: 1;
-    }
-
-    .nav-links a {
-      font-family: 'Outfit', sans-serif;
-      font-weight: 700;
-      font-size: clamp(14px, 1.1vw, 16px);
-      line-height: 20px;
-      text-transform: uppercase;
-      color: #000000;
-      text-decoration: none;
-      transition: color 0.3s ease;
-      white-space: nowrap;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: #EAC04A;
-    }
-
-    .logo {
-      height: 137px;
-      flex-shrink: 0;
-    }
-
-    .logo img {
-      height: 100%;
-      width: auto;
-      object-fit: contain;
-    }
-
-    @media (max-width: 1024px) {
-      .nav-content {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .logo {
-        height: 100px;
-      }
-
-      .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-    }
+  img {
+    height: rem(137);
+    width: auto;
+    display: block;
+  }
+}

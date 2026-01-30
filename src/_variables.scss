@@ -1,0 +1,33 @@
+@use "sass:math";
+
+// 1. Colors
+$color-primary: #ebc531;
+$color-accent: #4251d5;
+$color-muted: #5c6196;
+$color-bg: #f7f5ee;
+$color-dark: #373841;
+
+// 2. Font Weights (Outfit)
+$fw-extralight: 200;
+$fw-light: 300;
+$fw-regular: 400;
+$fw-bold: 700;
+$fw-extrabold: 800;
+
+// 3. Helper Function
+@function rem($px) {
+  @return math.div($px, 16) * 1rem;
+}
+
+// 4. Layout
+$design-width: 1440px;
+$container-padding: rem(75);
+$section-gap: rem(100);
+$section-gap-large: rem(150);
+
+// 5. Stufen Colours
+$color-biber: #EAC04A;
+$color-woelfe: #1380A3;
+$color-pfader: #B78E60;
+$color-pios: #BF2E26;
+$color-yellow-hero: #EAC04A;

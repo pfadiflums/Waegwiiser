@@ -26,6 +26,7 @@ export interface Stufen {
   slug: string;
   updatedAt: string;
   createdAt: string;
+  color?: string | null;
 }
 
 export interface StufenSelect<T extends boolean = true> {

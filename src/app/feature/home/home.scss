@@ -1,202 +1,90 @@
-.home {
-      min-height: 100vh;
-    }
+@import '../../../variables';
 
-    .container {
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: 0 clamp(2rem, 5vw, 4rem);
-    }
+.homepage {
+  background: $color-bg;
+  display: flex;
+  flex-direction: column;
+  gap: $section-gap-large;
+  padding-bottom: $section-gap-large;
+}
 
-    @media (min-width: 1921px) {
-      .container {
-        max-width: 1920px;
-      }
-    }
+// --- HERO ---
+.hero-layer {
+  padding-top: rem(80);
+  display: flex;
+  flex-direction: column;
+  gap: rem(40);
 
-    /* Hero Section */
-    .hero {
-      position: relative;
-      min-height: clamp(600px, 50vh, 800px);
-      overflow: hidden;
-      padding: 4rem 0;
-    }
+  .hero-title {
+    max-width: rem(1000);
+    font-size: rem(96);
+    line-height: rem(121);
+    color: $color-primary;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
 
-    .hero-content {
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: 0 clamp(2rem, 5vw, 4rem);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      align-items: center;
-      position: relative;
-      z-index: 2;
-    }
+  .cta-button {
+    width: rem(376);
+    height: rem(72);
+    border: 5px solid #000;
+    border-radius: rem(81);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: rem(24);
+    color: #000;
+  }
+}
 
-    @media (min-width: 1921px) {
-      .hero-content {
-        max-width: 1920px;
-      }
-    }
+// --- STUFEN ---
+.stufen-layer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(rem(300), 1fr));
+  gap: rem(23); // (411 - 88 - 300) = 23
 
-    .hero-text {
-      position: relative;
-      z-index: 3;
-    }
+  .stufen-box {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    .hero-text h1 {
-      font-family: 'Outfit', sans-serif;
-      font-weight: 800;
-      font-size: clamp(3rem, 6vw, 6rem);
-      line-height: 1.26;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #EAC04A;
-      margin: 0 0 3rem 0;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .cta-button {
-      font-family: 'Outfit', sans-serif;
+    span {
       font-weight: 700;
-      font-size: clamp(18px, 1.5vw, 24px);
-      line-height: 30px;
+      font-size: rem(20);
       text-transform: uppercase;
-      color: #000000;
-      background: transparent;
-      border: 5px solid #000000;
-      border-radius: 81px;
-      padding: 1.2rem 3rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
     }
 
-    .cta-button:hover {
-      background: #000000;
-      color: #EAC04A;
-    }
+    &.biber  { background: $color-primary; }
+    &.woelfe { background: $color-woelfe;  }
+    &.pfader { background: $color-pfader;  }
+    &.pios   { background: $color-pios;    }
+  }
+}
 
-    .hero-image-container {
-      position: relative;
+// --- INSTAGRAM ---
+.insta-layer {
+  display: flex;
+  flex-direction: column;
+  gap: rem(40);
+
+  .insta-title {
+    font-size: rem(48);
+  }
+
+  .insta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: rem(30);
+
+    .insta-post {
       width: 100%;
-      height: 100%;
-      min-height: 400px;
-    }
-
-    .blob {
-      position: absolute;
-      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-      z-index: 1;
-    }
-
-    .blob {
-      width: clamp(250px, 35vw, 500px);
-      height: clamp(250px, 35vw, 500px);
-      background: #EAC04A;
-      top: -5%;
-      right: -10%;
-      transform: rotate(-24.22deg);
-      z-index: 0;
-    }
-
-    .hero-image {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-    }
-
-    /* Scout Groups Section */
-    .scout-groups {
-      padding: 4rem 0;
-    }
-
-    .groups-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: clamp(1.5rem, 3vw, 2rem);
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .group-card {
-      aspect-ratio: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.3s ease;
-    }
-
-    .group-card h3 {
-      font-family: 'Outfit', sans-serif;
-      font-weight: 700;
-      font-size: clamp(18px, 1.5vw, 20px);
-      line-height: 25px;
-      text-transform: uppercase;
-      color: #000000;
-      margin: 0;
-    }
-
-    /* Instagram Section */
-    .instagram-section {
-      padding: 4rem 0 6rem;
-    }
-
-    .section-title {
-      font-family: 'Maname', serif;
-      font-weight: 400;
-      font-size: clamp(2.5rem, 4vw, 3rem);
-      line-height: 1.2;
-      color: #000000;
-      margin: 0 0 3rem 0;
-    }
-
-    .instagram-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 0;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .instagram-post {
-      aspect-ratio: 1;
+      height: rem(538);
       background: #D9D9D9;
       border: 5px solid #FFFFFF;
-      transition: opacity 0.3s ease;
+      box-sizing: border-box;
     }
-
-    .instagram-post:hover {
-      opacity: 0.9;
-    }
-
-    /* Responsive */
-    @media (max-width: 1024px) {
-      .hero-content {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-text h1 {
-        font-size: clamp(2rem, 8vw, 3rem);
-      }
-
-      .groups-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      }
-
-      .instagram-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      }
-    }
-
-    @media (max-width: 640px) {
-      .instagram-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .groups-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
+  }
+}

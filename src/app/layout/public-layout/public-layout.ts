@@ -11,7 +11,6 @@ import { Navbar } from '../../components/navbar/navbar';
       <router-outlet />
     </main>
     <footer>
-      <!-- Add footer here if needed -->
     </footer>
   `,
   styles: [`

@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { authGuard, adminGuard, leaderGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  // Public Layout
   {
     path: '',
     loadComponent: () => import('./layout/public-layout/public-layout').then(m => m.PublicLayoutComponent),
@@ -11,17 +10,27 @@ export const routes: Routes = [
         path: '',
         loadComponent: () => import('./feature/home/home').then(m => m.Home),
       },
-      // Add more public routes here
+      {
+        path: 'stufe/:slug',
+        loadComponent: () => import('./feature/stufe-detail/stufe-detail').then(m => m.StufeDetailComponent),
+      },
     ]
   },
 
-  // Login View (Centered, no layout)
   {
     path: 'login',
     loadComponent: () => import('./feature/auth/login/login').then(m => m.Login)
   },
 
-  // Admin Layout
+  {
+    path: 'login-success',
+    loadComponent: () => import('./feature/auth/login-success/login-success').then(m => m.LoginSuccessComponent)
+  },
+  {
+    path: 'login-error',
+    loadComponent: () => import('./feature/auth/login-error/login-error').then(m => m.LoginErrorComponent)
+  },
+
   {
     path: 'admin',
     canActivate: [authGuard],
@@ -49,7 +58,6 @@ export const routes: Routes = [
     ]
   },
 
-  // Fallback
   { path: 'auth', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: '' }
 ];

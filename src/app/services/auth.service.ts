@@ -40,13 +40,13 @@ export class AuthService {
       tap(() => {
         this.userSignal.set(null);
         localStorage.removeItem('payload-token');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/']);
       }),
       catchError(() => {
         // Even if logout fails on server, clear local state
         this.userSignal.set(null);
         localStorage.removeItem('payload-token');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/']);
         return of(null);
       })
     );
@@ -76,6 +76,10 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('payload-token');
+  }
+
+  getApiUrl(): string {
+    return this.apiUrl;
   }
 
   clearSession() {

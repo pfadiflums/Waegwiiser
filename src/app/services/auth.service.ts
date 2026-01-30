@@ -15,21 +15,43 @@ export class AuthService {
   private apiUrl = environment.apiUrl;
 
   private userSignal = signal<User | null>(null);
+  private initialized = signal(false);
 
   user = this.userSignal.asReadonly();
+  isInitialized = this.initialized.asReadonly();
   isAuthenticated = computed(() => !!this.userSignal());
   isAdmin = computed(() => this.userSignal()?.role === 'admin');
   isLeader = computed(() => this.userSignal()?.role === 'leader' || this.userSignal()?.role === 'admin');
 
-  constructor() {
-    this.me().subscribe();
+  constructor() {}
+
+  private setCookie(name: string, value: string, days: number = 7) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "; expires=" + date.toUTCString();
+    document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
+  }
+
+  private getCookie(name: string): string | null {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
+
+  private eraseCookie(name: string) {
+    document.cookie = name + '=; Max-Age=-99999999; path=/;';
   }
 
   login(credentials: UserAuthOperations['login']) {
     return this.http.post<{ user: User; token: string }>(`${this.apiUrl}/api/users/login`, credentials).pipe(
       tap(({ user, token }) => {
         this.userSignal.set(user);
-        localStorage.setItem('payload-token', token);
+        this.setCookie('payload-token', token);
       }),
       map(({ user }) => user)
     );
@@ -39,13 +61,13 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/api/users/logout`, {}).pipe(
       tap(() => {
         this.userSignal.set(null);
-        localStorage.removeItem('payload-token');
+        this.eraseCookie('payload-token');
         this.router.navigate(['/']);
       }),
       catchError(() => {
         // Even if logout fails on server, clear local state
         this.userSignal.set(null);
-        localStorage.removeItem('payload-token');
+        this.eraseCookie('payload-token');
         this.router.navigate(['/']);
         return of(null);
       })
@@ -53,8 +75,9 @@ export class AuthService {
   }
 
   me() {
-    const token = localStorage.getItem('payload-token');
+    const token = this.getCookie('payload-token');
     if (!token) {
+      this.initialized.set(true);
       return of(null);
     }
 
@@ -63,19 +86,27 @@ export class AuthService {
         if (user) {
           this.userSignal.set(user);
         } else {
-          this.logout().subscribe();
+          this.eraseCookie('payload-token');
+          this.userSignal.set(null);
         }
+        this.initialized.set(true);
       }),
       map(({ user }) => user),
       catchError(() => {
-        this.logout().subscribe();
+        this.eraseCookie('payload-token');
+        this.userSignal.set(null);
+        this.initialized.set(true);
         return of(null);
       })
     );
   }
 
   getToken(): string | null {
-    return localStorage.getItem('payload-token');
+    return this.getCookie('payload-token');
+  }
+
+  setToken(token: string) {
+    this.setCookie('payload-token', token);
   }
 
   getApiUrl(): string {
@@ -84,7 +115,7 @@ export class AuthService {
 
   clearSession() {
     this.userSignal.set(null);
-    localStorage.removeItem('payload-token');
+    this.eraseCookie('payload-token');
     this.router.navigate(['/login']);
   }
 }

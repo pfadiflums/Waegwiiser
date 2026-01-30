@@ -29,6 +29,10 @@ export class Login {
   isLoading = signal(false);
 
   constructor() {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigateByUrl('/admin');
+    }
+
     this.route.queryParams.subscribe(params => {
       if (params['error'] === 'oauth_failed') {
         this.errorMessage.set('MiData Anmeldung fehlgeschlagen.');

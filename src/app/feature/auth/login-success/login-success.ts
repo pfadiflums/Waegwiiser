@@ -54,10 +54,10 @@ export class LoginSuccessComponent implements OnInit {
     const token = this.route.snapshot.queryParams['token'];
 
     if (token) {
-      localStorage.setItem('payload-token', token);
+      this.authService.setToken(token);
     }
 
-    // me() will check localStorage for the token we just set (or existing one)
+    // me() will check cookies for the token we just set (or existing one)
     this.authService.me().subscribe({
       next: (user) => {
         if (user) {

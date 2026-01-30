@@ -1,0 +1,34 @@
+@if (authService.isAuthenticated()) {
+  <div class="admin-bar">
+    <div class="admin-bar-container">
+      <div class="admin-bar-left">
+        <a routerLink="/admin" class="admin-link brand">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+          <span>Dashboard</span>
+        </a>
+
+        <div class="divider"></div>
+
+        <nav class="admin-nav" aria-label="Admin Quick Links">
+          @if (authService.isLeader()) {
+            <a routerLink="/admin/uebungen" class="admin-link">Übungen</a>
+          }
+          @if (authService.isAdmin()) {
+            <a routerLink="/admin/leitende" class="admin-link">Leitende</a>
+            <a routerLink="/admin/downloads" class="admin-link">Downloads</a>
+          }
+        </nav>
+      </div>
+
+      <div class="admin-bar-right">
+        <div class="user-info">
+          <span class="user-name">{{ authService.user()?.midataId || 'Admin' }}</span>
+          <span class="user-role">{{ authService.user()?.role }}</span>
+        </div>
+        <button (click)="logout()" class="logout-link" title="Abmelden">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+}

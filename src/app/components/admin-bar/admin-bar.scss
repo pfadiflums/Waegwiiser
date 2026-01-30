@@ -1,0 +1,116 @@
+@use '../../../variables' as *;
+
+.admin-bar {
+  background-color: rgba(27, 67, 50, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: white;
+  height: rem(40);
+  display: flex;
+  align-items: center;
+  font-size: rem(13);
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 16px 16px;
+    opacity: 0.2;
+    pointer-events: none;
+  }
+}
+
+.admin-bar-container {
+  width: 100%;
+  max-width: $design-width;
+  margin: 0 auto;
+  padding: 0 $container-padding;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.admin-bar-left, .admin-bar-right {
+  display: flex;
+  align-items: center;
+  gap: rem(20);
+}
+
+.admin-link {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: rem(6);
+
+  &:hover {
+    color: white;
+  }
+
+  &.brand {
+    color: var(--accent);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    &:hover {
+      filter: brightness(1.2);
+    }
+  }
+}
+
+.divider {
+  width: 1px;
+  height: rem(20);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-nav {
+  display: flex;
+  align-items: center;
+  gap: rem(15);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: rem(8);
+  font-size: rem(11);
+
+  .user-name {
+    color: white;
+    font-weight: 700;
+  }
+
+  .user-role {
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+.logout-link {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  padding: rem(4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+
+  &:hover {
+    color: #fca5a5;
+    background: rgba(239, 68, 68, 0.1);
+  }
+}

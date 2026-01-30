@@ -1,11 +1,16 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Navbar } from '../../components/navbar/navbar';
+import { AdminBarComponent } from '../../components/admin-bar/admin-bar';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-public-layout',
-  imports: [RouterOutlet, Navbar],
+  imports: [RouterOutlet, Navbar, AdminBarComponent],
   template: `
+    @if (authService.isAuthenticated()) {
+      <app-admin-bar />
+    }
     <app-navbar />
     <main>
       <router-outlet />
@@ -20,4 +25,6 @@ import { Navbar } from '../../components/navbar/navbar';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PublicLayoutComponent {}
+export class PublicLayoutComponent {
+  public authService = inject(AuthService);
+}

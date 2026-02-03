@@ -1,6 +1,11 @@
+/* tslint:disable */
 /* eslint-disable */
 import { Media } from '../collections/media';
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pfadihaus-page".
+ */
 export interface PfadihausPage {
   id: string;
   beschreibung?: {
@@ -31,6 +36,10 @@ export interface PfadihausPage {
   createdAt?: string | null;
 }
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pfadihaus-page_select".
+ */
 export interface PfadihausPageSelect<T extends boolean = true> {
   beschreibung?: T;
   fotos?:

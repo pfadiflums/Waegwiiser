@@ -1,4 +1,9 @@
+/* tslint:disable */
 /* eslint-disable */
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "shop-page".
+ */
 export interface ShopPage {
   id: string;
   einleitung?: {
@@ -40,6 +45,10 @@ export interface ShopPage {
   createdAt?: string | null;
 }
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "shop-page_select".
+ */
 export interface ShopPageSelect<T extends boolean = true> {
   einleitung?: T;
   infoText?: T;

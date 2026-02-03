@@ -1,7 +1,12 @@
+/* tslint:disable */
 /* eslint-disable */
 import { Media } from './media';
-import { Leitende } from './leitende';
+import { User } from './user';
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stufen".
+ */
 export interface Stufen {
   id: string;
   name: string;
@@ -22,13 +27,17 @@ export interface Stufen {
     [k: string]: unknown;
   } | null;
   image?: (string | null) | Media;
-  stammLeiter?: (string | Leitende)[] | null;
+  stammLeiter?: (string | User)[] | null;
   slug: string;
+  color?: string | null;
   updatedAt: string;
   createdAt: string;
-  color?: string | null;
 }
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stufen_select".
+ */
 export interface StufenSelect<T extends boolean = true> {
   name?: T;
   slogan?: T;
@@ -36,6 +45,7 @@ export interface StufenSelect<T extends boolean = true> {
   image?: T;
   stammLeiter?: T;
   slug?: T;
+  color?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -5,7 +5,7 @@
       <div class="hero-text">
         <span class="greeting">Willkommen zurück!</span>
         <h1>Dein Überblick heute</h1>
-        <p>Verwalte Übungen, Leitende und Downloads für die Pfadi St. Justus.</p>
+        <p>Verwalte Übungen, Benutzer und Downloads für die Pfadi St. Justus.</p>
       </div>
       <div class="quick-actions">
         <button class="action-btn primary" routerLink="/admin/uebungen/new">
@@ -37,14 +37,14 @@
       </div>
     </div>
 
-    <div class="stat-card leitende">
+    <div class="stat-card users">
       <div class="card-inner">
         <div class="stat-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </div>
         <div class="stat-content">
-          <span class="stat-value">{{ stats().leitendeCount }}</span>
-          <span class="stat-label">Aktive Leitende</span>
+          <span class="stat-value">{{ stats().usersCount }}</span>
+          <span class="stat-label">Aktive Benutzer</span>
         </div>
       </div>
     </div>

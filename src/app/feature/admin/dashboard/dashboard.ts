@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal, OnInit } from '@angular/core';
 import { UebungenService } from '../../../services/uebungen.service';
-import { LeitendeService } from '../../../services/leitende.service';
+import { UserService } from '../../../services/user.service';
 import { DownloadsService } from '../../../services/downloads.service';
 import { Uebungen } from '../../../models/payload-types/collections/uebungen';
 import { Stufen } from '../../../models/payload-types/collections/stufen';
@@ -18,13 +18,13 @@ import { RouterModule } from '@angular/router';
 })
 export class Dashboard implements OnInit {
   private uebungenService = inject(UebungenService);
-  private leitendeService = inject(LeitendeService);
+  private userService = inject(UserService);
   private downloadsService = inject(DownloadsService);
 
   upcomingUebungen = signal<Uebungen[]>([]);
   stats = signal({
     uebungenCount: 0,
-    leitendeCount: 0,
+    usersCount: 0,
     downloadsCount: 0
   });
 
@@ -36,9 +36,9 @@ export class Dashboard implements OnInit {
     forkJoin({
       upcoming: this.uebungenService.getUpcomingUebungen(5),
       allUebungen: this.uebungenService.getUebungen(),
-      leitende: this.leitendeService.getLeitende(),
+      users: this.userService.getUsers(),
       downloads: this.downloadsService.getDownloads()
-    }).subscribe(({ upcoming, allUebungen, leitende, downloads }) => {
+    }).subscribe(({ upcoming, allUebungen, users, downloads }) => {
       this.upcomingUebungen.set(upcoming);
 
       const now = new Date().toISOString().split('T')[0];
@@ -46,7 +46,7 @@ export class Dashboard implements OnInit {
 
       this.stats.set({
         uebungenCount: upcomingCount,
-        leitendeCount: leitende.length,
+        usersCount: users.length,
         downloadsCount: downloads.length
       });
     });

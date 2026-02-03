@@ -1,4 +1,9 @@
+/* tslint:disable */
 /* eslint-disable */
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "downloads-page".
+ */
 export interface DownloadsPage {
   id: string;
   intro?: {
@@ -21,6 +26,10 @@ export interface DownloadsPage {
   createdAt?: string | null;
 }
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "downloads-page_select".
+ */
 export interface DownloadsPageSelect<T extends boolean = true> {
   intro?: T;
   googleDriveRootLink?: T;

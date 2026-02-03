@@ -1,9 +1,10 @@
+/* tslint:disable */
 /* eslint-disable */
 import { UserAuthOperations } from './common';
 import { User, UsersSelect } from './collections/user';
+import { Role, RolesSelect } from './collections/role';
 import { Media, MediaSelect } from './collections/media';
 import { Download, DownloadsSelect } from './collections/download';
-import { Leitende, LeitendeSelect } from './collections/leitende';
 import { PhotoAlbum, PhotoAlbumsSelect } from './collections/photo-album';
 import { ShopArticle, ShopArticlesSelect } from './collections/shop-article';
 import { Stufen, StufenSelect } from './collections/stufen';
@@ -33,9 +34,9 @@ export interface Config {
   blocks: {};
   collections: {
     users: User;
+    roles: Role;
     media: Media;
     downloads: Download;
-    leitende: Leitende;
     'photo-albums': PhotoAlbum;
     'shop-articles': ShopArticle;
     stufen: Stufen;
@@ -48,9 +49,9 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
+    roles: RolesSelect<false> | RolesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     downloads: DownloadsSelect<false> | DownloadsSelect<true>;
-    leitende: LeitendeSelect<false> | LeitendeSelect<true>;
     'photo-albums': PhotoAlbumsSelect<false> | PhotoAlbumsSelect<true>;
     'shop-articles': ShopArticlesSelect<false> | ShopArticlesSelect<true>;
     stufen: StufenSelect<false> | StufenSelect<true>;

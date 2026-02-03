@@ -21,6 +21,9 @@ export class ProfileModalComponent {
   user = this.authService.user;
 
   profileForm = this.fb.group({
+    pfadiname: [this.user()?.pfadiname || ''],
+    vorname: [this.user()?.vorname || '', [Validators.required]],
+    nachname: [this.user()?.nachname || '', [Validators.required]],
     email: [this.user()?.email || '', [Validators.required, Validators.email]],
     password: ['', [Validators.minLength(6)]],
   });
@@ -38,6 +41,9 @@ export class ProfileModalComponent {
 
     const val = this.profileForm.value;
     const updateData: Partial<User> = {
+      pfadiname: val.pfadiname,
+      vorname: val.vorname!,
+      nachname: val.nachname!,
       email: val.email!,
     };
 

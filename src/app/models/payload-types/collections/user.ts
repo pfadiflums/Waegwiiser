@@ -1,15 +1,21 @@
+/* tslint:disable */
 /* eslint-disable */
+import { Role } from './role';
+import { Media } from './media';
+
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
 export interface User {
   id: string;
-  midataId?: string | null;
-  role: 'admin' | 'leader' | 'member';
-  oauthLinks?:
-    | {
-        strategy?: string | null;
-        sub?: string | null;
-        id?: string | null;
-      }[]
-    | null;
+  role: string | Role;
+  pfadiname?: string | null;
+  funktion?: string | null;
+  vorname?: string | null;
+  nachname?: string | null;
+  bild?: (string | null) | Media;
+  stufe?: ('biber' | 'woelfe' | 'pfadi' | 'pio') | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -29,16 +35,18 @@ export interface User {
   password?: string | null;
 }
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
 export interface UsersSelect<T extends boolean = true> {
-  midataId?: T;
   role?: T;
-  oauthLinks?:
-    | T
-    | {
-        strategy?: T;
-        sub?: T;
-        id?: T;
-      };
+  pfadiname?: T;
+  funktion?: T;
+  vorname?: T;
+  nachname?: T;
+  bild?: T;
+  stufe?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;

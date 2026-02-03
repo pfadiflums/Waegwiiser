@@ -1,7 +1,12 @@
+/* tslint:disable */
 /* eslint-disable */
 import { Stufen } from './stufen';
-import { Leitende } from './leitende';
+import { User } from './user';
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "uebungen".
+ */
 export interface Uebungen {
   id: string;
   motto: string;
@@ -14,11 +19,15 @@ export interface Uebungen {
   mitnehmen?: string | null;
   weiteres?: string | null;
   stufen: (string | Stufen)[];
-  anwesendeLeiter?: (string | Leitende)[] | null;
+  anwesendeLeiter?: (string | User)[] | null;
   updatedAt: string;
   createdAt: string;
 }
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "uebungen_select".
+ */
 export interface UebungenSelect<T extends boolean = true> {
   motto?: T;
   datum?: T;

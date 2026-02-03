@@ -16,6 +16,48 @@
     </header>
 
     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="pfadiname">Pfadiname</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+            <input
+              id="pfadiname"
+              type="text"
+              formControlName="pfadiname"
+              placeholder="z.B. Akela"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="form-group">
+          <label for="vorname">Vorname</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <input
+              id="vorname"
+              type="text"
+              formControlName="vorname"
+              [class.error]="profileForm.get('vorname')?.invalid && profileForm.get('vorname')?.touched"
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="nachname">Nachname</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <input
+              id="nachname"
+              type="text"
+              formControlName="nachname"
+              [class.error]="profileForm.get('nachname')?.invalid && profileForm.get('nachname')?.touched"
+            />
+          </div>
+        </div>
+      </div>
+
       <div class="form-group">
         <label for="email">E-Mail Adresse</label>
         <div class="input-wrapper">
@@ -59,12 +101,16 @@
       }
 
       <footer class="modal-footer">
-        <button type="button" class="btn secondary" (click)="close.emit()">Abbrechen</button>
+        <button type="button" class="btn secondary" (click)="close.emit()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span>Abbrechen</span>
+        </button>
         <button type="submit" class="btn primary" [disabled]="profileForm.invalid || isSaving()">
           @if (isSaving()) {
             <span class="spinner"></span>
             <span>Wird gespeichert...</span>
           } @else {
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="m16 11 2 2 4-4"/></svg>
             <span>Änderungen speichern</span>
           }
         </button>

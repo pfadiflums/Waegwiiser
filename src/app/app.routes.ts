@@ -59,20 +59,20 @@ export const routes: Routes = [
         ]
       },
       {
-        path: 'leitende',
+        path: 'users',
         canActivate: [adminGuard],
         children: [
           {
             path: '',
-            loadComponent: () => import('./feature/admin/leitende/leitende-list/leitende-list').then(m => m.LeitendeListComponent),
+            loadComponent: () => import('./feature/admin/users/user-list/user-list').then(m => m.UserListComponent),
           },
           {
             path: 'new',
-            loadComponent: () => import('./feature/admin/leitende/leitende-form/leitende-form').then(m => m.LeitendeFormComponent),
+            loadComponent: () => import('./feature/admin/users/user-form/user-form').then(m => m.UserFormComponent),
           },
           {
             path: 'edit/:id',
-            loadComponent: () => import('./feature/admin/leitende/leitende-form/leitende-form').then(m => m.LeitendeFormComponent),
+            loadComponent: () => import('./feature/admin/users/user-form/user-form').then(m => m.UserFormComponent),
           }
         ]
       },

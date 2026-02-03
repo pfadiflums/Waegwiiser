@@ -6,7 +6,7 @@ import { Uebungen } from '../../models/payload-types/collections/uebungen';
 import { RichTextRendererComponent } from '../../components/rich-text-renderer/rich-text-renderer';
 import { environment } from '../../../environments/environment';
 import { Media } from '../../models/payload-types/collections/media';
-import { Leitende } from '../../models/payload-types/collections/leitende';
+import { User } from '../../models/payload-types/collections/user';
 
 @Component({
   selector: 'app-stufe-detail',
@@ -73,12 +73,12 @@ export class StufeDetailComponent {
     return image.url ? (image.url.startsWith('http') ? image.url : `${this.apiUrl}${image.url}`) : 'assets/images/placeholder.jpg';
   }
 
-  getLeaderName(leader: string | Leitende): string {
+  getLeaderName(leader: string | User): string {
     if (typeof leader === 'string') return leader;
     return leader.pfadiname || `${leader.vorname} ${leader.nachname}`;
   }
 
-  getLeaderImage(leader: string | Leitende): string {
+  getLeaderImage(leader: string | User): string {
     if (typeof leader === 'string') return 'assets/images/placeholder-avatar.jpg';
     return this.getImageUrl(leader.bild);
   }

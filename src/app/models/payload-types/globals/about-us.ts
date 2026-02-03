@@ -1,6 +1,11 @@
+/* tslint:disable */
 /* eslint-disable */
-import { Leitende } from '../collections/leitende';
+import { User } from '../collections/user';
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-us".
+ */
 export interface AboutUs {
   id: string;
   geschichte?: {
@@ -18,12 +23,16 @@ export interface AboutUs {
     };
     [k: string]: unknown;
   } | null;
-  abteilungsleitung?: (string | Leitende)[] | null;
-  akTeam?: (string | Leitende)[] | null;
+  abteilungsleitung?: (string | User)[] | null;
+  akTeam?: (string | User)[] | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-us_select".
+ */
 export interface AboutUsSelect<T extends boolean = true> {
   geschichte?: T;
   abteilungsleitung?: T;

@@ -1,4 +1,9 @@
+/* tslint:disable */
 /* eslint-disable */
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fotos-page".
+ */
 export interface FotosPage {
   id: string;
   /**
@@ -23,6 +28,10 @@ export interface FotosPage {
   createdAt?: string | null;
 }
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fotos-page_select".
+ */
 export interface FotosPageSelect<T extends boolean = true> {
   intro?: T;
   updatedAt?: T;

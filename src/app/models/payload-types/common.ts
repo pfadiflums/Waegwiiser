@@ -1,4 +1,11 @@
+/* tslint:disable */
 /* eslint-disable */
+/**
+ * Supported timezones in IANA format.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "supportedTimezones".
+ */
 export type SupportedTimezones =
   | 'Pacific/Midway'
   | 'Pacific/Niue'

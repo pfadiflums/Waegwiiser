@@ -19,7 +19,7 @@ export class AdminLayoutComponent {
   activeViewTitle = computed(() => {
     const url = this.router.url;
     if (url.includes('/admin/uebungen')) return 'Übungen';
-    if (url.includes('/admin/leitende')) return 'Leitende';
+    if (url.includes('/admin/users')) return 'Benutzer';
     if (url.includes('/admin/downloads')) return 'Downloads';
     return 'Dashboard';
   });

@@ -1,0 +1,113 @@
+<div class="admin-page">
+  <div class="page-header">
+    <div class="header-content">
+      <a routerLink="/admin/users" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        <span>Zurück zur Übersicht</span>
+      </a>
+      <h1>{{ isEditMode() ? 'Benutzer bearbeiten' : 'Neuen Benutzer hinzufügen' }}</h1>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="admin-form">
+      <div class="form-grid">
+        <div class="form-card full-width">
+          <div class="card-header">
+            <h3>Personenangaben</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="pfadiname">Pfadiname</label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+                  <input type="text" id="pfadiname" formControlName="pfadiname" placeholder="z.B. Akela">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="funktion">Funktion</label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
+                  <input type="text" id="funktion" formControlName="funktion" placeholder="z.B. Stufenleiter">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="vorname">Vorname</label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  <input type="text" id="vorname" formControlName="vorname" [class.error]="userForm.get('vorname')?.invalid && userForm.get('vorname')?.touched">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="nachname">Nachname</label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  <input type="text" id="nachname" formControlName="nachname" [class.error]="userForm.get('nachname')?.invalid && userForm.get('nachname')?.touched">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">E-Mail</label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                  <input type="email" id="email" formControlName="email" placeholder="beispiel@pfadi.ch" [class.error]="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="password">{{ isEditMode() ? 'Passwort (leer lassen für keine Änderung)' : 'Passwort' }}</label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  <input type="password" id="password" formControlName="password" [class.error]="userForm.get('password')?.invalid && userForm.get('password')?.touched">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="role">Rolle</label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  <select id="role" formControlName="role">
+                    <option value="admin">Administrator</option>
+                    <option value="leader">Leiter</option>
+                    <option value="leiter">Leiter (legacy)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="stufe">Stufe</label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                  <select id="stufe" formControlName="stufe">
+                    <option value="">Keine Stufe</option>
+                    <option value="biber">Biber</option>
+                    <option value="woelfe">Wölfe</option>
+                    <option value="pfadi">Pfadi</option>
+                    <option value="pio">Pio</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" routerLink="/admin/users" class="action-btn secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <span>Abbrechen</span>
+        </button>
+        <button type="submit" class="action-btn primary" [disabled]="userForm.invalid">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="m16 11 2 2 4-4"/></svg>
+          <span>{{ isEditMode() ? 'Änderungen speichern' : 'Benutzer erstellen' }}</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

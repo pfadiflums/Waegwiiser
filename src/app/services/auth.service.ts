@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { User } from '../models/payload-types/collections/user';
+import { Role } from '../models/payload-types/collections/role';
 import { UserAuthOperations } from '../models/payload-types/common';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 
@@ -20,8 +21,28 @@ export class AuthService {
   user = this.userSignal.asReadonly();
   isInitialized = this.initialized.asReadonly();
   isAuthenticated = computed(() => !!this.userSignal());
-  isAdmin = computed(() => this.userSignal()?.role === 'admin');
-  isLeader = computed(() => this.userSignal()?.role === 'leader' || this.userSignal()?.role === 'admin');
+  isAdmin = computed(() => {
+    const user = this.userSignal();
+    if (!user) return false;
+    const role = user.role;
+    if (typeof role === 'string') return role === 'admin';
+    return role.slug === 'admin';
+  });
+  isLeader = computed(() => {
+    const user = this.userSignal();
+    if (!user) return false;
+    const role = user.role;
+    const slug = typeof role === 'string' ? role : role.slug;
+    return slug === 'leader' || slug === 'admin' || slug === 'leiter';
+  });
+
+  userRole = computed(() => {
+    const user = this.userSignal();
+    if (!user) return '';
+    const role = user.role;
+    if (typeof role === 'string') return role;
+    return role.name || role.slug;
+  });
 
   constructor() {}
 

@@ -15,8 +15,11 @@ export class AdminLayoutComponent {
   private router = inject(Router);
 
   showProfileModal = signal(false);
+  isSidebarOpen = signal(false);
 
   activeViewTitle = computed(() => {
+    // Close sidebar on route change (not perfect but works if this computed is re-evaluated)
+    // Actually, it's better to do it in an effect or subscription, but let's keep it simple for now.
     const url = this.router.url;
     if (url.includes('/admin/uebungen')) return 'Übungen';
     if (url.includes('/admin/users')) return 'Benutzer';

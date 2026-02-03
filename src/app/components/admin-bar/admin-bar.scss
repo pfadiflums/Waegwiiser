@@ -35,12 +35,20 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
+
+  @include mobile {
+    padding: 0 $container-padding-mobile;
+  }
 }
 
 .admin-bar-left, .admin-bar-right {
   display: flex;
   align-items: center;
   gap: rem(20);
+
+  @include mobile {
+    gap: rem(10);
+  }
 }
 
 .admin-link {
@@ -50,6 +58,16 @@
   display: flex;
   align-items: center;
   gap: rem(6);
+
+  @include mobile {
+    span {
+      display: none;
+    }
+
+    &.brand span {
+      display: inline;
+    }
+  }
 
   &:hover {
     color: white;
@@ -77,6 +95,10 @@
   display: flex;
   align-items: center;
   gap: rem(15);
+
+  @include mobile {
+    gap: rem(10);
+  }
 }
 
 .user-info {
@@ -84,6 +106,10 @@
   align-items: center;
   gap: rem(8);
   font-size: rem(11);
+
+  @include mobile {
+    display: none;
+  }
 
   .user-name {
     color: white;

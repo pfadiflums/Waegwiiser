@@ -1,3 +1,5 @@
+@use '../../../../variables' as *;
+
 .login-wrapper {
   min-height: 100vh;
   display: flex;
@@ -7,6 +9,11 @@
   background-image: radial-gradient(var(--border) 1px, transparent 1px);
   background-size: 20px 20px;
   padding: 1.5rem;
+
+  @include mobile {
+    padding: 0;
+    background: white;
+  }
 }
 
 .login-container {
@@ -18,6 +25,17 @@
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--border);
+
+  @include mobile {
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    max-width: 100%;
+  }
+
+  @include tablet {
+    max-width: 600px;
+  }
 }
 
 .login-visual {
@@ -31,6 +49,14 @@
   color: white;
   position: relative;
   overflow: hidden;
+
+  @include mobile {
+    display: none;
+  }
+
+  @include tablet {
+    padding: 2rem;
+  }
 
   &::after {
     content: '';
@@ -88,6 +114,14 @@
   padding: 3.5rem;
   display: flex;
   flex-direction: column;
+
+  @include mobile {
+    padding: 2.5rem 1.5rem;
+  }
+
+  @include tablet {
+    padding: 2.5rem;
+  }
 
   .login-header {
     margin-bottom: 2.5rem;
@@ -297,29 +331,3 @@
   to { transform: rotate(360deg); }
 }
 
-@media (max-width: 850px) {
-  .login-visual {
-    display: none;
-  }
-
-  .login-container {
-    max-width: 450px;
-  }
-}
-
-@media (max-width: 480px) {
-  .login-wrapper {
-    padding: 0;
-    background-color: white;
-  }
-
-  .login-container {
-    border-radius: 0;
-    border: none;
-    box-shadow: none;
-  }
-
-  .login-card {
-    padding: 2.5rem 1.5rem;
-  }
-}

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NavItem } from '../../models/navitem.model';
 
@@ -10,6 +10,8 @@ import { NavItem } from '../../models/navitem.model';
   imports: [RouterLink, RouterLinkActive],
 })
 export class Navbar {
+  isMenuOpen = signal(false);
+
   navItems: NavItem[] = [
     { label: 'Stufen', path: '/stufen' },
     { label: 'ÜBER UNS', path: '/ueber-uns' },

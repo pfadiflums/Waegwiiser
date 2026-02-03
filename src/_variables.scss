@@ -22,10 +22,38 @@ $fw-extrabold: 800;
 // 4. Layout
 $design-width: 1440px;
 $container-padding: rem(75);
+$container-padding-mobile: rem(20);
+$container-padding-tablet: rem(40);
 $section-gap: rem(100);
+$section-gap-mobile: rem(50);
 $section-gap-large: rem(150);
+$section-gap-large-mobile: rem(80);
 
-// 5. Stufen Colours
+// 5. Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+@mixin mobile {
+  @media (max-width: #{$breakpoint-md - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$breakpoint-md}) and (max-width: #{$breakpoint-lg - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$breakpoint-lg}) {
+    @content;
+  }
+}
+
+// 6. Stufen Colours
 $color-biber: #EAC04A;
 $color-woelfe: #1380A3;
 $color-pfader: #B78E60;

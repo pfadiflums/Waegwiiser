@@ -1,8 +1,14 @@
+@use '../../../../../variables' as *;
+
 .admin-page {
   display: flex;
   flex-direction: column;
   gap: 2rem;
   animation: fadeIn 0.4s ease-out;
+
+  @include mobile {
+    gap: 1.5rem;
+  }
 }
 
 @keyframes fadeIn {
@@ -19,12 +25,22 @@
     align-items: flex-end;
     width: 100%;
 
+    @include mobile {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+
     h1 {
       font-size: 2rem;
       font-weight: 800;
       color: var(--slate);
       margin: 0;
       letter-spacing: -0.02em;
+
+      @include mobile {
+        font-size: 1.5rem;
+      }
     }
   }
 }
@@ -32,6 +48,7 @@
 .action-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.75rem;
   padding: 0.875rem 1.5rem;
   border-radius: 12px;
@@ -41,6 +58,10 @@
   transition: all 0.2s ease;
   border: none;
   text-decoration: none;
+
+  @include mobile {
+    width: 100%;
+  }
 
   &.primary {
     background: var(--primary);
@@ -67,6 +88,11 @@
   width: 100%;
   border-collapse: collapse;
 
+  @include mobile {
+    display: block;
+    overflow-x: auto;
+  }
+
   th {
     padding: 1.25rem 2.5rem;
     background: #F8FAFC;
@@ -77,12 +103,20 @@
     letter-spacing: 0.1em;
     text-align: left;
     border-bottom: 1px solid var(--border);
+
+    @include mobile {
+      padding: 1rem;
+    }
   }
 
   td {
     padding: 1.5rem 2.5rem;
     border-bottom: 1px solid var(--border);
     vertical-align: middle;
+
+    @include mobile {
+      padding: 1rem;
+    }
   }
 
   tr.row-hover {

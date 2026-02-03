@@ -1,8 +1,14 @@
+@use '../../../../variables' as *;
+
 .dashboard-page {
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
   animation: fadeIn 0.4s ease-out;
+
+  @include mobile {
+    gap: 1.5rem;
+  }
 }
 
 @keyframes fadeIn {
@@ -24,12 +30,23 @@
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(27, 67, 50, 0.15);
 
+  @include mobile {
+    padding: 2rem 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
   .hero-content {
     position: relative;
     z-index: 2;
     display: flex;
     flex-direction: column;
     gap: 2rem;
+
+    @include mobile {
+      gap: 1.5rem;
+    }
   }
 
   .hero-text {
@@ -41,6 +58,10 @@
       letter-spacing: 0.1em;
       margin-bottom: 0.75rem;
       opacity: 0.8;
+
+      @include mobile {
+        font-size: 0.875rem;
+      }
     }
 
     h1 {
@@ -49,6 +70,10 @@
       margin-bottom: 1rem;
       letter-spacing: -0.02em;
       line-height: 1.1;
+
+      @include mobile {
+        font-size: 1.75rem;
+      }
     }
 
     p {
@@ -56,6 +81,10 @@
       opacity: 0.9;
       max-width: 500px;
       line-height: 1.6;
+
+      @include mobile {
+        font-size: 1rem;
+      }
     }
   }
 
@@ -63,9 +92,15 @@
     display: flex;
     gap: 1rem;
 
+    @include mobile {
+      flex-direction: column;
+      width: 100%;
+    }
+
     .action-btn {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 0.75rem;
       padding: 0.875rem 1.5rem;
       border-radius: 12px;
@@ -74,6 +109,10 @@
       cursor: pointer;
       transition: all 0.2s ease;
       border: none;
+
+      @include mobile {
+        width: 100%;
+      }
 
       &.primary {
         background: white;
@@ -237,6 +276,13 @@
     justify-content: space-between;
     border-bottom: 1px solid var(--border);
 
+    @include mobile {
+      padding: 1.5rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+
     .header-main {
       display: flex;
       align-items: center;
@@ -309,12 +355,20 @@
     letter-spacing: 0.1em;
     text-align: left;
     border-bottom: 1px solid var(--border);
+
+    @include mobile {
+      padding: 1rem;
+    }
   }
 
   td {
     padding: 1.5rem 2.5rem;
     border-bottom: 1px solid var(--border);
     vertical-align: middle;
+
+    @include mobile {
+      padding: 1rem;
+    }
   }
 
   tr.row-hover {

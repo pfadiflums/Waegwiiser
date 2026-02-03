@@ -33,6 +33,14 @@ body {
   max-width: $design-width;
   margin: 0 auto;
   padding: 0 $container-padding;
+
+  @include mobile {
+    padding: 0 $container-padding-mobile;
+  }
+
+  @include tablet {
+    padding: 0 $container-padding-tablet;
+  }
 }
 
 h1, h2, h3, h4, h5, h6, p {
@@ -40,10 +48,65 @@ h1, h2, h3, h4, h5, h6, p {
   line-height: 1.2;
 }
 
-h1 { font-size: rem(64); font-weight: $fw-extralight; }
-h2 { font-size: rem(48); font-weight: $fw-extrabold; }
-h3 { font-size: rem(48); font-weight: $fw-light; }
-h4 { font-size: rem(36); font-weight: $fw-extrabold; }
-h5 { font-size: rem(36); font-weight: $fw-light; }
-h6 { font-size: rem(20); font-weight: $fw-bold; }
-p  { font-size: rem(20); font-weight: $fw-regular; }
+h1 {
+  font-size: rem(64);
+  font-weight: $fw-extralight;
+
+  @include mobile {
+    font-size: rem(40);
+  }
+}
+
+h2 {
+  font-size: rem(48);
+  font-weight: $fw-extrabold;
+
+  @include mobile {
+    font-size: rem(32);
+  }
+}
+
+h3 {
+  font-size: rem(48);
+  font-weight: $fw-light;
+
+  @include mobile {
+    font-size: rem(32);
+  }
+}
+
+h4 {
+  font-size: rem(36);
+  font-weight: $fw-extrabold;
+
+  @include mobile {
+    font-size: rem(24);
+  }
+}
+
+h5 {
+  font-size: rem(36);
+  font-weight: $fw-light;
+
+  @include mobile {
+    font-size: rem(24);
+  }
+}
+
+h6 {
+  font-size: rem(20);
+  font-weight: $fw-bold;
+
+  @include mobile {
+    font-size: rem(18);
+  }
+}
+
+p {
+  font-size: rem(20);
+  font-weight: $fw-regular;
+
+  @include mobile {
+    font-size: rem(16);
+  }
+}

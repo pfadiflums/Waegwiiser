@@ -3,6 +3,34 @@
 .navbar-wrapper {
   width: 100%;
   padding-top: rem(45);
+
+  @include mobile {
+    padding-top: rem(20);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background: $color-bg;
+  }
+
+  &.menu-open {
+    .nav-links {
+      display: flex;
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .hamburger {
+      background: transparent;
+      &::before {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+      &::after {
+        transform: rotate(-45deg) translate(7px, -7px);
+      }
+    }
+  }
 }
 
 .navbar-container {
@@ -14,6 +42,46 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @include mobile {
+    height: rem(80);
+    padding: 0 $container-padding-mobile;
+  }
+}
+
+.menu-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 101;
+
+  @include mobile {
+    display: block;
+  }
+
+  .hamburger {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background: $color-dark;
+    position: relative;
+    transition: background 0.2s ease;
+
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      width: 25px;
+      height: 2px;
+      background: $color-dark;
+      left: 0;
+      transition: transform 0.2s ease;
+    }
+
+    &::before { top: -8px; }
+    &::after { bottom: -8px; }
+  }
 }
 
 .nav-links {
@@ -23,6 +91,25 @@
   margin: 0;
 
   gap: rem(40);
+
+  @include mobile {
+    display: none;
+    position: fixed;
+    top: rem(80);
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 80px);
+    background: $color-bg;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: rem(40) 0;
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+  }
 
   li a {
     font-family: 'Outfit', sans-serif;
@@ -36,7 +123,11 @@
 
     transition: color 0.2s ease;
 
-    &:hover {
+    @include mobile {
+      font-size: rem(24);
+    }
+
+    &:hover, &.active {
       color: $color-accent;
     }
   }
@@ -47,9 +138,18 @@
   display: flex;
   align-items: center;
 
+  a {
+    display: block;
+    height: 100%;
+  }
+
   img {
     height: rem(137);
     width: auto;
     display: block;
+
+    @include mobile {
+      height: rem(60);
+    }
   }
 }

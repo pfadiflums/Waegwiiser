@@ -78,6 +78,41 @@ export class AuthService {
     );
   }
 
+  forgotPassword(email: string) {
+    return this.http.post(`${this.apiUrl}/api/users/forgot-password`, { email });
+  }
+
+  resetPassword(data: UserAuthOperations['forgotPassword'] & { token: string }) {
+    return this.http.post(`${this.apiUrl}/api/users/reset-password`, data);
+  }
+
+  verifyEmail(token: string) {
+    return this.http.post(`${this.apiUrl}/api/users/verify`, { token });
+  }
+
+  inviteUser(email: string) {
+    return this.http.post(`${this.apiUrl}/api/invites`, { email });
+  }
+
+  validateInviteToken(token: string) {
+    const now = new Date().toISOString();
+    return this.http.get<{ docs: any[] }>(
+      `${this.apiUrl}/api/invites?where[token][equals]=${token}&where[used][equals]=false&where[expiresAt][greater_than]=${now}`
+    );
+  }
+
+  register(data: any) {
+    return this.http.post<any>(`${this.apiUrl}/api/users`, data).pipe(
+      tap((res) => {
+        if (res && res.user && res.token) {
+          this.userSignal.set(res.user);
+          this.setCookie('payload-token', res.token);
+        }
+      }),
+      map((res) => (res && res.user ? res.user : res))
+    );
+  }
+
   logout() {
     return this.http.post(`${this.apiUrl}/api/users/logout`, {}).pipe(
       tap(() => {

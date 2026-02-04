@@ -1,0 +1,153 @@
+<div class="auth-wrapper">
+  <div class="auth-container">
+    <div class="auth-visual">
+      <div class="visual-content">
+        <div class="logo-box">
+          <img src="assets/images/logo.svg" alt="Pfadi Logo" />
+        </div>
+        <h2>Wägwiiser</h2>
+        <p>Erstelle dein Konto und werde Teil des Teams der Pfadi St. Justus Flums.</p>
+      </div>
+      <div class="visual-footer">
+        <span>Zäme wyter</span>
+      </div>
+    </div>
+
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1>Registrieren</h1>
+        <p>Vervollständige dein Profil, um Zugriff auf das Dashboard zu erhalten.</p>
+      </div>
+
+      @if (status() === 'checking') {
+        <div class="loading-state">
+          <span class="spinner large"></span>
+          <p>Einladung wird geprüft...</p>
+        </div>
+      }
+
+      @if (status() === 'invalid') {
+        <div class="error-state">
+          <div class="status-icon error">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+          </div>
+          <h3>Ungültige Einladung</h3>
+          <p>{{ errorMessage() }}</p>
+          <a routerLink="/login" class="submit-btn">Zurück zum Login</a>
+        </div>
+      }
+
+      @if (status() === 'valid' || status() === 'registering') {
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate class="auth-form">
+          <div class="form-group">
+            <label for="pfadiname">Pfadiname</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <input
+                type="text"
+                id="pfadiname"
+                formControlName="pfadiname"
+                placeholder="Dein Pfadiname"
+                autocomplete="nickname"
+                [attr.aria-invalid]="registerForm.get('pfadiname')?.invalid && registerForm.get('pfadiname')?.touched"
+              />
+            </div>
+            @if (registerForm.get('pfadiname')?.invalid && registerForm.get('pfadiname')?.touched) {
+              <span class="error-text">Pfadiname ist erforderlich.</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="email">E-Mail Adresse</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <input
+                type="email"
+                id="email"
+                formControlName="email"
+                placeholder="name@pfadiflums.ch"
+                autocomplete="email"
+                [attr.aria-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+              />
+            </div>
+            @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+              <span class="error-text">Bitte gib eine gültige E-Mail Adresse ein.</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="password">Passwort</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input
+                type="password"
+                id="password"
+                formControlName="password"
+                placeholder="Wähle ein sicheres Passwort"
+                autocomplete="new-password"
+                [attr.aria-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+              />
+            </div>
+            @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+              <span class="error-text">Das Passwort muss mindestens 6 Zeichen lang sein.</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Passwort bestätigen</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input
+                type="password"
+                id="confirmPassword"
+                formControlName="confirmPassword"
+                placeholder="Passwort erneut eingeben"
+                autocomplete="new-password"
+                [attr.aria-invalid]="(registerForm.get('confirmPassword')?.touched || registerForm.touched) && registerForm.hasError('notSame')"
+              />
+            </div>
+            @if ((registerForm.get('confirmPassword')?.touched || registerForm.touched) && registerForm.hasError('notSame')) {
+              <span class="error-text">Die Passwörter stimmen nicht überein.</span>
+            }
+          </div>
+
+          @if (errorMessage()) {
+            <div class="alert alert-error">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+              {{ errorMessage() }}
+            </div>
+          }
+
+          <button type="submit" class="submit-btn" [disabled]="status() === 'registering'">
+            @if (status() === 'registering') {
+              <span class="spinner"></span>
+              <span>Registrierung läuft...</span>
+            } @else {
+              <span>Konto erstellen</span>
+            }
+          </button>
+        </form>
+      }
+
+      @if (status() === 'success') {
+        <div class="success-state">
+          <div class="status-icon success">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          @if (isAuthenticated()) {
+            <h3>Willkommen!</h3>
+            <p>Dein Konto wurde erfolgreich erstellt. Du wirst nun zum Dashboard weitergeleitet...</p>
+          } @else {
+            <h3>Fast geschafft!</h3>
+            <p>Dein Konto wurde erfolgreich erstellt. Bitte bestätige deine E-Mail-Adresse über den Link, den wir dir gesendet haben, um dich anmelden zu können.</p>
+            <a routerLink="/login" class="submit-btn">Zum Login</a>
+          }
+        </div>
+      }
+
+      <div class="auth-footer">
+        <p>Bereits ein Konto? <a routerLink="/login">Anmelden</a></p>
+      </div>
+    </div>
+  </div>
+</div>

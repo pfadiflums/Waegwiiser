@@ -2,16 +2,18 @@ import { ChangeDetectionStrategy, Component, inject, signal, OnInit } from '@ang
 import { UebungenService } from '../../../services/uebungen.service';
 import { UserService } from '../../../services/user.service';
 import { DownloadsService } from '../../../services/downloads.service';
+import { AuthService } from '../../../services/auth.service';
 import { Uebungen } from '../../../models/payload-types/collections/uebungen';
 import { Stufen } from '../../../models/payload-types/collections/stufen';
 import { forkJoin, map } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,6 +22,7 @@ export class Dashboard implements OnInit {
   private uebungenService = inject(UebungenService);
   private userService = inject(UserService);
   private downloadsService = inject(DownloadsService);
+  private authService = inject(AuthService);
 
   upcomingUebungen = signal<Uebungen[]>([]);
   stats = signal({
@@ -27,6 +30,12 @@ export class Dashboard implements OnInit {
     usersCount: 0,
     downloadsCount: 0
   });
+
+  inviteEmail = '';
+  isInviting = signal(false);
+  inviteStatus = signal<'idle' | 'success' | 'error'>('idle');
+  inviteErrorMessage = signal<string>('');
+  isAdmin = this.authService.isAdmin;
 
   ngOnInit() {
     this.loadDashboardData();
@@ -71,5 +80,27 @@ export class Dashboard implements OnInit {
       return stufe.name || '';
     }
     return stufe as string;
+  }
+
+  onInviteUser() {
+    if (!this.inviteEmail || !this.inviteEmail.includes('@')) return;
+
+    this.isInviting.set(true);
+    this.inviteErrorMessage.set('');
+
+    this.authService.inviteUser(this.inviteEmail).subscribe({
+      next: () => {
+        this.isInviting.set(false);
+        this.inviteStatus.set('success');
+        this.inviteEmail = '';
+        setTimeout(() => this.inviteStatus.set('idle'), 5000);
+      },
+      error: (err) => {
+        this.isInviting.set(false);
+        this.inviteStatus.set('error');
+        this.inviteErrorMessage.set(err.error?.errors?.[0]?.message || 'Fehler beim Senden der Einladung.');
+        setTimeout(() => this.inviteStatus.set('idle'), 5000);
+      }
+    });
   }
 }

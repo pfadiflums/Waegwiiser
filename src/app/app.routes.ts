@@ -21,7 +21,10 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () => import('./feature/auth/login/login').then(m => m.Login)
   },
-
+  {
+    path: 'register',
+    loadComponent: () => import('./feature/auth/register/register').then(m => m.Register)
+  },
   {
     path: 'login-success',
     loadComponent: () => import('./feature/auth/login-success/login-success').then(m => m.LoginSuccessComponent)
@@ -29,6 +32,18 @@ export const routes: Routes = [
   {
     path: 'login-error',
     loadComponent: () => import('./feature/auth/login-error/login-error').then(m => m.LoginErrorComponent)
+  },
+  {
+    path: 'forgot-password',
+    loadComponent: () => import('./feature/auth/forgot-password/forgot-password').then(m => m.ForgotPasswordComponent)
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () => import('./feature/auth/reset-password/reset-password').then(m => m.ResetPasswordComponent)
+  },
+  {
+    path: 'verify-email',
+    loadComponent: () => import('./feature/auth/verify-email/verify-email').then(m => m.VerifyEmailComponent)
   },
 
   {

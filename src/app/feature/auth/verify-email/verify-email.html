@@ -1,0 +1,49 @@
+<div class="auth-wrapper">
+  <div class="auth-container">
+    <div class="auth-visual">
+      <div class="visual-content">
+        <div class="logo-box">
+          <img src="assets/images/logo.svg" alt="Pfadi Logo" />
+        </div>
+        <h2>Wägwiiser</h2>
+        <p>Das Administrations-Tool der Pfadi St. Justus Flums.</p>
+      </div>
+      <div class="visual-footer">
+        <span>Allzeit bereit</span>
+      </div>
+    </div>
+
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1>E-Mail Bestätigung</h1>
+      </div>
+
+      @if (status() === 'verifying') {
+        <div class="spinner-container">
+          <div class="spinner large"></div>
+          <p>E-Mail wird verifiziert...</p>
+        </div>
+      } @else if (status() === 'success') {
+        <div class="status-icon success">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        </div>
+        <div class="alert alert-success">
+          <p>Vielen Dank. Deine E-Mail-Adresse wurde erfolgreich verifiziert. Du kannst dich nun anmelden.</p>
+        </div>
+        <a routerLink="/login" class="submit-btn">Zum Login</a>
+      } @else if (status() === 'error') {
+        <div class="status-icon error">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+        </div>
+        <div class="alert alert-error">
+          <p>Der Verifizierungs-Link ist ungültig oder abgelaufen.</p>
+        </div>
+        <a routerLink="/login" class="submit-btn">Zurück zum Login</a>
+      }
+
+      <div class="auth-footer">
+        <p class="copyright">&copy; 2026 Pfadi St. Justus Flums</p>
+      </div>
+    </div>
+  </div>
+</div>

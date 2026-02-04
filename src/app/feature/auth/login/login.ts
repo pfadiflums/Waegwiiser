@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,8 +59,12 @@ export class Login {
     const { email, password } = this.loginForm.getRawValue();
 
     this.authService.login({ email, password }).pipe(
-      catchError(() => {
-        this.errorMessage.set('Ungültige E-Mail oder Passwort.');
+      catchError((err) => {
+        if (err.status === 403) {
+          this.errorMessage.set('Bitte bestätige deine E-Mail-Adresse, bevor du dich anmeldest.');
+        } else {
+          this.errorMessage.set('Ungültige E-Mail oder Passwort.');
+        }
         this.isLoading.set(false);
         return of(null);
       })

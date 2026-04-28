@@ -15,7 +15,6 @@
 
   .footer-content {
     display: grid;
-    // Angepasst auf 4 Spalten für Desktop, Fallback für Mobile
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: rem(40);
     margin-bottom: rem(40);
@@ -35,7 +34,7 @@
     p {
       color: rgba($color-white, 0.8);
       font-size: rem(16);
-      margin-bottom: rem(5); // Etwas engerer Zeilenabstand für Adressen
+      margin-bottom: rem(5);
       letter-spacing: normal;
       line-height: 1.6;
     }
@@ -85,6 +84,22 @@
       font-size: rem(14);
       color: rgba($color-white, 0.5);
       letter-spacing: normal;
+      margin-bottom: rem(4);
+    }
+
+    .developer-tag {
+      font-size: rem(12);
+
+      a {
+        color: rgba($color-white, 0.6);
+        text-decoration: none;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: $color-primary;
+          text-decoration: underline;
+        }
+      }
     }
   }
 }

@@ -1,12 +1,13 @@
-@use '../../../variables' as *;
+@use "../../../variables" as *;
 
 .footer {
   background-color: $color-dark;
   color: $color-white;
   padding: rem(60) 0 rem(20);
-  // Use a clean, standard sans-serif stack
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  letter-spacing: normal; // Global reset for footer for cleaner look
+  font-family:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  letter-spacing: normal;
 
   * {
     letter-spacing: normal;
@@ -14,25 +15,27 @@
 
   .footer-content {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    // Angepasst auf 4 Spalten für Desktop, Fallback für Mobile
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: rem(40);
     margin-bottom: rem(40);
   }
 
   .footer-section {
-    h3, h4 {
+    h3,
+    h4 {
       color: $color-primary;
       font-size: rem(20);
       font-weight: $fw-bold;
       margin-bottom: rem(20);
-      letter-spacing: normal; // Resetting letter-spacing for cleaner look
+      letter-spacing: normal;
       text-transform: uppercase;
     }
 
     p {
       color: rgba($color-white, 0.8);
       font-size: rem(16);
-      margin-bottom: rem(10);
+      margin-bottom: rem(5); // Etwas engerer Zeilenabstand für Adressen
       letter-spacing: normal;
       line-height: 1.6;
     }
@@ -59,6 +62,7 @@
     }
 
     .social-links {
+      margin-top: rem(15);
       a {
         color: $color-white;
         text-decoration: none;

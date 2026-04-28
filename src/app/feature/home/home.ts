@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { StufeService } from '../../services/stufe.service';
 import { Stufe } from '../../models/stufe.model';
 
 @Component({
@@ -9,41 +10,20 @@ import { Stufe } from '../../models/stufe.model';
   styleUrl: './home.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Home {
-  scoutGroups = signal<Stufe[]>([
-    {
-      name: 'Biber',
-      color: '#EAC04A',
-      slug: 'biber',
-      motto: '',
-      description: '',
-      ageRange: '',
-    },
-    {
-      name: 'Wölfe',
-      color: '#1380A3',
-      slug: 'woelfe',
-      motto: '',
-      description: '',
-      ageRange: '',
-    },
-    {
-      name: 'Pfader',
-      color: '#B78E60',
-      slug: 'pfader',
-      motto: '',
-      description: '',
-      ageRange: '',
-    },
-    {
-      name: 'Pios',
-      color: '#BF2E26',
-      slug: 'pios',
-      motto: '',
-      description: '',
-      ageRange: '',
-    },
-  ]);
+export class Home implements OnInit {
+  private stufeService = inject(StufeService);
+  scoutGroups = signal<Stufe[]>([]);
 
   instagramPosts = signal<any[]>(Array(9).fill(null));
+
+  ngOnInit(): void {
+    this.stufeService.getAll().subscribe({
+      next: (stufen) => {
+        this.scoutGroups.set(stufen);
+      },
+      error: (err) => {
+        console.error('Error loading stufen', err);
+      }
+    });
+  }
 }

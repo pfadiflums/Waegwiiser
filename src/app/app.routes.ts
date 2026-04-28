@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, adminGuard, leaderGuard } from './guards/auth.guard';
+import { roleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -14,104 +14,100 @@ export const routes: Routes = [
         path: 'stufe/:slug',
         loadComponent: () => import('./feature/stufe-detail/stufe-detail').then(m => m.StufeDetailComponent),
       },
-    ]
-  },
-
-  {
-    path: 'login',
-    loadComponent: () => import('./feature/auth/login/login').then(m => m.Login)
-  },
-  {
-    path: 'register',
-    loadComponent: () => import('./feature/auth/register/register').then(m => m.Register)
-  },
-  {
-    path: 'login-success',
-    loadComponent: () => import('./feature/auth/login-success/login-success').then(m => m.LoginSuccessComponent)
-  },
-  {
-    path: 'login-error',
-    loadComponent: () => import('./feature/auth/login-error/login-error').then(m => m.LoginErrorComponent)
-  },
-  {
-    path: 'forgot-password',
-    loadComponent: () => import('./feature/auth/forgot-password/forgot-password').then(m => m.ForgotPasswordComponent)
-  },
-  {
-    path: 'reset-password',
-    loadComponent: () => import('./feature/auth/reset-password/reset-password').then(m => m.ResetPasswordComponent)
-  },
-  {
-    path: 'verify-email',
-    loadComponent: () => import('./feature/auth/verify-email/verify-email').then(m => m.VerifyEmailComponent)
-  },
-
-  {
-    path: 'admin',
-    canActivate: [authGuard],
-    loadComponent: () => import('./layout/admin-layout/admin-layout').then(m => m.AdminLayoutComponent),
-    children: [
       {
-        path: '',
-        loadComponent: () => import('./feature/admin/dashboard/dashboard').then(m => m.Dashboard),
+        path: 'join',
+        loadComponent: () => import('./feature/join/join').then(m => m.JoinComponent),
       },
       {
-        path: 'uebungen',
-        canActivate: [leaderGuard],
-        children: [
-          {
-            path: '',
-            loadComponent: () => import('./feature/admin/uebungen/uebungen-list/uebungen-list').then(m => m.UebungenListComponent),
-          },
-          {
-            path: 'new',
-            loadComponent: () => import('./feature/admin/uebungen/uebungen-form/uebungen-form').then(m => m.UebungenFormComponent),
-          },
-          {
-            path: 'edit/:id',
-            loadComponent: () => import('./feature/admin/uebungen/uebungen-form/uebungen-form').then(m => m.UebungenFormComponent),
-          }
-        ]
-      },
-      {
-        path: 'users',
-        canActivate: [adminGuard],
-        children: [
-          {
-            path: '',
-            loadComponent: () => import('./feature/admin/users/user-list/user-list').then(m => m.UserListComponent),
-          },
-          {
-            path: 'new',
-            loadComponent: () => import('./feature/admin/users/user-form/user-form').then(m => m.UserFormComponent),
-          },
-          {
-            path: 'edit/:id',
-            loadComponent: () => import('./feature/admin/users/user-form/user-form').then(m => m.UserFormComponent),
-          }
-        ]
+        path: 'about',
+        loadComponent: () => import('./feature/about/about').then(m => m.AboutComponent),
       },
       {
         path: 'downloads',
-        canActivate: [adminGuard],
-        children: [
-          {
-            path: '',
-            loadComponent: () => import('./feature/admin/downloads/downloads-list/downloads-list').then(m => m.DownloadsListComponent),
-          },
-          {
-            path: 'new',
-            loadComponent: () => import('./feature/admin/downloads/downloads-form/downloads-form').then(m => m.DownloadsFormComponent),
-          },
-          {
-            path: 'edit/:id',
-            loadComponent: () => import('./feature/admin/downloads/downloads-form/downloads-form').then(m => m.DownloadsFormComponent),
-          }
-        ]
+        loadComponent: () => import('./feature/downloads/downloads').then(m => m.DownloadsComponent),
+      },
+      {
+        path: 'photos',
+        loadComponent: () => import('./feature/photos/photos').then(m => m.PhotosComponent),
+      },
+      {
+        path: 'shop',
+        loadComponent: () => import('./feature/shop/shop').then(m => m.ShopComponent),
+      },
+      {
+        path: 'pfadihaus',
+        loadComponent: () => import('./feature/pfadihaus/pfadihaus').then(m => m.PfadihausComponent),
       }
     ]
   },
-
-  { path: 'auth', redirectTo: 'login', pathMatch: 'full' },
+  {
+    path: 'login',
+    loadComponent: () => import('./feature/auth/login/login').then(m => m.LoginComponent),
+  },
+  {
+    path: 'oauth2/redirect',
+    loadComponent: () => import('./feature/auth/oauth2-redirect/oauth2-redirect').then(m => m.OAuth2RedirectComponent),
+  },
+  {
+    path: 'admin',
+    loadComponent: () => import('./layout/admin-layout/admin-layout').then(m => m.AdminLayoutComponent),
+    canActivate: [roleGuard],
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./feature/admin/dashboard/dashboard').then(m => m.DashboardComponent),
+      },
+      {
+        path: 'stufen',
+        loadComponent: () => import('./feature/admin/stufen/stufen-list').then(m => m.StufenListComponent),
+        data: { roles: ['ADMIN', 'ABTEILUNGSLEITER'] }
+      },
+      {
+        path: 'stufen/new',
+        loadComponent: () => import('./feature/admin/stufen/stufe-edit').then(m => m.StufeEditComponent),
+        data: { roles: ['ADMIN', 'ABTEILUNGSLEITER'] }
+      },
+      {
+        path: 'stufen/edit/:id',
+        loadComponent: () => import('./feature/admin/stufen/stufe-edit').then(m => m.StufeEditComponent),
+        data: { roles: ['ADMIN', 'ABTEILUNGSLEITER'] }
+      },
+      {
+        path: 'uebungen',
+        loadComponent: () => import('./feature/admin/uebungen/uebungen-list').then(m => m.UebungenListComponent),
+        data: { roles: ['ADMIN', 'STUFENLEITER', 'ABTEILUNGSLEITER'] }
+      },
+      {
+        path: 'uebungen/new',
+        loadComponent: () => import('./feature/admin/uebungen/uebung-edit').then(m => m.UebungEditComponent),
+        data: { roles: ['ADMIN', 'STUFENLEITER', 'ABTEILUNGSLEITER'] }
+      },
+      {
+        path: 'uebungen/edit/:id',
+        loadComponent: () => import('./feature/admin/uebungen/uebung-edit').then(m => m.UebungEditComponent),
+        data: { roles: ['ADMIN', 'STUFENLEITER', 'ABTEILUNGSLEITER'] }
+      },
+      {
+        path: 'lager',
+        loadComponent: () => import('./feature/admin/lager/lager-list').then(m => m.LagerListComponent),
+        data: { roles: ['ADMIN', 'ABTEILUNGSLEITER'] }
+      },
+      {
+        path: 'lager/new',
+        loadComponent: () => import('./feature/admin/lager/lager-edit').then(m => m.LagerEditComponent),
+        data: { roles: ['ADMIN', 'ABTEILUNGSLEITER'] }
+      },
+      {
+        path: 'lager/edit/:id',
+        loadComponent: () => import('./feature/admin/lager/lager-edit').then(m => m.LagerEditComponent),
+        data: { roles: ['ADMIN', 'ABTEILUNGSLEITER'] }
+      },
+      {
+        path: 'media',
+        loadComponent: () => import('./feature/admin/media/media-list').then(m => m.MediaListComponent),
+        data: { roles: ['ADMIN', 'LEITER', 'STUFENLEITER', 'ABTEILUNGSLEITER'] }
+      },
+    ]
+  },
   { path: '**', redirectTo: '' }
 ];

@@ -1,5 +1,7 @@
+@use '../variables' as *;
+
 :host {
   display: block;
   min-height: 100vh;
-  background: #F7F5EE;
+  background: $color-bg;
 }

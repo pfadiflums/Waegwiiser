@@ -1,18 +1,28 @@
 @use 'sass:math';
+@use 'sass:color';
 @use 'variables' as *;
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;700;800&family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
-  --primary: #1B4332;
-  --primary-light: #2D6A4F;
-  --accent: #D97706;
+  --primary: #{$color-primary};
+  --primary-light: #{color.adjust($color-primary, $lightness: 10%)};
+  --secondary: #{$color-accent};
+  --accent: #{$color-accent};
+  --muted: #{$color-muted};
+  --bg: #{$color-bg};
+  --dark: #{$color-dark};
   --surface: #F8FAFC;
   --border: #E2E8F0;
-  --slate: #0F172A;
-  --text: #334155;
-  --text-muted: #64748B;
   --white: #ffffff;
+
+  --admin-primary: #{$admin-primary};
+  --admin-bg: #{$admin-bg};
+  --admin-surface: #{$admin-surface};
+  --admin-text: #{$admin-text};
+  --admin-text-muted: #{$admin-text-muted};
+  --admin-border: #{$admin-border};
+  --admin-sidebar: #{$admin-sidebar};
 }
 
 * {

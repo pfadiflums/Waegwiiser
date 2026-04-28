@@ -1,6 +1,8 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { NavItem } from '../../models/navitem.model';
+import { StufeService } from '../../services/stufe.service';
+import { AuthService } from '../../services/auth.service';
+import { Stufe } from '../../models/stufe.model';
 
 @Component({
   selector: 'app-navbar',
@@ -9,15 +11,20 @@ import { NavItem } from '../../models/navitem.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, RouterLinkActive],
 })
-export class Navbar {
-  isMenuOpen = signal(false);
+export class Navbar implements OnInit {
+  private stufeService = inject(StufeService);
+  private authService = inject(AuthService);
 
-  navItems: NavItem[] = [
-    { label: 'Stufen', path: '/stufen' },
-    { label: 'ÜBER UNS', path: '/ueber-uns' },
-    { label: 'BILDER', path: '/bilder' },
-    { label: 'Downloads', path: '/downloads' },
-    { label: 'Shop', path: '/shop' },
-    { label: 'Pfadihaus', path: '/pfadihaus' }
-  ];
+  isMenuOpen = signal(false);
+  stufen = signal<Stufe[]>([]);
+  isLoggedIn = signal(false);
+
+  ngOnInit(): void {
+    this.isLoggedIn.set(this.authService.isAuthenticated());
+
+    this.stufeService.getAll().subscribe({
+      next: (data) => this.stufen.set(data),
+      error: (err) => console.error('Error loading stufen for navbar', err)
+    });
+  }
 }

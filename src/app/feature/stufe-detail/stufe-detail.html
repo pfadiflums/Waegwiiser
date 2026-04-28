@@ -1,67 +1,90 @@
-@if (stufe(); as data) {
-  <div class="detail-stage container">
+<div class="detail-stage container">
+  @if (error()) {
+    <div class="error" style="padding: 100px 0;">
+      <p>{{ error() }}</p>
+    </div>
+  } @else {
     <section class="hero-section">
-
       <div class="hero-text">
-        <h1 class="stufe-title" [style.color]="data.color">{{ data.name }}</h1>
-        <h3 class="stufe-motto" [style.color]="data.color">{{ data.slogan }}</h3>
+        <h1 class="stufe-title" [style.color]="stufe()?.color">{{ stufe()?.name || '...' }}</h1>
+        @if (stufe()?.slogan; as slogan) {
+          <h2 class="stufe-slogan" [style.color]="stufe()?.color">{{ slogan }}</h2>
+        }
         <div class="stufe-description">
-          <app-rich-text-renderer [content]="data.beschreibung"></app-rich-text-renderer>
+          <p>{{ stufe()?.beschreibung || (isLoading() ? 'Laden...' : '') }}</p>
         </div>
       </div>
     </section>
 
     <section class="uebung-section">
-      <h2 class="uebung-header" [style.color]="data.color">Nächste Übung {{ nextUebung() ? formatDate(nextUebung()!.datum) : '' }}</h2>
+      <h2 class="uebung-header" [style.color]="stufe()?.color">NÄCHSTE ÜBUNG</h2>
+      <h3 class="uebung-date">
+        @if (nextUebung()?.datum; as datum) {
+          {{ datum | date:'EEEE, d. MMMM yyyy' }}
+        } @else {
+          -
+        }
+      </h3>
 
       <div class="uebung-content">
         <div class="uebung-table">
           <div class="row">
             <span class="label">Antreten</span>
-            <span class="value">{{ nextUebung()?.antretenZeit || '' }} {{ nextUebung()?.antretenOrt || '' }}</span>
+            <span class="value">
+              {{ nextUebung()?.antretenOrt || '-' }}
+              @if (nextUebung()?.antretenZeit; as zeit) { – {{ zeit.slice(0, 5) }} Uhr }
+            </span>
           </div>
           <div class="row">
             <span class="label">Abtreten</span>
-            <span class="value">{{ nextUebung()?.abtretenZeit || '' }} {{ nextUebung()?.abtretenOrt || '' }}</span>
+            <span class="value">
+              {{ nextUebung()?.abtretenOrt || '-' }}
+              @if (nextUebung()?.abtretenZeit; as zeit) { – {{ zeit.slice(0, 5) }} Uhr }
+            </span>
           </div>
           <div class="row">
             <span class="label">Motto</span>
-            <span class="value">{{ nextUebung()?.motto || '' }}</span>
+            <span class="value">{{ nextUebung()?.motto || '-' }}</span>
           </div>
           <div class="row">
             <span class="label">Tenue</span>
-            <span class="value">{{ nextUebung()?.tenue || '' }}</span>
+            <span class="value">{{ nextUebung()?.tenue || '-' }}</span>
           </div>
           <div class="row">
             <span class="label">Mitnehmen</span>
-            <span class="value">{{ nextUebung()?.mitnehmen || '' }}</span>
+            <span class="value">{{ nextUebung()?.mitnehmen || '-' }}</span>
           </div>
           <div class="row">
             <span class="label">Weiteres</span>
             <span class="value">{{ nextUebung()?.weiteres || '-' }}</span>
           </div>
         </div>
-
-        <div class="calendar-wrapper">
-          <div class="calendar-mockup"></div>
-          <h4 class="calendar-title">Google Kalender</h4>
-        </div>
       </div>
     </section>
 
-    <section class="team-section">
-      <div class="team-grid">
-        @for (leader of data.stammLeiter; track leader) {
-          <div class="leader-card">
-            <div class="avatar-circle">
-              <img [src]="getLeaderImage(leader)" [alt]="getLeaderName(leader)">
-            </div>
-            <h5 class="leader-name">{{ getLeaderName(leader) }}</h5>
+    @if (stufe()?.stammLeiter; as leaders) {
+      @if (leaders.length > 0) {
+        <section class="team-section">
+          <h2 class="uebung-header" [style.color]="stufe()?.color">LEITERTEAM</h2>
+          <div class="team-grid">
+            @for (leader of leaders; track leader.id) {
+              <div class="leader-card">
+                <div class="avatar-circle">
+                  @if (leader.bildId) {
+                    <img [src]="mediaService.getDownloadUrl(leader.bildId)" [alt]="leader.pfadiname">
+                  } @else {
+                    <div class="placeholder-avatar"></div>
+                  }
+                </div>
+                <div class="leader-info">
+                  <span class="leader-name">{{ leader.pfadiname }}</span>
+                  <span class="leader-realname">{{ leader.vorname }} {{ leader.nachname }}</span>
+                </div>
+              </div>
+            }
           </div>
-        }
-      </div>
-    </section>
-  </div>
-} @else if (isLoading()) {
-  <div class="loading">Laden...</div>
-}
+        </section>
+      }
+    }
+  }
+</div>

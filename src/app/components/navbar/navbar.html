@@ -6,13 +6,11 @@
     </button>
 
     <ul class="nav-links">
-      @for (item of navItems; track item.path) {
-        <li>
-          <a [routerLink]="item.path" routerLinkActive="active" (click)="isMenuOpen.set(false)">
-            {{ item.label }}
-          </a>
-        </li>
-      }
+      <li><a routerLink="/about" routerLinkActive="active" (click)="isMenuOpen.set(false)">Über uns</a></li>
+      <li><a routerLink="/photos" routerLinkActive="active" (click)="isMenuOpen.set(false)">Bilder</a></li>
+      <li><a routerLink="/downloads" routerLinkActive="active" (click)="isMenuOpen.set(false)">Downloads</a></li>
+      <li><a routerLink="/shop" routerLinkActive="active" (click)="isMenuOpen.set(false)">Shop</a></li>
+      <li><a routerLink="/pfadihaus" routerLinkActive="active" (click)="isMenuOpen.set(false)">Pfadihaus</a></li>
     </ul>
 
     <div class="logo">

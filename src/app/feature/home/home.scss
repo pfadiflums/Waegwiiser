@@ -42,7 +42,7 @@
   .cta-button {
     width: rem(376);
     height: rem(72);
-    border: 5px solid #000;
+    border: 5px solid $color-black;
     border-radius: rem(81);
     display: flex;
     align-items: center;
@@ -50,7 +50,7 @@
     text-decoration: none;
     font-weight: 700;
     font-size: rem(24);
-    color: #000;
+    color: $color-black;
 
     @include mobile {
       width: 100%;
@@ -130,8 +130,8 @@
     .insta-post {
       width: 100%;
       height: rem(538);
-      background: #D9D9D9;
-      border: 5px solid #FFFFFF;
+      background: $color-muted;
+      border: 5px solid $color-white;
       box-sizing: border-box;
 
       @include mobile {

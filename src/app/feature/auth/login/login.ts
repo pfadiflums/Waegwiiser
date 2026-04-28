@@ -1,78 +1,48 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
-import { catchError, of } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink],
+  standalone: true,
+  imports: [ReactiveFormsModule],
   templateUrl: './login.html',
   styleUrl: './login.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'login-page'
-  }
 })
-export class Login {
+export class LoginComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
-  private route = inject(ActivatedRoute);
 
   loginForm = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]]
+    password: ['', [Validators.required]],
   });
 
-  errorMessage = signal<string | null>(null);
   isLoading = signal(false);
+  error = signal<string | null>(null);
 
-  constructor() {
-    if (this.authService.isAuthenticated()) {
-      this.router.navigateByUrl('/admin');
-    }
-
-    this.route.queryParams.subscribe(params => {
-      if (params['error'] === 'oauth_failed') {
-        this.errorMessage.set('MiData Anmeldung fehlgeschlagen.');
-      } else if (params['error'] === 'oauth_error') {
-        this.errorMessage.set('Ein Fehler ist bei der MiData Anmeldung aufgetreten.');
-      }
-    });
-  }
-
-  onMidataLogin() {
-    const apiUrl = this.authService.getApiUrl();
-    window.location.href = `${apiUrl}/api/oauth/midata/login`;
-  }
-
-  onSubmit() {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
+  onSubmit(): void {
+    if (this.loginForm.invalid) return;
 
     this.isLoading.set(true);
-    this.errorMessage.set(null);
+    this.error.set(null);
 
-    const { email, password } = this.loginForm.getRawValue();
-
-    this.authService.login({ email, password }).pipe(
-      catchError((err) => {
-        if (err.status === 403) {
-          this.errorMessage.set('Bitte bestätige deine E-Mail-Adresse, bevor du dich anmeldest.');
-        } else {
-          this.errorMessage.set('Ungültige E-Mail oder Passwort.');
-        }
+    this.authService.login(this.loginForm.getRawValue()).subscribe({
+      next: () => {
+        this.router.navigate(['/admin']);
+      },
+      error: (err) => {
         this.isLoading.set(false);
-        return of(null);
-      })
-    ).subscribe((user) => {
-      if (user) {
-        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/admin';
-        this.router.navigateByUrl(returnUrl);
+        this.error.set(err.error?.message || 'Login fehlgeschlagen');
       }
     });
+  }
+
+  loginWithMidata(): void {
+    window.location.href = environment.midataAuthUrl;
   }
 }

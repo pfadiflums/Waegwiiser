@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { StufeService } from '../../services/stufe.service';
 import { LeaderResponse } from '../../models/stufe.model';
 import { Uebung } from '../../models/uebung.model';
@@ -15,14 +16,21 @@ import { STUFEN_BY_SLUG } from '../../data/stufen.data';
 })
 export class StufeDetailComponent {
   private stufeService = inject(StufeService);
+  private sanitizer = inject(DomSanitizer);
   public mediaService = inject(MediaService);
 
   slug = input.required<string>();
 
   config = computed(() => STUFEN_BY_SLUG[this.slug()] ?? null);
 
+  calendarUrl = computed<SafeResourceUrl>(() => {
+    const cfg = this.config();
+    return cfg ? this.sanitizer.bypassSecurityTrustResourceUrl(cfg.calendarUrl) : '';
+  });
+
   beschreibung = signal<string | null>(null);
   stammLeiter = signal<LeaderResponse[]>([]);
+  teamMembers = signal<LeaderResponse[]>([]);
   nextUebung = signal<Uebung | null>(null);
   isLoading = signal(true);
   error = signal<string | null>(null);
@@ -47,6 +55,9 @@ export class StufeDetailComponent {
       next: (stufe) => {
         this.beschreibung.set(stufe.beschreibung);
         this.stammLeiter.set(stufe.stammLeiter);
+
+        this.teamMembers.set([...stufe.stammLeiter]);
+
         this.nextUebung.set(stufe.nextUebung);
         this.isLoading.set(false);
       },

@@ -40,6 +40,14 @@ export const routes: Routes = [
       {
         path: 'pfadihaus',
         loadComponent: () => import('./feature/pfadihaus/pfadihaus').then(m => m.PfadihausComponent),
+      },
+      {
+        path: 'impressum',
+        loadComponent: () => import('./feature/impressum/impressum').then(m => m.ImpressumComponent),
+      },
+      {
+        path: 'datenschutz',
+        loadComponent: () => import('./feature/datenschutz/datenschutz').then(m => m.DatenschutzComponent),
       }
     ]
   },

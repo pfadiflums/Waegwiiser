@@ -159,29 +159,118 @@
     }
 
     .calendar-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: rem(20);
+      flex: 1;
+      max-width: rem(500);
       width: 100%;
 
-      .calendar-mockup {
-        width: rem(500);
+      @include mobile {
+        max-width: 100%;
+      }
+
+      iframe {
+        width: 100%;
         height: rem(500);
-        background: $color-muted;
+        border-radius: rem(8);
 
         @include mobile {
+          height: rem(400);
+        }
+      }
+    }
+  }
+
+  .team-preview {
+    margin-top: rem(60);
+
+    @include mobile {
+      margin-top: rem(40);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(rem(140), 1fr));
+      gap: rem(32);
+      width: 100%;
+
+      @include mobile {
+        grid-template-columns: repeat(auto-fill, minmax(rem(100), 1fr));
+        gap: rem(24);
+      }
+    }
+
+    .member-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .avatar-circle {
+        width: 100%;
+        aspect-ratio: 1;
+        max-width: rem(200);
+        border-radius: 50%;
+        background: rgba($color-muted, 0.2);
+        overflow: hidden;
+        margin-bottom: rem(12);
+        border: 2px solid rgba($color-dark, 0.1);
+
+        @include mobile {
+          max-width: rem(150);
+          margin-bottom: rem(10);
+        }
+
+        img {
           width: 100%;
-          height: rem(300);
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .placeholder-avatar {
+          width: 100%;
+          height: 100%;
+          background: rgba($color-muted, 0.1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &::after {
+            font-size: rem(40);
+            opacity: 0.3;
+
+            @include mobile {
+              font-size: rem(32);
+            }
+          }
         }
       }
 
-      .calendar-title {
-        font-size: rem(36);
-        font-weight: 800;
-        text-transform: uppercase;
+      .member-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: rem(2);
+      }
+
+      .member-name {
+        font-size: rem(14);
+        font-weight: 700;
+        text-align: center;
+        color: $color-dark;
+        line-height: 1.2;
 
         @include mobile {
-          font-size: rem(24);
+          font-size: rem(12);
+        }
+      }
+
+      .member-realname {
+        font-size: rem(12);
+        font-weight: 400;
+        color: rgba($color-dark, 0.6);
+        text-align: center;
+        line-height: 1.2;
+
+        @include mobile {
+          font-size: rem(11);
         }
       }
     }

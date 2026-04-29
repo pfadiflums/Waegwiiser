@@ -107,6 +107,15 @@ export const routes: Routes = [
         loadComponent: () => import('./feature/admin/media/media-list').then(m => m.MediaListComponent),
         data: { roles: ['ADMIN', 'LEITER', 'STUFENLEITER', 'ABTEILUNGSLEITER'] }
       },
+      {
+        path: 'users',
+        loadComponent: () => import('./feature/admin/users/users-list').then(m => m.UsersListComponent),
+        data: { roles: ['ADMIN', 'ABTEILUNGSLEITER'] }
+      },
+      {
+        path: 'account',
+        loadComponent: () => import('./feature/admin/account/account').then(m => m.AccountComponent),
+      },
     ]
   },
   { path: '**', redirectTo: '' }

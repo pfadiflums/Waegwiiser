@@ -1,12 +1,34 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../services/user.service';
 import { filter } from 'rxjs/operators';
+import {
+  LucideAngularModule,
+  LayoutDashboard,
+  Flag,
+  CalendarDays,
+  Tent,
+  Image,
+  Users,
+  Settings,
+  LogOut,
+} from 'lucide-angular';
+
+const PAGE_TITLES: Record<string, string> = {
+  '/admin/stufen': 'Stufen verwalten',
+  '/admin/uebungen': 'Übungen verwalten',
+  '/admin/lager': 'Lager verwalten',
+  '/admin/media': 'Mediathek',
+  '/admin/users': 'Benutzerverwaltung',
+  '/admin/account': 'Mein Konto',
+  '/admin': 'Dashboard',
+};
 
 @Component({
   selector: 'app-admin-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, LucideAngularModule],
   template: `
     <div class="admin-layout">
       <aside class="sidebar">
@@ -17,30 +39,45 @@ import { filter } from 'rxjs/operators';
 
         <nav class="nav-links">
           <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-            <span class="icon">📊</span> Dashboard
+            <lucide-icon [img]="LayoutDashboard" [size]="18"></lucide-icon>
+            Dashboard
           </a>
           <a routerLink="/admin/stufen" routerLinkActive="active">
-            <span class="icon">⛺</span> Stufen
+            <lucide-icon [img]="Flag" [size]="18"></lucide-icon>
+            Stufen
           </a>
           <a routerLink="/admin/uebungen" routerLinkActive="active">
-            <span class="icon">📅</span> Übungen
+            <lucide-icon [img]="CalendarDays" [size]="18"></lucide-icon>
+            Übungen
           </a>
           <a routerLink="/admin/lager" routerLinkActive="active">
-            <span class="icon">🔥</span> Lager
+            <lucide-icon [img]="Tent" [size]="18"></lucide-icon>
+            Lager
           </a>
           <a routerLink="/admin/media" routerLinkActive="active">
-            <span class="icon">🖼️</span> Media
+            <lucide-icon [img]="Image" [size]="18"></lucide-icon>
+            Media
+          </a>
+
+          <div class="nav-divider"></div>
+
+          <a routerLink="/admin/users" routerLinkActive="active">
+            <lucide-icon [img]="Users" [size]="18"></lucide-icon>
+            Benutzer
           </a>
         </nav>
 
         <div class="sidebar-footer">
-          <div class="user-brief">
-             <div class="user-avatar">{{ userInitial() }}</div>
-             <div class="user-details">
-                <span class="user-role">{{ userRole() }}</span>
-             </div>
-          </div>
+          <a routerLink="/admin/account" class="user-brief" routerLinkActive="user-brief--active">
+            <div class="user-avatar">{{ userInitial() }}</div>
+            <div class="user-details">
+              <span class="user-name">{{ userName() }}</span>
+              <span class="user-role">{{ userRole() }}</span>
+            </div>
+            <lucide-icon [img]="Settings" [size]="16" class="settings-icon"></lucide-icon>
+          </a>
           <button (click)="logout()" class="logout-btn">
+            <lucide-icon [img]="LogOut" [size]="16"></lucide-icon>
             Abmelden
           </button>
         </div>
@@ -48,11 +85,7 @@ import { filter } from 'rxjs/operators';
 
       <main class="content">
         <header class="content-header">
-          <div class="header-left">
-             <h1>{{ currentPageTitle() }}</h1>
-          </div>
-          <div class="header-right">
-          </div>
+          <h1>{{ currentPageTitle() }}</h1>
         </header>
         <div class="content-body">
           <router-outlet />
@@ -69,83 +102,100 @@ import { filter } from 'rxjs/operators';
     }
 
     .sidebar {
-      width: 280px;
+      width: 260px;
       background: var(--admin-sidebar);
       color: white;
       display: flex;
       flex-direction: column;
       position: fixed;
       height: 100vh;
-      border-right: 1px solid rgba(255, 255, 255, 0.05);
+      border-right: 1px solid rgba(255,255,255,0.05);
       z-index: 100;
     }
 
     .sidebar-header {
-      padding: 2rem 1.5rem;
+      padding: 1.75rem 1.5rem;
       display: flex;
       align-items: center;
       gap: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
 
       .logo {
-        height: 32px;
+        height: 28px;
         filter: brightness(0) invert(1);
       }
 
       .app-name {
         font-weight: 600;
-        font-size: 1.25rem;
+        font-size: 1.125rem;
         letter-spacing: -0.025em;
       }
     }
 
     .nav-links {
       flex: 1;
-      padding: 0.5rem 1rem;
+      padding: 1rem 0.75rem;
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: 0.125rem;
+      overflow-y: auto;
 
       a {
         color: #9ca3af;
         text-decoration: none;
-        padding: 0.75rem 1rem;
+        padding: 0.625rem 0.875rem;
         border-radius: 0.5rem;
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        transition: all 0.2s;
-        font-size: 0.9375rem;
+        gap: 0.625rem;
+        transition: all 0.15s;
+        font-size: 0.9rem;
         font-weight: 500;
+        letter-spacing: normal;
+
+        lucide-icon { flex-shrink: 0; opacity: 0.7; }
 
         &:hover {
-          background: rgba(255, 255, 255, 0.05);
+          background: rgba(255,255,255,0.06);
           color: white;
+          lucide-icon { opacity: 1; }
         }
 
         &.active {
-          background: var(--admin-primary);
+          background: rgba(99, 102, 241, 0.2);
           color: white;
-        }
-
-        .icon {
-          font-size: 1.1rem;
-          opacity: 0.8;
+          lucide-icon { opacity: 1; }
         }
       }
     }
 
+    .nav-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+      margin: 0.5rem 0.875rem;
+    }
+
     .sidebar-footer {
-      padding: 1.5rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 1rem 0.75rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.5rem;
     }
 
     .user-brief {
       display: flex;
       align-items: center;
       gap: 0.75rem;
+      padding: 0.625rem 0.875rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      transition: background 0.15s;
+      cursor: pointer;
+
+      &:hover, &.user-brief--active {
+        background: rgba(255,255,255,0.06);
+      }
 
       .user-avatar {
         width: 32px;
@@ -158,51 +208,83 @@ import { filter } from 'rxjs/operators';
         justify-content: center;
         font-size: 0.875rem;
         font-weight: 600;
+        flex-shrink: 0;
+      }
+
+      .user-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+
+      .user-name {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: white;
+        letter-spacing: normal;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .user-role {
-        font-size: 0.75rem;
+        font-size: 0.6875rem;
         color: #9ca3af;
         text-transform: uppercase;
         letter-spacing: 0.05em;
+      }
+
+      .settings-icon {
+        color: #9ca3af;
+        flex-shrink: 0;
       }
     }
 
     .logout-btn {
       width: 100%;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: white;
-      padding: 0.625rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #9ca3af;
+      padding: 0.5rem;
       border-radius: 0.5rem;
       cursor: pointer;
       font-size: 0.875rem;
       font-weight: 500;
-      transition: all 0.2s;
+      font-family: inherit;
+      letter-spacing: normal;
+      transition: all 0.15s;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255,255,255,0.08);
+        color: white;
       }
     }
 
     .content {
       flex: 1;
-      margin-left: 280px;
+      margin-left: 260px;
       display: flex;
       flex-direction: column;
     }
 
     .content-header {
-      height: 72px;
+      height: 64px;
       background: white;
       display: flex;
       align-items: center;
-      justify-content: space-between;
       padding: 0 2.5rem;
       border-bottom: 1px solid var(--admin-border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
 
       h1 {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         font-weight: 600;
         letter-spacing: -0.025em;
         color: var(--admin-text);
@@ -217,37 +299,54 @@ import { filter } from 'rxjs/operators';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminLayoutComponent {
+export class AdminLayoutComponent implements OnInit {
   private authService = inject(AuthService);
+  private userService = inject(UserService);
   private router = inject(Router);
 
-  userRole = signal(this.authService.getCurrentUserRole());
-  userInitial = signal(this.userRole()?.charAt(0) || 'A');
+  readonly LayoutDashboard = LayoutDashboard;
+  readonly Flag = Flag;
+  readonly CalendarDays = CalendarDays;
+  readonly Tent = Tent;
+  readonly Image = Image;
+  readonly Users = Users;
+  readonly Settings = Settings;
+  readonly LogOut = LogOut;
 
+  userRole = signal(this.authService.getCurrentUserRole() ?? '');
+  userInitial = signal('A');
+  userName = signal('');
   currentPageTitle = signal('Dashboard');
 
   constructor() {
     this.updateTitle();
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.updateTitle();
+    ).subscribe(() => this.updateTitle());
+  }
+
+  ngOnInit(): void {
+    this.authService.getCurrentUser().subscribe({
+      next: (u) => {
+        this.userName.set(u.firstName ? `${u.firstName} ${u.lastName}` : u.username);
+        this.userInitial.set((u.firstName || u.username || 'A').charAt(0).toUpperCase());
+        this.userRole.set(u.role);
+      },
     });
   }
 
   private updateTitle(): void {
-    const url = this.router.url;
-    if (url.includes('/stufen')) this.currentPageTitle.set('Stufen verwalten');
-    else if (url.includes('/uebungen')) this.currentPageTitle.set('Übungen verwalten');
-    else if (url.includes('/lager')) this.currentPageTitle.set('Lager verwalten');
-    else if (url.includes('/media')) this.currentPageTitle.set('Mediathek');
-    else this.currentPageTitle.set('Dashboard');
+    const url = this.router.url.split('?')[0];
+    const match = Object.keys(PAGE_TITLES)
+      .sort((a, b) => b.length - a.length)
+      .find(key => url.startsWith(key));
+    this.currentPageTitle.set(match ? PAGE_TITLES[match] : 'Dashboard');
   }
 
   logout(): void {
     this.authService.logout().subscribe({
       next: () => this.router.navigate(['/login']),
-      error: () => this.router.navigate(['/login'])
+      error: () => this.router.navigate(['/login']),
     });
   }
 }

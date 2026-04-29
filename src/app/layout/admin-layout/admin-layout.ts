@@ -8,7 +8,6 @@ import {
   LayoutDashboard,
   Flag,
   CalendarDays,
-  Tent,
   Image,
   Users,
   Settings,
@@ -18,7 +17,7 @@ import {
 const PAGE_TITLES: Record<string, string> = {
   '/admin/stufen': 'Stufen verwalten',
   '/admin/uebungen': 'Übungen verwalten',
-  '/admin/lager': 'Lager verwalten',
+
   '/admin/media': 'Mediathek',
   '/admin/users': 'Benutzerverwaltung',
   '/admin/account': 'Mein Konto',
@@ -50,10 +49,7 @@ const PAGE_TITLES: Record<string, string> = {
             <lucide-icon [img]="CalendarDays" [size]="18"></lucide-icon>
             Übungen
           </a>
-          <a routerLink="/admin/lager" routerLinkActive="active">
-            <lucide-icon [img]="Tent" [size]="18"></lucide-icon>
-            Lager
-          </a>
+
           <a routerLink="/admin/media" routerLinkActive="active">
             <lucide-icon [img]="Image" [size]="18"></lucide-icon>
             Media
@@ -307,7 +303,7 @@ export class AdminLayoutComponent implements OnInit {
   readonly LayoutDashboard = LayoutDashboard;
   readonly Flag = Flag;
   readonly CalendarDays = CalendarDays;
-  readonly Tent = Tent;
+
   readonly Image = Image;
   readonly Users = Users;
   readonly Settings = Settings;

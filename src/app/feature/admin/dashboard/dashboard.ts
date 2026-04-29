@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject, signal, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LucideAngularModule, Tent, CalendarPlus, Upload, Users, Flag, Image } from 'lucide-angular';
-import { LagerService } from '../../../services/lager.service';
+import { LucideAngularModule, CalendarPlus, Upload, Users, Flag, Image } from 'lucide-angular';
 import { STUFEN } from '../../../data/stufen.data';
 
 @Component({
@@ -22,15 +21,7 @@ import { STUFEN } from '../../../data/stufen.data';
             <div class="stat-label">Stufen</div>
           </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-icon" style="background: #fee2e2; color: #dc2626;">
-            <lucide-icon [img]="Tent" [size]="22"></lucide-icon>
-          </div>
-          <div class="stat-info">
-            <div class="stat-value">{{ lagerCount() }}</div>
-            <div class="stat-label">Lager</div>
-          </div>
-        </div>
+
         <div class="stat-card">
           <div class="stat-icon" style="background: #e0e7ff; color: #4f46e5;">
             <lucide-icon [img]="Image" [size]="22"></lucide-icon>
@@ -65,15 +56,7 @@ import { STUFEN } from '../../../data/stufen.data';
               <span class="btn-desc">Erstelle eine neue Aktivität</span>
             </div>
           </a>
-          <a routerLink="/admin/lager/new" class="action-btn">
-            <div class="action-icon">
-              <lucide-icon [img]="Tent" [size]="20"></lucide-icon>
-            </div>
-            <div class="btn-text">
-              <span class="btn-title">Lager erstellen</span>
-              <span class="btn-desc">Neues SoLa oder Weekend</span>
-            </div>
-          </a>
+
           <a routerLink="/admin/media" class="action-btn">
             <div class="action-icon">
               <lucide-icon [img]="Upload" [size]="20"></lucide-icon>
@@ -211,20 +194,13 @@ import { STUFEN } from '../../../data/stufen.data';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardComponent implements OnInit {
-  private lagerService = inject(LagerService);
+export class DashboardComponent {
 
   readonly Flag = Flag;
-  readonly Tent = Tent;
   readonly Image = Image;
   readonly Users = Users;
   readonly CalendarPlus = CalendarPlus;
   readonly Upload = Upload;
 
   readonly stufenCount = STUFEN.length;
-  lagerCount = signal(0);
-
-  ngOnInit(): void {
-    this.lagerService.getAll().subscribe(data => this.lagerCount.set(data.length));
-  }
 }

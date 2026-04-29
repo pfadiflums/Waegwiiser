@@ -87,21 +87,7 @@ export const routes: Routes = [
         loadComponent: () => import('./feature/admin/uebungen/uebung-edit').then(m => m.UebungEditComponent),
         data: { roles: ['ADMIN', 'STUFENLEITER', 'ABTEILUNGSLEITER'] }
       },
-      {
-        path: 'lager',
-        loadComponent: () => import('./feature/admin/lager/lager-list').then(m => m.LagerListComponent),
-        data: { roles: ['ADMIN', 'ABTEILUNGSLEITER'] }
-      },
-      {
-        path: 'lager/new',
-        loadComponent: () => import('./feature/admin/lager/lager-edit').then(m => m.LagerEditComponent),
-        data: { roles: ['ADMIN', 'ABTEILUNGSLEITER'] }
-      },
-      {
-        path: 'lager/edit/:id',
-        loadComponent: () => import('./feature/admin/lager/lager-edit').then(m => m.LagerEditComponent),
-        data: { roles: ['ADMIN', 'ABTEILUNGSLEITER'] }
-      },
+
       {
         path: 'media',
         loadComponent: () => import('./feature/admin/media/media-list').then(m => m.MediaListComponent),

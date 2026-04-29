@@ -48,11 +48,4 @@ export class AuthService {
     return this.http.get<UserResponse>(`${this.apiUrl}/users/me`);
   }
 
-  forgotPassword(email: string): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/auth/forgot-password`, email);
-  }
-
-  resetPassword(data: any): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/auth/reset-password`, data);
-  }
 }

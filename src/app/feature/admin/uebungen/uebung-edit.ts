@@ -258,8 +258,8 @@ export class UebungEditComponent implements OnInit {
     // we'll fetch from all (a bit inefficient but works for now)
     this.stufeService.getAll().subscribe(stufen => {
       stufen.forEach(stufe => {
-        this.uebungService.getByStufe(stufe.slug).subscribe(uebungen => {
-          const uebung = uebungen.find(u => u.id === id);
+        this.stufeService.getUebungen(stufe.slug).subscribe(response => {
+          const uebung = response.items.find(u => u.id === id);
           if (uebung) {
             this.uebungForm.patchValue({
               stufeId: uebung.stufeId,

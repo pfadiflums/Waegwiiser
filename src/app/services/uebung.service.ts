@@ -9,20 +9,13 @@ export class UebungService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/uebungen`;
 
-  getNextForStufe(stufeSlug: string): Observable<Uebung> {
-    return this.http.get<Uebung>(`${this.apiUrl}/next/${stufeSlug}`);
-  }
-
-  getByStufe(stufeSlug: string): Observable<Uebung[]> {
-    return this.http.get<Uebung[]>(`${this.apiUrl}/stufe/${stufeSlug}`);
-  }
 
   create(uebung: CreateUebungRequest): Observable<Uebung> {
     return this.http.post<Uebung>(`${environment.apiUrl}/admin/uebungen`, uebung);
   }
 
   update(id: string, uebung: UpdateUebungRequest): Observable<Uebung> {
-    return this.http.put<Uebung>(`${environment.apiUrl}/admin/uebungen/${id}`, uebung);
+    return this.http.patch<Uebung>(`${environment.apiUrl}/admin/uebungen/${id}`, uebung);
   }
 
   delete(id: string): Observable<void> {

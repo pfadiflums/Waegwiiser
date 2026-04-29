@@ -1,3 +1,5 @@
+import { Uebung } from './uebung.model';
+
 export interface LeaderResponse {
   id: string;
   pfadiname: string;
@@ -17,6 +19,7 @@ export interface Stufe {
   sortOrder: number;
   isActive: boolean;
   stammLeiter: LeaderResponse[];
+  nextUebung: Uebung | null;
 }
 
 export interface CreateStufeRequest {

@@ -1,12 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StufeService } from '../../services/stufe.service';
-import { UebungService } from '../../services/uebung.service';
 import { LeaderResponse } from '../../models/stufe.model';
 import { Uebung } from '../../models/uebung.model';
 import { MediaService } from '../../services/media.service';
-import { forkJoin, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { STUFEN_BY_SLUG } from '../../data/stufen.data';
 
 @Component({
@@ -18,7 +15,6 @@ import { STUFEN_BY_SLUG } from '../../data/stufen.data';
 })
 export class StufeDetailComponent {
   private stufeService = inject(StufeService);
-  private uebungService = inject(UebungService);
   public mediaService = inject(MediaService);
 
   slug = input.required<string>();
@@ -47,14 +43,11 @@ export class StufeDetailComponent {
     this.isLoading.set(true);
     this.error.set(null);
 
-    forkJoin({
-      stufe: this.stufeService.getBySlug(slug),
-      nextUebung: this.uebungService.getNextForStufe(slug).pipe(catchError(() => of(null))),
-    }).subscribe({
-      next: ({ stufe, nextUebung }) => {
+    this.stufeService.getBySlug(slug).subscribe({
+      next: (stufe) => {
         this.beschreibung.set(stufe.beschreibung);
         this.stammLeiter.set(stufe.stammLeiter);
-        this.nextUebung.set(nextUebung);
+        this.nextUebung.set(stufe.nextUebung);
         this.isLoading.set(false);
       },
       error: () => {

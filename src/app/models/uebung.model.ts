@@ -29,6 +29,11 @@ export interface CreateUebungRequest {
   status?: 'DRAFT' | 'PUBLISHED' | 'CANCELLED';
 }
 
+export interface UebungenListResponse {
+  items: Uebung[];
+  nextUebungId: string | null;
+}
+
 export interface UpdateUebungRequest {
   datum?: string;
   antretenZeit?: string;

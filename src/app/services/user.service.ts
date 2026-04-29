@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { UserResponse } from '../models/auth.model';
+import { UserResponse, RegisterRequest } from '../models/auth.model';
 
 export interface UpdateProfileRequest {
   firstName?: string;
@@ -19,6 +19,14 @@ export class UserService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/users`;
 
+  getAllUsers(): Observable<UserResponse[]> {
+    return this.http.get<UserResponse[]>(`${environment.apiUrl}/admin/users`);
+  }
+
+  createUser(data: RegisterRequest): Observable<void> {
+    return this.http.post<void>(`${environment.apiUrl}/auth/register`, data);
+  }
+
   getMe(): Observable<UserResponse> {
     return this.http.get<UserResponse>(`${this.apiUrl}/me`);
   }
@@ -31,9 +39,6 @@ export class UserService {
     return this.http.patch<void>(`${this.apiUrl}/me/password`, data);
   }
 
-  getConnections(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/me/connections`);
-  }
 
   removeConnection(provider: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/me/connections/${provider}`);

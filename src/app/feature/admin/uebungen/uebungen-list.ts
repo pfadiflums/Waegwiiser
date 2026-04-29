@@ -247,13 +247,11 @@ export class UebungenListComponent implements OnInit {
   }
 
   loadAllUebungen(): void {
-    // API doesn't have a "get all uebungen" endpoint,
-    // so we fetch per stufe or just fetch for all and combine
     this.filteredUebungen.set([]);
     this.stufen().forEach(stufe => {
-      this.uebungService.getByStufe(stufe.slug).subscribe(data => {
+      this.stufeService.getUebungen(stufe.slug).subscribe(response => {
         const current = this.allUebungen();
-        this.allUebungen.set([...current, ...data]);
+        this.allUebungen.set([...current, ...response.items]);
         this.updateFiltered();
       });
     });

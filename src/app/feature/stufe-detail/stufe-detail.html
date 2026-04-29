@@ -6,18 +6,18 @@
   } @else {
     <section class="hero-section">
       <div class="hero-text">
-        <h1 class="stufe-title" [style.color]="stufe()?.color">{{ stufe()?.name || '...' }}</h1>
-        @if (stufe()?.slogan; as slogan) {
-          <h2 class="stufe-slogan" [style.color]="stufe()?.color">{{ slogan }}</h2>
+        <h1 class="stufe-title" [style.color]="config().color">{{ config().name }}</h1>
+        @if (config().slogan; as slogan) {
+          <h2 class="stufe-slogan" [style.color]="config().color">{{ slogan }}</h2>
         }
         <div class="stufe-description">
-          <p>{{ stufe()?.beschreibung || (isLoading() ? 'Laden...' : '') }}</p>
+          <p>{{ beschreibung() || (isLoading() ? 'Laden...' : '') }}</p>
         </div>
       </div>
     </section>
 
     <section class="uebung-section">
-      <h2 class="uebung-header" [style.color]="stufe()?.color">NÄCHSTE ÜBUNG</h2>
+      <h2 class="uebung-header" [style.color]="config().color">NÄCHSTE ÜBUNG</h2>
       <h3 class="uebung-date">
         @if (nextUebung()?.datum; as datum) {
           {{ datum | date:'EEEE, d. MMMM yyyy' }}
@@ -62,29 +62,27 @@
       </div>
     </section>
 
-    @if (stufe()?.stammLeiter; as leaders) {
-      @if (leaders.length > 0) {
-        <section class="team-section">
-          <h2 class="uebung-header" [style.color]="stufe()?.color">LEITERTEAM</h2>
-          <div class="team-grid">
-            @for (leader of leaders; track leader.id) {
-              <div class="leader-card">
-                <div class="avatar-circle">
-                  @if (leader.bildId) {
-                    <img [src]="mediaService.getDownloadUrl(leader.bildId)" [alt]="leader.pfadiname">
-                  } @else {
-                    <div class="placeholder-avatar"></div>
-                  }
-                </div>
-                <div class="leader-info">
-                  <span class="leader-name">{{ leader.pfadiname }}</span>
-                  <span class="leader-realname">{{ leader.vorname }} {{ leader.nachname }}</span>
-                </div>
+    @if (stammLeiter().length > 0) {
+      <section class="team-section">
+        <h2 class="uebung-header" [style.color]="config().color">LEITERTEAM</h2>
+        <div class="team-grid">
+          @for (leader of stammLeiter(); track leader.id) {
+            <div class="leader-card">
+              <div class="avatar-circle">
+                @if (leader.bildId) {
+                  <img [src]="mediaService.getDownloadUrl(leader.bildId)" [alt]="leader.pfadiname">
+                } @else {
+                  <div class="placeholder-avatar"></div>
+                }
               </div>
-            }
-          </div>
-        </section>
-      }
+              <div class="leader-info">
+                <span class="leader-name">{{ leader.pfadiname }}</span>
+                <span class="leader-realname">{{ leader.vorname }} {{ leader.nachname }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </section>
     }
   }
 </div>

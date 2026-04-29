@@ -1,21 +1,18 @@
 <div class="homepage container">
 
-  <!-- HERO SECTION -->
   <section class="hero-layer">
     <h1 class="hero-title">Willkommen bei <br> Pfadi St. Justus <br> in Flums</h1>
     <a routerLink="/join" class="cta-button">Mitglied werden</a>
   </section>
 
-  <!-- STUFEN SECTION -->
   <section class="stufen-layer">
-    @for (group of scoutGroups(); track group.id) {
+    @for (group of stufen; track group.slug) {
       <div class="stufen-box" [routerLink]="['/stufe', group.slug]" [style.background-color]="group.color">
         <span>{{ group.name }}</span>
       </div>
     }
   </section>
 
-  <!-- INSTAGRAM SECTION -->
   <section class="insta-layer">
     <h2 class="insta-title">Das läuft bei uns gerade</h2>
     <div class="insta-grid">

@@ -13,7 +13,6 @@
   }
 }
 
-// --- HERO ---
 .hero-layer {
   padding-top: rem(80);
   display: flex;
@@ -21,7 +20,7 @@
   gap: rem(40);
 
   @include mobile {
-    padding-top: rem(120); // Account for fixed navbar
+    padding-top: rem(120);
     gap: rem(20);
   }
 
@@ -51,6 +50,20 @@
     font-weight: 700;
     font-size: rem(24);
     color: $color-black;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: transparent;
+
+    &:hover {
+      background: $color-black;
+      color: $color-bg;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+      transform: translateY(-2px);
+    }
 
     @include mobile {
       width: 100%;
@@ -61,7 +74,6 @@
   }
 }
 
-// --- STUFEN ---
 .stufen-layer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(rem(300), 1fr));
@@ -77,11 +89,24 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+
+    &:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+      transform: translateY(-4px) scale(1.01);
+    }
 
     span {
       font-weight: 700;
       font-size: rem(20);
       text-transform: uppercase;
+      pointer-events: none;
 
       @include mobile {
         font-size: rem(16);
@@ -95,7 +120,6 @@
   }
 }
 
-// --- INSTAGRAM ---
 .insta-layer {
   display: flex;
   flex-direction: column;

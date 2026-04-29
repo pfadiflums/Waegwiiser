@@ -104,6 +104,14 @@ import { STUFEN } from '../../../data/stufen.data';
       display: flex;
       align-items: center;
       gap: 1.25rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
+        border-color: var(--admin-primary);
+      }
     }
 
     .stat-icon {
@@ -166,9 +174,17 @@ import { STUFEN } from '../../../data/stufen.data';
       padding: 1.5rem;
       background: white;
       text-decoration: none;
-      transition: background 0.2s;
+      transition: all 0.2s ease;
+      cursor: pointer;
 
-      &:hover { background: #f9fafb; }
+      &:hover {
+        background: #f9fafb;
+        transform: translateX(4px);
+      }
+
+      &:active {
+        transform: translateX(2px);
+      }
     }
 
     .action-icon {

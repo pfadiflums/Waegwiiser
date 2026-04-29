@@ -133,7 +133,8 @@
     color: $color-dark;
     letter-spacing: 0.1em;
     cursor: pointer;
-    transition: color 0.2s ease;
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
 
     @include mobile {
       font-size: rem(24);
@@ -141,6 +142,11 @@
 
     &:hover, &.active {
       color: $color-primary;
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: translateY(0);
     }
   }
 
@@ -153,7 +159,7 @@
     list-style: none;
     padding: rem(20);
     min-width: rem(180);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     opacity: 0;
     visibility: hidden;
     transition: all 0.2s ease;
@@ -162,6 +168,7 @@
     flex-direction: column;
     gap: rem(10);
     border-radius: rem(8);
+    border: 1px solid rgba(0, 0, 0, 0.05);
 
     li {
       margin: 0;
@@ -170,6 +177,15 @@
       a {
         font-size: rem(14);
         white-space: nowrap;
+        padding: rem(8) rem(12);
+        display: block;
+        border-radius: rem(4);
+        transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+
+        &:hover {
+          background: rgba($color-primary, 0.1);
+          color: $color-primary;
+        }
 
         @include mobile {
           font-size: rem(20);
@@ -207,6 +223,11 @@
     height: rem(137);
     width: auto;
     display: block;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.02);
+    }
 
     @include mobile {
       height: rem(60);

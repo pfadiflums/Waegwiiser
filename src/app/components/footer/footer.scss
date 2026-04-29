@@ -51,10 +51,13 @@
           text-decoration: none;
           font-size: rem(16);
           letter-spacing: normal;
-          transition: color 0.3s ease;
+          transition: color 0.3s ease, transform 0.2s ease;
+          display: inline-block;
+          cursor: pointer;
 
           &:hover {
             color: $color-primary;
+            transform: translateX(4px);
           }
         }
       }
@@ -67,9 +70,13 @@
         text-decoration: none;
         font-weight: $fw-bold;
         letter-spacing: normal;
+        cursor: pointer;
+        transition: color 0.3s ease, transform 0.2s ease;
+        display: inline-block;
 
         &:hover {
           color: $color-primary;
+          transform: scale(1.05);
         }
       }
     }

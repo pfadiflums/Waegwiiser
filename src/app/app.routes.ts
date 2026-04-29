@@ -7,7 +7,10 @@ export const routes: Routes = [
     loadComponent: () => import('./layout/public-layout/public-layout').then(m => m.PublicLayoutComponent),
     children: [
       {
-        path: '',
+        path: '', redirectTo: 'home', pathMatch: 'full'
+      },
+      {
+        path: 'home',
         loadComponent: () => import('./feature/home/home').then(m => m.Home),
       },
       {

@@ -5,6 +5,16 @@
     <a routerLink="/join" class="cta-button">Mitglied werden</a>
   </section>
 
+  <div class="hero-visual">
+    <div class="photo-container">
+      <img src="/assets/images/group.png" class="group-photo" alt="Pfadi Gruppe">
+    </div>
+
+    <div class="blob-container">
+      <img src="/assets/elements/blob.svg" alt="blob">
+    </div>
+  </div>
+
   <section class="stufen-layer">
     @for (group of stufen; track group.slug) {
       <div class="stufen-box" [routerLink]="['/stufe', group.slug]" [style.background-color]="group.color">

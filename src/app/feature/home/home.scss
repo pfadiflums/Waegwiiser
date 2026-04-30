@@ -8,6 +8,10 @@
   padding-bottom: $section-gap-large;
   position: relative;
 
+  @media (max-width: 1900px) {
+    overflow-x: hidden;
+  }
+
   @include mobile {
     gap: $section-gap-large-mobile;
     padding-bottom: $section-gap-large-mobile;

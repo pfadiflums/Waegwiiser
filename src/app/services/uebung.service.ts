@@ -10,6 +10,10 @@ export class UebungService {
   private apiUrl = `${environment.apiUrl}/uebungen`;
 
 
+  getById(id: string): Observable<Uebung> {
+    return this.http.get<Uebung>(`${environment.apiUrl}/admin/uebungen/${id}`);
+  }
+
   create(uebung: CreateUebungRequest): Observable<Uebung> {
     return this.http.post<Uebung>(`${environment.apiUrl}/admin/uebungen`, uebung);
   }

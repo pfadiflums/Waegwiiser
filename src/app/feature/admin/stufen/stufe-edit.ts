@@ -55,6 +55,11 @@ import { CreateStufeRequest, UpdateStufeRequest } from '../../../models/stufe.mo
             <textarea id="beschreibung" formControlName="beschreibung" rows="5" placeholder="Detaillierte Beschreibung der Stufe..."></textarea>
           </div>
 
+          <div class="form-group">
+            <label for="calendarUrl">Google Kalender URL</label>
+            <input id="calendarUrl" type="url" formControlName="calendarUrl" placeholder="https://calendar.google.com/calendar/embed?src=...">
+          </div>
+
           <div class="form-group checkbox" *ngIf="isEdit()">
             <input type="checkbox" id="isActive" formControlName="isActive">
             <label for="isActive" class="checkbox-label">Stufe ist öffentlich sichtbar</label>
@@ -248,6 +253,7 @@ export class StufeEditComponent implements OnInit {
     slogan: [''],
     beschreibung: [''],
     color: ['#000000'],
+    calendarUrl: [''],
     sortOrder: [0, [Validators.required]],
     isActive: [true]
   });
@@ -270,6 +276,7 @@ export class StufeEditComponent implements OnInit {
           slogan: stufe.slogan,
           beschreibung: stufe.beschreibung,
           color: stufe.color,
+          calendarUrl: stufe.calendarUrl ?? '',
           sortOrder: stufe.sortOrder,
           isActive: stufe.isActive
         });
@@ -290,6 +297,7 @@ export class StufeEditComponent implements OnInit {
         slogan: formValue.slogan || undefined,
         beschreibung: formValue.beschreibung || undefined,
         color: formValue.color || undefined,
+        calendarUrl: formValue.calendarUrl || undefined,
         sortOrder: formValue.sortOrder!,
         isActive: formValue.isActive!
       };
@@ -304,6 +312,7 @@ export class StufeEditComponent implements OnInit {
         slogan: formValue.slogan || undefined,
         beschreibung: formValue.beschreibung || undefined,
         color: formValue.color || undefined,
+        calendarUrl: formValue.calendarUrl || undefined,
         sortOrder: formValue.sortOrder!
       };
       this.stufeService.create(createReq).subscribe({

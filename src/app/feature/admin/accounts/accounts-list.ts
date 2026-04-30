@@ -1,20 +1,20 @@
-import { ChangeDetectionStrategy, Component, inject, signal, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, OnInit, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LucideAngularModule, UserPlus, ShieldCheck, Trash2, X, Check, Users } from 'lucide-angular';
+import { LucideAngularModule, UserPlus, Trash2, X, Check, ShieldCheck, Mail, Key, Link as LinkIcon } from 'lucide-angular';
 import { UserService } from '../../../services/user.service';
 import { UserResponse, CreateUserRequest } from '../../../models/auth.model';
 
 const ROLES = ['ADMIN', 'ABTEILUNGSLEITER', 'STUFENLEITER', 'LEITER', 'BENUTZER'];
 
-interface UserRow extends UserResponse {
+interface AccountRow extends UserResponse {
   pendingRole: string;
   currentRole: string;
   saving: boolean;
 }
 
 @Component({
-  selector: 'app-users-list',
+  selector: 'app-accounts-list',
   standalone: true,
   imports: [CommonModule, FormsModule, LucideAngularModule],
   template: `
@@ -26,7 +26,7 @@ interface UserRow extends UserResponse {
           <div class="panel-header">
             <span class="panel-title">
               <lucide-icon [img]="UserPlus" [size]="18"></lucide-icon>
-              Neuer Benutzer
+              Neues Benutzerkonto
             </span>
             <button class="icon-btn" (click)="showCreate.set(false)">
               <lucide-icon [img]="X" [size]="18"></lucide-icon>
@@ -73,7 +73,7 @@ interface UserRow extends UserResponse {
             <div class="form-actions">
               <button type="button" class="btn-secondary" (click)="showCreate.set(false)">Abbrechen</button>
               <button type="submit" class="btn-primary" [disabled]="creating()">
-                {{ creating() ? 'Erstellen...' : 'Benutzer erstellen' }}
+                {{ creating() ? 'Erstellen...' : 'Konto erstellen' }}
               </button>
             </div>
           </form>
@@ -84,64 +84,68 @@ interface UserRow extends UserResponse {
       <div class="card">
         <div class="card-header">
           <div class="card-title">
-            <lucide-icon [img]="Users" [size]="18"></lucide-icon>
-            Benutzer mit verknüpftem Profil
-            @if (users().length > 0) {
-              <span class="count-badge">{{ users().length }}</span>
+            <lucide-icon [img]="ShieldCheck" [size]="18"></lucide-icon>
+            Konten & Zugriffsverwaltung
+            @if (accounts().length > 0) {
+              <span class="count-badge">{{ accounts().length }}</span>
             }
           </div>
           <button class="btn-primary" (click)="openCreate()">
             <lucide-icon [img]="UserPlus" [size]="16"></lucide-icon>
-            Neuer Benutzer
+            Neues Konto
           </button>
         </div>
 
         @if (loading()) {
           <div class="loading-row">Laden...</div>
-        } @else if (users().length === 0) {
-          <div class="empty-row">Keine verknüpften Benutzerkonten gefunden.</div>
+        } @else if (accounts().length === 0) {
+          <div class="empty-row">Keine Konten gefunden.</div>
         } @else {
           <div class="table-wrapper">
             <table class="table">
               <thead>
                 <tr>
-                  <th>Name</th>
+                  <th>Benutzer</th>
                   <th>E-Mail</th>
-
                   <th>Rolle</th>
+                  <th>OAuth Anbieter</th>
                   <th class="col-actions">Aktionen</th>
                 </tr>
               </thead>
               <tbody>
-                @for (user of users(); track user.id) {
+                @for (account of accounts(); track account.id) {
                   <tr>
                     <td class="cell-name">
-                      <div class="avatar">{{ (user.firstName || user.username || user.email).charAt(0).toUpperCase() }}</div>
-                      <div>
-                        <div>{{ user.firstName }} {{ user.lastName }}</div>
-                        @if (user.username) {
-                          <div class="username">&#64;{{ user.username }}</div>
+                      <div class="avatar">{{ (account.firstName || account.username || account.email).charAt(0).toUpperCase() }}</div>
+                      <div class="user-info">
+                        <div class="user-display-name">{{ account.firstName }} {{ account.lastName }}</div>
+                        @if (account.username) {
+                          <div class="user-username">&#64;{{ account.username }}</div>
                         }
                       </div>
                     </td>
-                    <td class="text-muted">{{ user.email }}</td>
-
+                    <td>
+                      <div class="email-cell">
+                        <lucide-icon [img]="Mail" [size]="14" class="email-icon"></lucide-icon>
+                        {{ account.email }}
+                      </div>
+                    </td>
                     <td>
                       <div class="role-cell">
                         <select
-                          [ngModel]="user.pendingRole"
-                          (ngModelChange)="setPendingRole(user.id, $event)"
+                          [ngModel]="account.pendingRole"
+                          (ngModelChange)="setPendingRole(account.id, $event)"
                           class="role-select"
                         >
                           @for (role of roles; track role) {
                             <option [value]="role">{{ role }}</option>
                           }
                         </select>
-                        @if (user.pendingRole !== user.currentRole) {
+                        @if (account.pendingRole !== account.currentRole) {
                           <button
                             class="save-role-btn"
-                            (click)="saveRole(user.id)"
-                            [disabled]="user.saving"
+                            (click)="saveRole(account.id)"
+                            [disabled]="account.saving"
                             title="Rolle speichern"
                           >
                             <lucide-icon [img]="Check" [size]="14"></lucide-icon>
@@ -149,8 +153,25 @@ interface UserRow extends UserResponse {
                         }
                       </div>
                     </td>
+                    <td>
+                      @if (account.connectedProviders.length > 0) {
+                        <div class="providers-cell">
+                          @for (provider of account.connectedProviders; track provider) {
+                            <span class="provider-badge">
+                              <lucide-icon [img]="LinkIcon" [size]="12"></lucide-icon>
+                              {{ provider }}
+                            </span>
+                          }
+                        </div>
+                      } @else {
+                        <span class="text-muted">–</span>
+                      }
+                    </td>
                     <td class="col-actions">
-                      <button class="icon-btn danger" (click)="deleteUser(user.id)" title="Benutzer löschen">
+                      <button class="icon-btn" (click)="openResetPassword(account)" title="Passwort zurücksetzen">
+                        <lucide-icon [img]="Key" [size]="16"></lucide-icon>
+                      </button>
+                      <button class="icon-btn danger" (click)="deleteUser(account.id)" title="Konto löschen">
                         <lucide-icon [img]="Trash2" [size]="16"></lucide-icon>
                       </button>
                     </td>
@@ -161,6 +182,41 @@ interface UserRow extends UserResponse {
           </div>
         }
       </div>
+
+      <!-- Password reset modal -->
+      @if (showPasswordReset()) {
+        <div class="modal-backdrop" (click)="showPasswordReset.set(false)">
+          <div class="modal" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+              <span class="modal-title">
+                <lucide-icon [img]="Key" [size]="18"></lucide-icon>
+                Passwort zurücksetzen
+              </span>
+              <button class="icon-btn" (click)="showPasswordReset.set(false)">
+                <lucide-icon [img]="X" [size]="18"></lucide-icon>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p class="modal-description">
+                Passwort für <strong>{{ selectedAccount()?.firstName }} {{ selectedAccount()?.lastName || selectedAccount()?.email }}</strong> zurücksetzen.
+              </p>
+              <div class="form-group">
+                <label>Neues Passwort</label>
+                <input type="password" [(ngModel)]="newPassword" placeholder="Mindestens 8 Zeichen" minlength="8">
+              </div>
+              @if (resetError()) {
+                <p class="feedback error">{{ resetError() }}</p>
+              }
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn-secondary" (click)="showPasswordReset.set(false)">Abbrechen</button>
+              <button type="button" class="btn-primary" (click)="resetPassword()" [disabled]="resetting()">
+                {{ resetting() ? 'Zurücksetzen...' : 'Passwort zurücksetzen' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      }
     </div>
   `,
   styles: [`
@@ -304,35 +360,38 @@ interface UserRow extends UserResponse {
     .cell-name {
       display: flex;
       align-items: center;
-      gap: 0.625rem;
-      font-weight: 500;
+      gap: 0.75rem;
       white-space: nowrap;
     }
 
     .avatar {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       background: var(--admin-primary);
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.75rem;
+      font-size: 0.875rem;
       font-weight: 600;
       flex-shrink: 0;
     }
 
-    .username { font-size: 0.75rem; color: var(--admin-text-muted); }
+    .user-info { display: flex; flex-direction: column; gap: 0.125rem; }
 
-    .person-badge {
-      font-size: 0.75rem;
-      font-weight: 500;
-      padding: 0.2rem 0.5rem;
-      border-radius: 0.25rem;
-      background: #fce7f3;
-      color: #be185d;
+    .user-display-name { font-weight: 500; color: var(--admin-text); }
+
+    .user-username { font-size: 0.75rem; color: var(--admin-text-muted); }
+
+    .email-cell {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      color: var(--admin-text-muted);
     }
+
+    .email-icon { opacity: 0.5; }
 
     .text-muted { color: var(--admin-text-muted); }
 
@@ -371,7 +430,27 @@ interface UserRow extends UserResponse {
       &:disabled { opacity: 0.5; cursor: not-allowed; }
     }
 
-    .col-actions { width: 60px; text-align: center; }
+    .providers-cell { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+
+    .provider-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      padding: 0.125rem 0.375rem;
+      border-radius: 0.25rem;
+      background: #e0e7ff;
+      color: #4338ca;
+      text-transform: uppercase;
+    }
+
+    .col-actions {
+      width: 100px;
+      text-align: right;
+
+      > * { display: inline-flex; }
+    }
 
     .btn-primary {
       display: flex;
@@ -424,10 +503,68 @@ interface UserRow extends UserResponse {
       &:hover { background: #f3f4f6; color: var(--admin-text); }
       &.danger:hover { background: #fee2e2; color: #ef4444; }
     }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+      max-width: 480px;
+      width: 90%;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--admin-border);
+    }
+
+    .modal-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: var(--admin-text);
+      letter-spacing: normal;
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .modal-description {
+      font-size: 0.875rem;
+      color: var(--admin-text-muted);
+      margin: 0;
+      letter-spacing: normal;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--admin-border);
+    }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsersListComponent implements OnInit {
+export class AccountsListComponent implements OnInit {
   private userService = inject(UserService);
 
   readonly UserPlus = UserPlus;
@@ -435,11 +572,13 @@ export class UsersListComponent implements OnInit {
   readonly Trash2 = Trash2;
   readonly X = X;
   readonly Check = Check;
-  readonly Users = Users;
+  readonly Mail = Mail;
+  readonly Key = Key;
+  readonly LinkIcon = LinkIcon;
 
   readonly roles = ROLES;
 
-  users = signal<UserRow[]>([]);
+  accounts = signal<AccountRow[]>([]);
   loading = signal(true);
 
   showCreate = signal(false);
@@ -447,15 +586,21 @@ export class UsersListComponent implements OnInit {
   createError = signal<string | null>(null);
   newUser: CreateUserRequest = this.emptyForm();
 
+  showPasswordReset = signal(false);
+  selectedAccount = signal<AccountRow | null>(null);
+  newPassword = '';
+  resetting = signal(false);
+  resetError = signal<string | null>(null);
+
   ngOnInit(): void {
-    this.loadUsers();
+    this.loadAccounts();
   }
 
-  private loadUsers(): void {
+  private loadAccounts(): void {
     this.loading.set(true);
     this.userService.getAllUsers().subscribe({
       next: (list) => {
-        this.users.set(list.map(u => ({
+        this.accounts.set(list.map(u => ({
           ...u,
           currentRole: u.roles[0] ?? 'BENUTZER',
           pendingRole: u.roles[0] ?? 'BENUTZER',
@@ -480,35 +625,61 @@ export class UsersListComponent implements OnInit {
       next: () => {
         this.creating.set(false);
         this.showCreate.set(false);
-        this.loadUsers();
+        this.loadAccounts();
       },
       error: () => {
-        this.createError.set('Fehler beim Erstellen des Benutzers.');
+        this.createError.set('Fehler beim Erstellen des Kontos.');
         this.creating.set(false);
       },
     });
   }
 
   setPendingRole(id: string, role: string): void {
-    this.users.update(list =>
-      list.map(u => u.id === id ? { ...u, pendingRole: role } : u)
+    this.accounts.update(list =>
+      list.map(a => a.id === id ? { ...a, pendingRole: role } : a)
     );
   }
 
   saveRole(id: string): void {
-    const user = this.users().find(u => u.id === id);
-    if (!user) return;
-    this.users.update(list => list.map(u => u.id === id ? { ...u, saving: true } : u));
-    this.userService.adminUpdateRole(id, [user.pendingRole]).subscribe({
+    const account = this.accounts().find(a => a.id === id);
+    if (!account) return;
+    this.accounts.update(list => list.map(a => a.id === id ? { ...a, saving: true } : a));
+    this.userService.adminUpdateRole(id, [account.pendingRole]).subscribe({
       next: () => {
-        this.users.update(list =>
-          list.map(u => u.id === id ? { ...u, currentRole: u.pendingRole, saving: false } : u)
+        this.accounts.update(list =>
+          list.map(a => a.id === id ? { ...a, currentRole: a.pendingRole, saving: false } : a)
         );
       },
       error: () => {
-        this.users.update(list =>
-          list.map(u => u.id === id ? { ...u, pendingRole: u.currentRole, saving: false } : u)
+        this.accounts.update(list =>
+          list.map(a => a.id === id ? { ...a, pendingRole: a.currentRole, saving: false } : a)
         );
+      },
+    });
+  }
+
+  openResetPassword(account: AccountRow): void {
+    this.selectedAccount.set(account);
+    this.newPassword = '';
+    this.resetError.set(null);
+    this.showPasswordReset.set(true);
+  }
+
+  resetPassword(): void {
+    const account = this.selectedAccount();
+    if (!account || !this.newPassword || this.newPassword.length < 8) {
+      this.resetError.set('Passwort muss mindestens 8 Zeichen haben.');
+      return;
+    }
+    this.resetting.set(true);
+    this.userService.adminResetPassword(account.id, this.newPassword).subscribe({
+      next: () => {
+        this.resetting.set(false);
+        this.showPasswordReset.set(false);
+      },
+      error: () => {
+        this.resetError.set('Fehler beim Zurücksetzen des Passworts.');
+        this.resetting.set(false);
       },
     });
   }
@@ -516,7 +687,7 @@ export class UsersListComponent implements OnInit {
   deleteUser(id: string): void {
     if (!confirm('Konto wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.')) return;
     this.userService.deleteUser(id).subscribe({
-      next: () => this.users.update(list => list.filter(u => u.id !== id)),
+      next: () => this.accounts.update(list => list.filter(a => a.id !== id)),
     });
   }
 

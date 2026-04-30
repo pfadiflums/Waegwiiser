@@ -22,20 +22,41 @@ import { CreateUebungRequest, UpdateUebungRequest } from '../../../models/uebung
 
       <div class="card">
         <form [formGroup]="uebungForm" (ngSubmit)="onSubmit()" class="edit-form">
+
+          <!-- Stufen (multi-select checkboxes) -->
+          <div class="form-group">
+            <label>Stufen * <span class="hint">(Mehrfachauswahl möglich)</span></label>
+            <div class="stufe-checkbox-grid">
+              @for (s of stufen(); track s.id) {
+                <label class="stufe-checkbox-item" [class.selected]="selectedStufeIds.has(s.id)">
+                  <input
+                    type="checkbox"
+                    [checked]="selectedStufeIds.has(s.id)"
+                    (change)="toggleStufe(s.id)"
+                  >
+                  <span class="stufe-dot" [style.background]="s.color"></span>
+                  {{ s.name }}
+                </label>
+              }
+            </div>
+            @if (stufeError()) {
+              <span class="field-error">Bitte mindestens eine Stufe auswählen.</span>
+            }
+          </div>
+
           <div class="form-grid">
             <div class="form-group">
-              <label for="stufeId">Stufe</label>
-              <select id="stufeId" formControlName="stufeId" [attr.disabled]="isEdit() ? true : null">
-                <option value="">Wähle eine Stufe...</option>
-                @for (s of stufen(); track s.id) {
-                  <option [value]="s.id">{{ s.name }}</option>
-                }
-              </select>
+              <label for="datum">Datum *</label>
+              <input id="datum" type="date" formControlName="datum">
             </div>
 
             <div class="form-group">
-              <label for="datum">Datum</label>
-              <input id="datum" type="date" formControlName="datum">
+              <label for="status">Veröffentlichungsstatus</label>
+              <select id="status" formControlName="status">
+                <option value="DRAFT">Entwurf (Nur Admin)</option>
+                <option value="PUBLISHED">Veröffentlicht (Öffentlich)</option>
+                <option value="CANCELLED">Abgesagt</option>
+              </select>
             </div>
 
             <div class="form-group">
@@ -77,15 +98,6 @@ import { CreateUebungRequest, UpdateUebungRequest } from '../../../models/uebung
           <div class="form-group">
             <label for="weiteres">Weiteres</label>
             <textarea id="weiteres" formControlName="weiteres" rows="3" placeholder="z.B. Abmeldung bis Freitag bei..."></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="status">Veröffentlichungsstatus</label>
-            <select id="status" formControlName="status">
-              <option value="DRAFT">Entwurf (Nur Admin)</option>
-              <option value="PUBLISHED">Veröffentlicht (Öffentlich)</option>
-              <option value="CANCELLED">Abgesagt</option>
-            </select>
           </div>
 
           <div class="form-actions">
@@ -153,6 +165,12 @@ import { CreateUebungRequest, UpdateUebungRequest } from '../../../models/uebung
         color: var(--admin-text);
       }
 
+      .hint {
+        font-weight: 400;
+        color: var(--admin-text-muted);
+        font-size: 0.75rem;
+      }
+
       input,
       textarea,
       select {
@@ -171,13 +189,57 @@ import { CreateUebungRequest, UpdateUebungRequest } from '../../../models/uebung
         }
 
         &::placeholder { color: #9ca3af; }
-
-        &:disabled {
-          background: #f9fafb;
-          cursor: not-allowed;
-          color: var(--admin-text-muted);
-        }
       }
+    }
+
+    .stufe-checkbox-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .stufe-checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.875rem;
+      border: 1px solid var(--admin-border);
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--admin-text);
+      transition: all 0.15s;
+      user-select: none;
+
+      input[type="checkbox"] {
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
+        padding: 0;
+        accent-color: var(--admin-primary);
+      }
+
+      &.selected {
+        border-color: var(--admin-primary);
+        background: #eef2ff;
+        color: #4338ca;
+      }
+
+      &:hover { background: #f9fafb; }
+      &.selected:hover { background: #e0e7ff; }
+    }
+
+    .stufe-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .field-error {
+      font-size: 0.8125rem;
+      color: #ef4444;
     }
 
     .form-actions {
@@ -228,9 +290,11 @@ export class UebungEditComponent implements OnInit {
   isEdit = signal(false);
   isLoading = signal(false);
   stufen = signal<Stufe[]>([]);
+  stufeError = signal(false);
+
+  selectedStufeIds = new Set<string>();
 
   uebungForm = this.fb.group({
-    stufeId: ['', [Validators.required]],
     datum: ['', [Validators.required]],
     antretenZeit: [''],
     antretenOrt: [''],
@@ -253,29 +317,31 @@ export class UebungEditComponent implements OnInit {
     }
   }
 
+  toggleStufe(id: string): void {
+    if (this.selectedStufeIds.has(id)) {
+      this.selectedStufeIds.delete(id);
+    } else {
+      this.selectedStufeIds.add(id);
+    }
+    this.stufeError.set(false);
+    // Trigger change detection for the Set (signals don't track Set mutations)
+    this.selectedStufeIds = new Set(this.selectedStufeIds);
+  }
+
   loadUebung(id: string): void {
-    // We need to find the uebung. Since we don't have a getById,
-    // we'll fetch from all (a bit inefficient but works for now)
-    this.stufeService.getAll().subscribe(stufen => {
-      stufen.forEach(stufe => {
-        this.stufeService.getUebungen(stufe.slug).subscribe(response => {
-          const uebung = response.items.find(u => u.id === id);
-          if (uebung) {
-            this.uebungForm.patchValue({
-              stufeId: uebung.stufeId,
-              datum: uebung.datum,
-              antretenZeit: uebung.antretenZeit ? uebung.antretenZeit.slice(0,5) : '',
-              antretenOrt: uebung.antretenOrt,
-              abtretenZeit: uebung.abtretenZeit ? uebung.abtretenZeit.slice(0,5) : '',
-              abtretenOrt: uebung.abtretenOrt,
-              motto: uebung.motto,
-              tenue: uebung.tenue,
-              mitnehmen: uebung.mitnehmen,
-              weiteres: uebung.weiteres,
-              status: uebung.status
-            });
-          }
-        });
+    this.uebungService.getById(id).subscribe(uebung => {
+      this.selectedStufeIds = new Set(uebung.stufeIds ?? []);
+      this.uebungForm.patchValue({
+        datum: uebung.datum,
+        antretenZeit: uebung.antretenZeit ? uebung.antretenZeit.slice(0, 5) : '',
+        antretenOrt: uebung.antretenOrt,
+        abtretenZeit: uebung.abtretenZeit ? uebung.abtretenZeit.slice(0, 5) : '',
+        abtretenOrt: uebung.abtretenOrt,
+        motto: uebung.motto,
+        tenue: uebung.tenue,
+        mitnehmen: uebung.mitnehmen,
+        weiteres: uebung.weiteres,
+        status: uebung.status,
       });
     });
   }
@@ -283,11 +349,18 @@ export class UebungEditComponent implements OnInit {
   onSubmit(): void {
     if (this.uebungForm.invalid) return;
 
+    if (this.selectedStufeIds.size === 0) {
+      this.stufeError.set(true);
+      return;
+    }
+
     this.isLoading.set(true);
     const formValue = this.uebungForm.getRawValue();
+    const stufeIds = Array.from(this.selectedStufeIds);
 
     if (this.isEdit()) {
       const updateReq: UpdateUebungRequest = {
+        stufeIds,
         datum: formValue.datum!,
         antretenZeit: formValue.antretenZeit ? formValue.antretenZeit + ':00' : undefined,
         antretenOrt: formValue.antretenOrt || undefined,
@@ -297,15 +370,15 @@ export class UebungEditComponent implements OnInit {
         tenue: formValue.tenue || undefined,
         mitnehmen: formValue.mitnehmen || undefined,
         weiteres: formValue.weiteres || undefined,
-        status: formValue.status as any
+        status: formValue.status as any,
       };
       this.uebungService.update(this.route.snapshot.params['id'], updateReq).subscribe({
         next: () => this.router.navigate(['/admin/uebungen']),
-        error: () => this.isLoading.set(false)
+        error: () => this.isLoading.set(false),
       });
     } else {
       const createReq: CreateUebungRequest = {
-        stufeId: formValue.stufeId!,
+        stufeIds,
         datum: formValue.datum!,
         antretenZeit: formValue.antretenZeit ? formValue.antretenZeit + ':00' : undefined,
         antretenOrt: formValue.antretenOrt || undefined,
@@ -315,11 +388,11 @@ export class UebungEditComponent implements OnInit {
         tenue: formValue.tenue || undefined,
         mitnehmen: formValue.mitnehmen || undefined,
         weiteres: formValue.weiteres || undefined,
-        status: (formValue.status as any) || 'DRAFT'
+        status: (formValue.status as any) || 'DRAFT',
       };
       this.uebungService.create(createReq).subscribe({
         next: () => this.router.navigate(['/admin/uebungen']),
-        error: () => this.isLoading.set(false)
+        error: () => this.isLoading.set(false),
       });
     }
   }

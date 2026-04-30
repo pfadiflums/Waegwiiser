@@ -76,11 +76,7 @@
           @for (member of teamMembers(); track member.id) {
             <div class="member-card">
               <div class="avatar-circle">
-                @if (member.bildId) {
-                  <img [src]="mediaService.getDownloadUrl(member.bildId)" [alt]="member.pfadiname">
-                } @else {
-                  <div class="placeholder-avatar"></div>
-                }
+                <div class="placeholder-avatar"></div>
               </div>
               <div class="member-info">
                 <span class="member-name">{{ member.pfadiname }}</span>
@@ -99,11 +95,7 @@
           @for (leader of stammLeiter(); track leader.id) {
             <div class="leader-card">
               <div class="avatar-circle">
-                @if (leader.bildId) {
-                  <img [src]="mediaService.getDownloadUrl(leader.bildId)" [alt]="leader.pfadiname">
-                } @else {
-                  <div class="placeholder-avatar"></div>
-                }
+                <div class="placeholder-avatar"></div>
               </div>
               <div class="leader-info">
                 <span class="leader-name">{{ leader.pfadiname }}</span>

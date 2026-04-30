@@ -18,7 +18,7 @@ export class AuthService {
       }),
       switchMap(() => this.getCurrentUser()),
       tap(user => {
-        localStorage.setItem(this.userRoleKey, user.role);
+        localStorage.setItem(this.userRoleKey, JSON.stringify(user.roles));
       })
     );
   }
@@ -36,8 +36,15 @@ export class AuthService {
     return localStorage.getItem(this.tokenKey);
   }
 
+  getCurrentUserRoles(): string[] {
+    const stored = localStorage.getItem(this.userRoleKey);
+    if (!stored) return [];
+    try { return JSON.parse(stored); } catch { return []; }
+  }
+
   getCurrentUserRole(): string | null {
-    return localStorage.getItem(this.userRoleKey);
+    const roles = this.getCurrentUserRoles();
+    return roles.length > 0 ? roles[0] : null;
   }
 
   isAuthenticated(): boolean {

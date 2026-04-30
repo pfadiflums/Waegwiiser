@@ -15,6 +15,7 @@ export interface Stufe {
   slogan: string | null;
   beschreibung: string | null;
   color: string;
+  calendarUrl?: string;
   imageId: string | null;
   sortOrder: number;
   isActive: boolean;
@@ -28,6 +29,7 @@ export interface CreateStufeRequest {
   slogan?: string;
   beschreibung?: string;
   color?: string;
+  calendarUrl?: string;
   imageId?: string;
   stammLeiter?: string[];
   sortOrder: number;
@@ -39,6 +41,7 @@ export interface UpdateStufeRequest {
   slogan?: string;
   beschreibung?: string;
   color?: string;
+  calendarUrl?: string;
   imageId?: string;
   stammLeiter?: string[];
   sortOrder?: number;

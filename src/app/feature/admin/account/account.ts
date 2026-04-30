@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, User, Lock, Link, Unlink, Check, X } from 'lucide-angular';
 import { UserService, UpdateProfileRequest } from '../../../services/user.service';
@@ -32,7 +32,7 @@ import { UserResponse } from '../../../models/auth.model';
             </div>
             <div class="meta-row">
               <span class="meta-label">Rolle</span>
-              <span class="role-badge">{{ u.role }}</span>
+              <span class="role-badge">{{ u.roles[0] }}</span>
             </div>
 
             <div class="form-divider"></div>

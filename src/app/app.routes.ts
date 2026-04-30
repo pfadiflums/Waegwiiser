@@ -105,6 +105,15 @@ export const routes: Routes = [
         data: { roles: ['ADMIN', 'LEITER', 'STUFENLEITER', 'ABTEILUNGSLEITER'] }
       },
       {
+        path: 'accounts',
+        loadComponent: () => import('./feature/admin/accounts/accounts-list').then(m => m.AccountsListComponent),
+        data: { roles: ['ADMIN'] }
+      },
+      {
+        path: 'people',
+        loadComponent: () => import('./feature/admin/people/people-list').then(m => m.PeopleListComponent),
+      },
+      {
         path: 'users',
         loadComponent: () => import('./feature/admin/users/users-list').then(m => m.UsersListComponent),
         data: { roles: ['ADMIN', 'ABTEILUNGSLEITER'] }

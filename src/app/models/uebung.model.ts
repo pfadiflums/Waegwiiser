@@ -1,6 +1,6 @@
 export interface Uebung {
   id: string;
-  stufeId: string;
+  stufeIds: string[];
   datum: string;
   antretenZeit?: string;
   antretenOrt?: string;
@@ -16,7 +16,7 @@ export interface Uebung {
 }
 
 export interface CreateUebungRequest {
-  stufeId: string;
+  stufeIds: string[];
   datum: string;
   antretenZeit?: string;
   antretenOrt?: string;
@@ -35,6 +35,7 @@ export interface UebungenListResponse {
 }
 
 export interface UpdateUebungRequest {
+  stufeIds?: string[];
   datum?: string;
   antretenZeit?: string;
   antretenOrt?: string;

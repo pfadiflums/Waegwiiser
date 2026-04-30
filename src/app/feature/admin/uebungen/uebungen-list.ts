@@ -50,7 +50,11 @@ import { Stufe } from '../../../models/stufe.model';
                 <td class="font-medium">{{ uebung.datum | date:'dd.MM.yyyy' }}</td>
                 <td>{{ uebung.motto || '-' }}</td>
                 <td>
-                   <span class="stufe-tag">{{ getStufeName(uebung.stufeId) }}</span>
+                  <div class="stufe-tags">
+                    @for (sid of uebung.stufeIds; track sid) {
+                      <span class="stufe-tag">{{ getStufeName(sid) }}</span>
+                    }
+                  </div>
                 </td>
                 <td>
                   <span class="status-badge" [class.published]="uebung.status === 'PUBLISHED'">
@@ -180,6 +184,8 @@ import { Stufe } from '../../../models/stufe.model';
       .text-right { text-align: right; }
     }
 
+    .stufe-tags { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+
     .stufe-tag {
       padding: 0.2rem 0.6rem;
       background: #f3f4f6;
@@ -247,11 +253,14 @@ export class UebungenListComponent implements OnInit {
   }
 
   loadAllUebungen(): void {
+    this.allUebungen.set([]);
     this.filteredUebungen.set([]);
+    const seen = new Set<string>();
     this.stufen().forEach(stufe => {
       this.stufeService.getUebungen(stufe.slug).subscribe(response => {
-        const current = this.allUebungen();
-        this.allUebungen.set([...current, ...response.items]);
+        const deduped = response.items.filter(u => !seen.has(u.id));
+        deduped.forEach(u => seen.add(u.id));
+        this.allUebungen.update(list => [...list, ...deduped]);
         this.updateFiltered();
       });
     });
@@ -270,13 +279,14 @@ export class UebungenListComponent implements OnInit {
       const stufe = this.stufen().find(s => s.slug === slug);
       if (stufe) {
         this.filteredUebungen.set(
-          this.allUebungen().filter(u => u.stufeId === stufe.id).sort((a,b) => b.datum.localeCompare(a.datum))
+          this.allUebungen().filter(u => u.stufeIds?.includes(stufe.id)).sort((a,b) => b.datum.localeCompare(a.datum))
         );
       }
     }
   }
 
   getStufeName(id: string): string {
+    if (!id) return '–';
     return this.stufen().find(s => s.id === id)?.name || 'Unbekannt';
   }
 

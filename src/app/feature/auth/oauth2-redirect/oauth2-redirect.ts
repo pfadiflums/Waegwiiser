@@ -32,7 +32,7 @@ export class OAuth2RedirectComponent implements OnInit {
         // After storing token, fetch user info to get role
         this.authService.getCurrentUser().subscribe({
           next: (user) => {
-            localStorage.setItem('user_role', user.role);
+            localStorage.setItem('user_role', JSON.stringify(user.roles));
             this.router.navigate(['/admin']);
           },
           error: () => {

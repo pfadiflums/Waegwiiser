@@ -10,6 +10,8 @@ import {
   CalendarDays,
   Image,
   Users,
+  UserCog,
+  ShieldCheck,
   Settings,
   LogOut,
 } from 'lucide-angular';
@@ -17,8 +19,9 @@ import {
 const PAGE_TITLES: Record<string, string> = {
   '/admin/stufen': 'Stufen verwalten',
   '/admin/uebungen': 'Übungen verwalten',
-
   '/admin/media': 'Mediathek',
+  '/admin/accounts': 'Kontenverwaltung',
+  '/admin/people': 'Personenverwaltung',
   '/admin/users': 'Benutzerverwaltung',
   '/admin/account': 'Mein Konto',
   '/admin': 'Dashboard',
@@ -57,9 +60,13 @@ const PAGE_TITLES: Record<string, string> = {
 
           <div class="nav-divider"></div>
 
-          <a routerLink="/admin/users" routerLinkActive="active">
+          <a routerLink="/admin/accounts" routerLinkActive="active">
+            <lucide-icon [img]="ShieldCheck" [size]="18"></lucide-icon>
+            Konten
+          </a>
+          <a routerLink="/admin/people" routerLinkActive="active">
             <lucide-icon [img]="Users" [size]="18"></lucide-icon>
-            Benutzer
+            Personen
           </a>
         </nav>
 
@@ -303,9 +310,10 @@ export class AdminLayoutComponent implements OnInit {
   readonly LayoutDashboard = LayoutDashboard;
   readonly Flag = Flag;
   readonly CalendarDays = CalendarDays;
-
   readonly Image = Image;
   readonly Users = Users;
+  readonly UserCog = UserCog;
+  readonly ShieldCheck = ShieldCheck;
   readonly Settings = Settings;
   readonly LogOut = LogOut;
 
@@ -326,7 +334,7 @@ export class AdminLayoutComponent implements OnInit {
       next: (u) => {
         this.userName.set(u.firstName ? `${u.firstName} ${u.lastName}` : u.username);
         this.userInitial.set((u.firstName || u.username || 'A').charAt(0).toUpperCase());
-        this.userRole.set(u.role);
+        this.userRole.set(u.roles[0] ?? '');
       },
     });
   }

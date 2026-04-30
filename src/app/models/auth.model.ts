@@ -3,12 +3,13 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface RegisterRequest {
+export interface CreateUserRequest {
   email: string;
   password: string;
-  firstName: string;
-  lastName: string;
-  username: string;
+  role: string;
+  firstName?: string;
+  lastName?: string;
+  username?: string;
 }
 
 export interface AuthResponse {
@@ -22,7 +23,7 @@ export interface UserResponse {
   lastName: string;
   username: string;
   profilePicture?: string;
-  role: string;
+  roles: string[];
   emailVerified: boolean;
   connectedProviders: string[];
 }

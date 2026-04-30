@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LucideAngularModule, CalendarPlus, Upload, Users, Flag, Image } from 'lucide-angular';
+import { LucideAngularModule, CalendarPlus, Upload, Users, Flag, Image, ShieldCheck } from 'lucide-angular';
 import { STUFEN } from '../../../data/stufen.data';
 
 @Component({
@@ -33,11 +33,20 @@ import { STUFEN } from '../../../data/stufen.data';
         </div>
         <div class="stat-card">
           <div class="stat-icon" style="background: #dcfce7; color: #16a34a;">
+            <lucide-icon [img]="ShieldCheck" [size]="22"></lucide-icon>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value stat-link" routerLink="/admin/accounts">Konten</div>
+            <div class="stat-label">Zugänge & Rollen</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background: #fce7f3; color: #be185d;">
             <lucide-icon [img]="Users" [size]="22"></lucide-icon>
           </div>
           <div class="stat-info">
-            <div class="stat-value stat-link" routerLink="/admin/users">Benutzer</div>
-            <div class="stat-label">Konten verwalten</div>
+            <div class="stat-value stat-link" routerLink="/admin/people">Personen</div>
+            <div class="stat-label">Mitglieder & Leiter</div>
           </div>
         </div>
       </div>
@@ -66,13 +75,22 @@ import { STUFEN } from '../../../data/stufen.data';
               <span class="btn-desc">Bilder für die Webseite</span>
             </div>
           </a>
-          <a routerLink="/admin/users" class="action-btn">
+          <a routerLink="/admin/accounts" class="action-btn">
+            <div class="action-icon">
+              <lucide-icon [img]="ShieldCheck" [size]="20"></lucide-icon>
+            </div>
+            <div class="btn-text">
+              <span class="btn-title">Konten verwalten</span>
+              <span class="btn-desc">Rollen und Zugänge</span>
+            </div>
+          </a>
+          <a routerLink="/admin/people" class="action-btn">
             <div class="action-icon">
               <lucide-icon [img]="Users" [size]="20"></lucide-icon>
             </div>
             <div class="btn-text">
-              <span class="btn-title">Benutzer verwalten</span>
-              <span class="btn-desc">Rollen und Konten</span>
+              <span class="btn-title">Personen verwalten</span>
+              <span class="btn-desc">Mitglieder & Profile</span>
             </div>
           </a>
         </div>
@@ -215,6 +233,7 @@ export class DashboardComponent {
   readonly Flag = Flag;
   readonly Image = Image;
   readonly Users = Users;
+  readonly ShieldCheck = ShieldCheck;
   readonly CalendarPlus = CalendarPlus;
   readonly Upload = Upload;
 

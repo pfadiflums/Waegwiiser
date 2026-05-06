@@ -2,8 +2,14 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'admin',
+    loadComponent: () => import('./layout/admin-layout/admin-layout').then(m => m.AdminLayout),
+    children: [
+    ]
+  },
+  {
     path: '',
-    loadComponent: () => import('./layout/public-layout/public-layout').then(m => m.PublicLayoutComponent),
+    loadComponent: () => import('./layout/public-layout/public-layout').then(m => m.PublicLayout),
     children: [
       {
         path: '', redirectTo: 'home', pathMatch: 'full'

@@ -1,42 +1,115 @@
 # Wägwiiser
 
-Willkommen bei **Wägwiiser**, dem Frontend-Projekt für die offizielle Website der Pfadi St. Justus Flums! Dieses Projekt wurde mit **Angular** entwickelt und kommuniziert mit einem separaten **Backend-API**, das für die Daten und Inhalte zuständig ist.
+Das Frontend-Projekt für die offizielle Website der **Pfadi St. Justus Flums**. Entwickelt mit Angular, kommuniziert mit einem separaten Backend-API für Inhalte und Daten.
 
 ---
 
-## Status: In Entwicklung (Work in Progress)
+## Tech Stack
 
-Diese Website befindet sich noch im Aufbau und wird aktiv entwickelt. Wir arbeiten daran, euch eine informative und ansprechende Online-Präsenz zu bieten.
+| Technologie | Version |
+|---|---|
+| Angular | 21.1.2 |
+| TypeScript | ~5.9.2 |
+| Tailwind CSS | 4.1.16 |
+| Lucide Angular (Icons) | 1.0.0 |
+| RxJS | ~7.8.0 |
+
+**Styling:** SCSS mit CSS-Variablen und Custom Design Tokens. Tailwind CSS ist installiert, Migration läuft noch.
+
+---
+
+## Seiten & Routen
+
+| Route | Seite | Status |
+|---|---|---|
+| `/home` | Startseite | ✅ |
+| `/stufe/:slug` | Stufen-Detail (Biber, Wölfe, Pfader, Pios) | ✅ |
+| `/about` | Über uns | 🚧 |
+| `/photos` | Bilder | 🚧 |
+| `/downloads` | Downloads | 🚧 |
+| `/shop` | Shop | 🚧 |
+| `/pfadihaus` | Pfadihaus | 🚧 |
+| `/join` | Mitglied werden | 🚧 |
+| `/impressum` | Impressum | ✅ |
+| `/datenschutz` | Datenschutz | ✅ |
+| `/login` | Admin Login | ✅ |
 
 ---
 
 ## Features
 
-Hier werden die Features des **Frontend-Projekts "Wägwiiser"** aufgeführt.
+### Implementiert
 
-### Kernfunktionalität (Frontend)
+- **Navigation:** Responsive Navbar mit Hamburger-Menü für Mobile, Dropdown-Unterstützung
+- **Startseite:** Hero-Bereich, Stufen-Grid, Instagram-Bereich (Placeholder)
+- **Stufen-Detail:** Nächste Übung mit Tabellenansicht, Google Calendar Embed, Team-Grid mit Mitgliedern und Leiterteam
+- **Impressum & Datenschutz:** Vollständige rechtliche Seiten
+- **Footer:** Links, Kontakt, soziale Netzwerke
+- **Auth:** Login-Seite mit E-Mail/Passwort und MiData OAuth2
 
-*   [ ] **Informationsseiten:** Darstellung von Inhalten wie "Über uns", "Aktuelles", "Gruppen/Stufen", "Kontakt", "Termine".
-*   [x] **Navigation:** Klare und intuitive Menüführung durch die gesamte Website.
-*   [ ] **Responsive Design:** Optimale Darstellung auf allen Geräten (Desktop, Tablet, Mobile).
-*   [ ] **Medienintegration:** Anzeige von Bildern und Videos.
-*   [ ] **Verlinkung zu externen Ressourcen:** Links zu MiData, Instagram, etc.
+### In Arbeit
 
-### Benutzeroberfläche & Design
+- Inhalt für About, Photos, Downloads, Shop, Pfadihaus, Join
+- Tailwind CSS Migration (geplant auf Branch `feature/tailwindcss-migration`)
 
-*   [ ] **Custom Branding:** Anpassung an das Pfadi St. Justus Flums Design (Logo, Farben, Schriftarten).
-*   [ ] **UI-Bibliothek:** Integration und Nutzung von z.B. Angular Material für konsistente Komponenten.
-*   [ ] **Barrierefreiheit:** Berücksichtigung von Zugänglichkeitsstandards.
+### Geplant
 
-### Dynamische Inhalte (Frontend-Integration)
-
-*   [ ] **Integration von Backend-Daten:** Abruf und Anzeige von Inhalten wie aktuellen Anlässen, Neuigkeiten etc. vom Backend-API.
-*   [ ] **Formulare:** Implementierung von Kontaktformularen oder Anmeldeformularen (falls das Backend dies unterstützt).
-
-### Geplante Features (Frontend-Perspektive)
-
-*   [ ] **Mehrsprachigkeit:** Unterstützung für Deutsch und eventuell Englisch.
-*   [ ] **SEO-Optimierung:** Sicherstellung, dass die Website gut von Suchmaschinen gefunden wird.
-*   [ ] **Interaktive Elemente:** Z.B. Bildergalerien, Karten für Standorte.
+- Bildergalerien
+- SEO-Optimierung
+- Barrierefreiheit (WCAG)
+- Mehrsprachigkeit (DE)
 
 ---
+
+## Lokale Entwicklung
+
+```bash
+# Abhängigkeiten installieren
+npm install
+
+# Entwicklungsserver starten (http://localhost:4200)
+npm start
+
+# Production Build
+npm run build
+
+# Linting
+npm run lint
+```
+
+---
+
+## Projektstruktur
+
+```
+src/
+├── app/
+│   ├── components/         # Shared Components (navbar, footer)
+│   ├── feature/            # Feature-Module (home, stufe-detail, etc.)
+│   ├── layout/             # Layout-Komponenten (public-layout)
+│   └── services/           # Angular Services (auth, etc.)
+├── styles.scss             # Globale Styles & Typografie
+├── tailwind.css            # Tailwind CSS Entry (v4)
+└── _variables.scss         # Design Tokens (Farben, Abstände, Breakpoints)
+```
+
+---
+
+## Design Tokens
+
+| Token | Wert | Verwendung |
+|---|---|---|
+| `$color-primary` | `#ebc531` | Pfadi-Gelb, Akzente |
+| `$color-accent` | `#4251d5` | Links, Buttons |
+| `$color-dark` | `#373841` | Textfarbe |
+| `$color-bg` | `#f7f5ee` | Seitenhintergrund |
+| Biber | `#EAC04A` | Stufen-Farbe |
+| Wölfe | `#1380A3` | Stufen-Farbe |
+| Pfader | `#B78E60` | Stufen-Farbe |
+| Pios | `#BF2E26` | Stufen-Farbe |
+
+---
+
+## Mitwirkende
+
+- **Mitja Kurath** – Entwicklung ([mitjakurath.ch](https://mitjakurath.ch))

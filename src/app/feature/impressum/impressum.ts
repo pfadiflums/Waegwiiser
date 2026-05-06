@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'app-impressum',
   standalone: true,
   templateUrl: './impressum.html',
-  styleUrl: './impressum.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: []
 })

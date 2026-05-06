@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'app-datenschutz',
   standalone: true,
   templateUrl: './datenschutz.html',
-  styleUrl: './datenschutz.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: []
 })

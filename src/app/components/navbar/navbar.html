@@ -1,15 +1,15 @@
-<nav class="w-full pt-[45px] max-md:pt-5 max-md:fixed max-md:top-0 max-md:left-0 max-md:z-[100] max-md:bg-app-bg">
-  <div class="container h-[137px] flex items-center justify-between max-md:h-20">
+<nav class="w-full pt-11.25 max-md:pt-5 max-md:fixed max-md:top-0 max-md:left-0 max-md:z-100 max-md:bg-app-bg">
+  <div class="container h-34.25 flex items-center justify-between max-md:h-20">
 
     <button
-      class="hidden max-md:flex flex-col gap-[6px] cursor-pointer z-[101] p-[10px]"
+      class="hidden max-md:flex flex-col gap-1.5 cursor-pointer z-101 p-2.5"
       (click)="isMenuOpen.set(!isMenuOpen())"
       aria-label="Toggle Menu">
-      <span class="block w-[25px] h-[2px] bg-dark transition-all duration-200"
+      <span class="block w-6.25 h-0.5 bg-dark transition-all duration-200"
             [ngClass]="isMenuOpen() ? ['rotate-45', 'translate-y-2'] : []"></span>
-      <span class="block w-[25px] h-[2px] bg-dark transition-all duration-200"
+      <span class="block w-6.25 h-0.5 bg-dark transition-all duration-200"
             [ngClass]="{'opacity-0': isMenuOpen()}"></span>
-      <span class="block w-[25px] h-[2px] bg-dark transition-all duration-200"
+      <span class="block w-6.25 h-0.5 bg-dark transition-all duration-200"
             [ngClass]="isMenuOpen() ? ['-rotate-45', '-translate-y-2'] : []"></span>
     </button>
 

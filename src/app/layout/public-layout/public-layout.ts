@@ -20,5 +20,5 @@ import { Footer } from '../../components/footer/footer';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PublicLayoutComponent {
+export class PublicLayout {
 }

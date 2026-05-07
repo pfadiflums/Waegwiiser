@@ -1,52 +1,65 @@
-<div class="login-page">
-  <div class="login-card">
-    <div class="login-header">
-      <img src="assets/images/logo.svg" alt="Logo" class="logo">
-      <h1>Willkommen zurück</h1>
-      <p>Bitte logge dich in dein Konto ein</p>
+<div class="min-h-screen flex items-center justify-center bg-admin-bg p-5 font-inter">
+
+  <div class="w-full max-w-100 bg-admin-surface p-12 rounded-xl shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)] border border-admin-border">
+
+    <div class="text-center mb-8">
+      <img src="assets/images/logo.svg" alt="Logo" class="h-10 mx-auto mb-6 grayscale opacity-70">
+      <h1 class="text-xl font-semibold text-admin-text mb-2 tracking-tight">Willkommen zurück</h1>
+      <p class="text-sm text-admin-text-muted tracking-normal">Bitte logge dich in dein Konto ein</p>
     </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-5">
+
       @if (error()) {
-        <div class="error-message">
+        <div class="p-2.5 bg-red-50 text-red-800 border border-red-200 rounded-md text-[0.8125rem] text-center">
           {{ error() }}
         </div>
       }
 
-      <div class="form-group">
-        <label for="email">E-Mail</label>
+      <div class="flex flex-col gap-1.5">
+        <label for="email" class="text-[0.8125rem] font-medium text-admin-text">E-Mail</label>
         <input
           id="email"
           type="email"
           formControlName="email"
           placeholder="name@beispiel.ch"
+          class="px-3 py-2.5 border border-admin-border rounded-md font-inherit text-sm text-admin-text transition-all duration-200 outline-none placeholder:text-gray-400 focus:border-admin-primary focus:shadow-[0_0_0_3px_rgba(99,102,241,0.1)] [&.invalid]:border-red-500"
           [class.invalid]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
         >
       </div>
 
-      <div class="form-group">
-        <label for="password">Passwort</label>
+      <div class="flex flex-col gap-1.5">
+        <label for="password" class="text-[0.8125rem] font-medium text-admin-text">Passwort</label>
         <input
           id="password"
           type="password"
           formControlName="password"
           placeholder="••••••••"
+          class="px-3 py-2.5 border border-admin-border rounded-md font-inherit text-sm text-admin-text transition-all duration-200 outline-none placeholder:text-gray-400 focus:border-admin-primary focus:shadow-[0_0_0_3px_rgba(99,102,241,0.1)] [&.invalid]:border-red-500"
           [class.invalid]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
         >
       </div>
 
-      <button type="submit" class="submit-btn" [disabled]="isLoading() || loginForm.invalid">
+      <button
+        type="submit"
+        class="mt-2 py-2.5 bg-admin-primary text-white border-none rounded-md text-sm font-medium cursor-pointer transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:not-disabled:bg-[#4f52d4] hover:not-disabled:-translate-y-px hover:not-disabled:shadow-[0_4px_8px_rgba(99,102,241,0.25)] active:not-disabled:translate-y-0"
+        [disabled]="isLoading() || loginForm.invalid">
         {{ isLoading() ? 'Lädt...' : 'Einloggen' }}
       </button>
 
-      <div class="divider">
-        <span>oder</span>
+      <div class="flex items-center text-center text-admin-text-muted text-xs before:content-[''] before:flex-1 before:border-b before:border-admin-border after:content-[''] after:flex-1 after:border-b after:border-admin-border">
+        <span class="px-3">oder</span>
       </div>
 
-      <button type="button" (click)="loginWithMidata()" class="midata-btn">
-        <img src="assets/images/midata-logo.png" alt="" class="btn-icon">
+      <button
+        type="button"
+        (click)="loginWithMidata()"
+        class="flex items-center justify-center gap-2.5 py-2.5 bg-white border border-admin-border rounded-md text-sm font-medium text-admin-text cursor-pointer transition-all duration-200 hover:bg-gray-50 hover:border-admin-primary hover:-translate-y-px hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)] active:translate-y-0">
+        <img src="assets/images/midata-logo.png" alt="" class="h-4.5">
         Mit MiData einloggen
       </button>
+
     </form>
   </div>
+
 </div>

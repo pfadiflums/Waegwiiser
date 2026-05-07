@@ -9,7 +9,6 @@ import { environment } from '../../../../environments/environment';
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './login.html',
-  styleUrl: './login.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {

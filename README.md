@@ -11,10 +11,11 @@ Das Frontend-Projekt für die offizielle Website der **Pfadi St. Justus Flums**.
 | Angular | 21.1.2 |
 | TypeScript | ~5.9.2 |
 | Tailwind CSS | 4.1.16 |
+| spartan/ui | – |
 | Lucide Angular (Icons) | 1.0.0 |
 | RxJS | ~7.8.0 |
 
-**Styling:** SCSS mit CSS-Variablen und Custom Design Tokens. Tailwind CSS ist installiert, Migration läuft noch.
+**Styling:** Tailwind CSS v4 mit einem einzigen Einstiegspunkt (`src/styles.css`). Alle Design Tokens sind als CSS-Variablen im `@theme`-Block definiert. spartan/ui wird ausschliesslich im Admin-Bereich verwendet.
 
 ---
 
@@ -40,7 +41,7 @@ Das Frontend-Projekt für die offizielle Website der **Pfadi St. Justus Flums**.
 
 ### Implementiert
 
-- **Navigation:** Responsive Navbar mit Hamburger-Menü für Mobile, Dropdown-Unterstützung
+- **Navigation:** Responsive Navbar mit Hamburger-Menü für Mobile
 - **Startseite:** Hero-Bereich, Stufen-Grid, Instagram-Bereich (Placeholder)
 - **Stufen-Detail:** Nächste Übung mit Tabellenansicht, Google Calendar Embed, Team-Grid mit Mitgliedern und Leiterteam
 - **Impressum & Datenschutz:** Vollständige rechtliche Seiten
@@ -50,7 +51,6 @@ Das Frontend-Projekt für die offizielle Website der **Pfadi St. Justus Flums**.
 ### In Arbeit
 
 - Inhalt für About, Photos, Downloads, Shop, Pfadihaus, Join
-- Tailwind CSS Migration (geplant auf Branch `feature/tailwindcss-migration`)
 
 ### Geplant
 
@@ -86,27 +86,27 @@ src/
 ├── app/
 │   ├── components/         # Shared Components (navbar, footer)
 │   ├── feature/            # Feature-Module (home, stufe-detail, etc.)
-│   ├── layout/             # Layout-Komponenten (public-layout)
+│   ├── layout/             # Layout-Komponenten (public-layout, admin-layout)
 │   └── services/           # Angular Services (auth, etc.)
-├── styles.scss             # Globale Styles & Typografie
-├── tailwind.css            # Tailwind CSS Entry (v4)
-└── _variables.scss         # Design Tokens (Farben, Abstände, Breakpoints)
+└── styles.css              # Globale Styles, Tailwind-Theme & Typografie
 ```
 
 ---
 
 ## Design Tokens
 
+Alle Tokens sind als Tailwind CSS-Variablen in `src/styles.css` im `@theme`-Block definiert:
+
 | Token | Wert | Verwendung |
 |---|---|---|
-| `$color-primary` | `#ebc531` | Pfadi-Gelb, Akzente |
-| `$color-accent` | `#4251d5` | Links, Buttons |
-| `$color-dark` | `#373841` | Textfarbe |
-| `$color-bg` | `#f7f5ee` | Seitenhintergrund |
-| Biber | `#EAC04A` | Stufen-Farbe |
-| Wölfe | `#1380A3` | Stufen-Farbe |
-| Pfader | `#B78E60` | Stufen-Farbe |
-| Pios | `#BF2E26` | Stufen-Farbe |
+| `--color-primary` | `#ebc531` | Pfadi-Gelb, Akzente |
+| `--color-accent` | `#4251d5` | Links, Buttons |
+| `--color-dark` | `#373841` | Textfarbe |
+| `--color-app-bg` | `#f7f5ee` | Seitenhintergrund |
+| `--color-biber` | `#eac04a` | Stufen-Farbe |
+| `--color-woelfe` | `#1380a3` | Stufen-Farbe |
+| `--color-pfader` | `#b78e60` | Stufen-Farbe |
+| `--color-pios` | `#bf2e26` | Stufen-Farbe |
 
 ---
 

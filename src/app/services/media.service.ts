@@ -24,8 +24,8 @@ export class MediaService {
     return this.http.post<MediaFile>(this.apiUrl, formData);
   }
 
-  listFiles(page: number = 0, size: number = 20, imagesOnly: boolean = false): Observable<PageMediaFileResponse> {
-    let params = new HttpParams()
+  listFiles(page = 0, size = 20, imagesOnly = false): Observable<PageMediaFileResponse> {
+    const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString())
       .set('imagesOnly', imagesOnly.toString());

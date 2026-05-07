@@ -11,7 +11,6 @@ import { STUFEN_BY_SLUG } from '../../data/stufen.data';
   selector: 'app-stufe-detail',
   imports: [CommonModule],
   templateUrl: './stufe-detail.html',
-  styleUrl: './stufe-detail.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StufeDetailComponent {

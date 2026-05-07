@@ -33,6 +33,14 @@ module.exports = tseslint.config(
     },
   },
   {
+    files: ["src/app/components/spartan/**/*.ts"],
+    rules: {
+      "@angular-eslint/directive-selector": "off",
+      "@angular-eslint/component-selector": "off",
+      "@angular-eslint/no-input-rename": "off",
+    },
+  },
+  {
     files: ["**/*.html"],
     extends: [
       ...angular.configs.templateRecommended,

@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgClass } from '@angular/common';
-import { AuthService } from '../../services/auth.service';
+import { AuthStore } from '../../store/auth.store';
 
 @Component({
   selector: 'app-navbar',
@@ -10,11 +10,10 @@ import { AuthService } from '../../services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, RouterLinkActive, NgClass],
 })
-export class Navbar implements OnInit {
-  private authService = inject(AuthService);
+export class Navbar {
+  protected readonly authStore = inject(AuthStore);
 
   isMenuOpen = signal(false);
-  isLoggedIn = signal(false);
 
   readonly navLinks = [
     { path: '/home', label: 'Home' },
@@ -24,8 +23,4 @@ export class Navbar implements OnInit {
     { path: '/shop', label: 'Shop' },
     { path: '/pfadihaus', label: 'Pfadihaus' },
   ];
-
-  ngOnInit(): void {
-    this.isLoggedIn.set(this.authService.isAuthenticated());
-  }
 }

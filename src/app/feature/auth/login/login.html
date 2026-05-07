@@ -18,9 +18,9 @@
     <div hlmCardContent>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-5">
 
-        @if (error()) {
+        @if (authStore.error()) {
           <hlm-alert variant="destructive" role="alert">
-            <p hlmAlertDescription>{{ error() }}</p>
+            <p hlmAlertDescription>{{ authStore.error() }}</p>
           </hlm-alert>
         }
 
@@ -66,10 +66,10 @@
           hlmBtn
           type="submit"
           class="w-full"
-          [disabled]="isLoading() || loginForm.invalid"
-          [attr.aria-busy]="isLoading()"
+          [disabled]="authStore.isLoading() || loginForm.invalid"
+          [attr.aria-busy]="authStore.isLoading()"
         >
-          {{ isLoading() ? 'Lädt...' : 'Einloggen' }}
+          {{ authStore.isLoading() ? 'Lädt...' : 'Einloggen' }}
         </button>
 
         <div class="text-muted-foreground flex items-center gap-3 text-xs" aria-hidden="true">

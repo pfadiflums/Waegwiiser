@@ -1,47 +1,26 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../../services/auth.service';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { AuthStore } from '../../../store/auth.store';
 
 @Component({
   selector: 'app-oauth2-redirect',
-  standalone: true,
-  template: '<div class="loading">Anmeldung wird verarbeitet...</div>',
-  styles: [`
-    .loading {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Inter', sans-serif;
-      font-size: 1rem;
-      color: #6b7280;
-      background: #f9fafb;
-    }
-  `]
+  template: `
+    <div class="min-h-screen flex items-center justify-center bg-[#f9fafb] font-[Inter,sans-serif] text-sm text-[#6b7280]">
+      Anmeldung wird verarbeitet...
+    </div>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OAuth2RedirectComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private authService = inject(AuthService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly authStore = inject(AuthStore);
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      const token = params['token'];
-      if (token) {
-        localStorage.setItem('jwt_token', token);
-        // After storing token, fetch user info to get role
-        this.authService.getCurrentUser().subscribe({
-          next: (user) => {
-            localStorage.setItem('user_role', JSON.stringify(user.roles));
-            this.router.navigate(['/admin']);
-          },
-          error: () => {
-            this.router.navigate(['/login'], { queryParams: { error: 'auth_failed' } });
-          }
-        });
-      } else {
-        this.router.navigate(['/login'], { queryParams: { error: 'no_token' } });
-      }
-    });
+    const token = this.route.snapshot.queryParamMap.get('token');
+    if (token) {
+      this.authStore.initFromOAuth(token);
+    } else {
+      this.authStore.handleUnauthorized();
+    }
   }
 }

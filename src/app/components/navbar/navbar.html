@@ -1,22 +1,40 @@
-<nav class="navbar-wrapper" [class.menu-open]="isMenuOpen()">
-  <div class="navbar-container">
+<nav class="w-full pt-[45px] max-md:pt-5 max-md:fixed max-md:top-0 max-md:left-0 max-md:z-[100] max-md:bg-app-bg">
+  <div class="max-w-[1440px] h-[137px] mx-auto px-[75px] flex items-center justify-between max-md:h-20 max-md:px-5">
 
-    <button class="menu-toggle" (click)="isMenuOpen.set(!isMenuOpen())" aria-label="Toggle Menu">
-      <span class="hamburger"></span>
+    <button
+      class="hidden max-md:flex flex-col gap-[6px] cursor-pointer z-[101] p-[10px]"
+      (click)="isMenuOpen.set(!isMenuOpen())"
+      aria-label="Toggle Menu">
+      <span class="block w-[25px] h-[2px] bg-dark transition-all duration-200"
+            [ngClass]="isMenuOpen() ? ['rotate-45', 'translate-y-2'] : []"></span>
+      <span class="block w-[25px] h-[2px] bg-dark transition-all duration-200"
+            [ngClass]="{'opacity-0': isMenuOpen()}"></span>
+      <span class="block w-[25px] h-[2px] bg-dark transition-all duration-200"
+            [ngClass]="isMenuOpen() ? ['-rotate-45', '-translate-y-2'] : []"></span>
     </button>
 
-    <ul class="nav-links">
-      <li><a routerLink="/home" routerLinkActive="active" (click)="isMenuOpen.set(false)">Home</a></li>
-      <li><a routerLink="/about" routerLinkActive="active" (click)="isMenuOpen.set(false)">Über uns</a></li>
-      <li><a routerLink="/photos" routerLinkActive="active" (click)="isMenuOpen.set(false)">Bilder</a></li>
-      <li><a routerLink="/downloads" routerLinkActive="active" (click)="isMenuOpen.set(false)">Downloads</a></li>
-      <li><a routerLink="/shop" routerLinkActive="active" (click)="isMenuOpen.set(false)">Shop</a></li>
-      <li><a routerLink="/pfadihaus" routerLinkActive="active" (click)="isMenuOpen.set(false)">Pfadihaus</a></li>
+    <ul class="flex list-none p-0 m-0 gap-5 lg:gap-[25px] max-[1200px]:gap-[15px]
+               max-md:fixed max-md:top-20 max-md:left-0 max-md:w-full max-md:h-[calc(100vh-80px)]
+               max-md:bg-app-bg max-md:flex-col max-md:items-center max-md:justify-center
+               max-md:py-10 max-md:z-[99]
+               max-md:opacity-0 max-md:invisible max-md:-translate-y-5 max-md:transition-all max-md:duration-300"
+        [ngClass]="isMenuOpen() ? ['!opacity-100', '!visible', '!translate-y-0'] : []">
+      @for (link of navLinks; track link.path) {
+        <li class="relative">
+          <a [routerLink]="link.path"
+             routerLinkActive="text-primary"
+             class="font-bold text-base uppercase text-dark tracking-[0.1em] inline-block transition-[color,transform] duration-200 hover:text-primary hover:opacity-100 hover:-translate-y-0.5 active:translate-y-0 max-md:text-2xl"
+             (click)="isMenuOpen.set(false)">
+            {{ link.label }}
+          </a>
+        </li>
+      }
     </ul>
 
-    <div class="logo">
-      <a routerLink="/">
-        <img src="assets/images/logo.svg" alt="Logo">
+    <div class="h-full flex items-center">
+      <a routerLink="/" class="block h-full hover:opacity-100">
+        <img src="assets/images/logo.svg" alt="Logo"
+             class="h-[137px] w-auto block transition-transform duration-200 hover:scale-[1.02] max-md:h-[60px]">
       </a>
     </div>
 

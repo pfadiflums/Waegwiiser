@@ -6,7 +6,6 @@ import { STUFEN } from '../../data/stufen.data';
   selector: 'app-home',
   imports: [RouterLink],
   templateUrl: './home.html',
-  styleUrl: './home.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Home {

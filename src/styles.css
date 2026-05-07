@@ -32,85 +32,75 @@
   --breakpoint-lg: 62rem; /* 992px */
 }
 
+/* ─── Public layout styles ───────────────────────────────────────────────────
+   All rules here are scoped to .public-app so they never affect admin routes.
+   ─────────────────────────────────────────────────────────────────────────── */
 @layer base {
-  body {
+  .public-app {
+    min-height: 100vh;
     background-color: var(--color-app-bg);
     color: var(--color-dark);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p {
+  .public-app h1,
+  .public-app h2,
+  .public-app h3,
+  .public-app h4,
+  .public-app h5,
+  .public-app h6,
+  .public-app p {
     letter-spacing: 0.1em;
     line-height: 1.2;
   }
 
-  h1 {
+  .public-app h1 {
     font-size: 4rem;
     font-weight: 200;
-    @media (max-width: 767px) {
-      font-size: 2.5rem;
-    }
+    @media (max-width: 767px) { font-size: 2.5rem; }
   }
 
-  h2 {
+  .public-app h2 {
     font-size: 3rem;
     font-weight: 800;
-    @media (max-width: 767px) {
-      font-size: 2rem;
-    }
+    @media (max-width: 767px) { font-size: 2rem; }
   }
 
-  h3 {
+  .public-app h3 {
     font-size: 3rem;
     font-weight: 300;
-    @media (max-width: 767px) {
-      font-size: 2rem;
-    }
+    @media (max-width: 767px) { font-size: 2rem; }
   }
 
-  h4 {
+  .public-app h4 {
     font-size: 2.25rem;
     font-weight: 800;
-    @media (max-width: 767px) {
-      font-size: 1.5rem;
-    }
+    @media (max-width: 767px) { font-size: 1.5rem; }
   }
 
-  h5 {
+  .public-app h5 {
     font-size: 2.25rem;
     font-weight: 300;
-    @media (max-width: 767px) {
-      font-size: 1.5rem;
-    }
+    @media (max-width: 767px) { font-size: 1.5rem; }
   }
 
-  h6 {
+  .public-app h6 {
     font-size: 1.25rem;
     font-weight: 700;
-    @media (max-width: 767px) {
-      font-size: 1.125rem;
-    }
+    @media (max-width: 767px) { font-size: 1.125rem; }
   }
 
-  p {
+  .public-app p {
     font-size: 1.25rem;
     font-weight: 400;
-    @media (max-width: 767px) {
-      font-size: 1rem;
-    }
+    @media (max-width: 767px) { font-size: 1rem; }
   }
 
-  a,
-  button,
-  [role='button'],
-  .clickable {
+  .public-app a,
+  .public-app button,
+  .public-app [role='button'],
+  .public-app .clickable {
     cursor: pointer;
     transition: all 0.2s ease;
     user-select: none;
@@ -123,37 +113,28 @@
     }
   }
 
-  a {
+  .public-app a {
     text-decoration: none;
     color: inherit;
-    &:hover {
-      opacity: 0.9;
-    }
+    &:hover { opacity: 0.9; }
   }
 
-  button {
+  .public-app button {
     font-family: inherit;
     border: none;
     background: none;
     cursor: pointer;
-    &:active:not(:disabled) {
-      transform: scale(0.98);
-    }
+    &:active:not(:disabled) { transform: scale(0.98); }
   }
 
-  /* Responsive container used across all pages */
+  /* Responsive container used across all public pages */
   .container {
     width: 100%;
     max-width: 90rem;
     margin-inline: auto;
     padding-inline: 4.6875rem;
 
-    @media (max-width: 767px) {
-      padding-inline: 1.25rem;
-    }
-
-    @media (min-width: 768px) and (max-width: 991px) {
-      padding-inline: 2.5rem;
-    }
+    @media (max-width: 767px) { padding-inline: 1.25rem; }
+    @media (min-width: 768px) and (max-width: 991px) { padding-inline: 2.5rem; }
   }
 }

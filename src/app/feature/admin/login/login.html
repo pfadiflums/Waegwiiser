@@ -1,0 +1,103 @@
+<div class="bg-background flex min-h-screen items-center justify-center p-5">
+
+  <section hlmCard class="w-full max-w-sm">
+
+    <div hlmCardHeader class="items-center text-center">
+      <img
+        ngSrc="assets/images/logo.svg"
+        alt="Logo"
+        width="120"
+        height="40"
+        class="mx-auto mb-2 opacity-70"
+        priority
+      />
+      <h1 hlmCardTitle class="text-xl">Willkommen zurück</h1>
+      <p hlmCardDescription>Bitte logge dich in dein Konto ein</p>
+    </div>
+
+    <div hlmCardContent>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-5">
+
+        @if (authStore.error()) {
+          <hlm-alert variant="destructive" role="alert">
+            <p hlmAlertDescription>{{ authStore.error() }}</p>
+          </hlm-alert>
+        }
+
+        <div class="flex flex-col gap-1.5">
+          <label hlmLabel for="email">E-Mail</label>
+          <input
+            hlmInput
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="name@beispiel.ch"
+            class="w-full"
+            [attr.aria-invalid]="emailControl.touched && emailControl.invalid ? true : null"
+            aria-describedby="email-error"
+          />
+          @if (emailControl.touched && emailControl.invalid) {
+            <p id="email-error" class="text-destructive text-xs">
+              Bitte gib eine gültige E-Mail ein.
+            </p>
+          }
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label hlmLabel for="password">Passwort</label>
+          <input
+            hlmInput
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="••••••••"
+            class="w-full"
+            [attr.aria-invalid]="passwordControl.touched && passwordControl.invalid ? true : null"
+            aria-describedby="password-error"
+          />
+          @if (passwordControl.touched && passwordControl.invalid) {
+            <p id="password-error" class="text-destructive text-xs">
+              Passwort ist erforderlich.
+            </p>
+          }
+        </div>
+
+        <button
+          hlmBtn
+          type="submit"
+          class="w-full"
+          [disabled]="authStore.isLoading() || loginForm.invalid"
+          [attr.aria-busy]="authStore.isLoading()"
+        >
+          {{ authStore.isLoading() ? 'Lädt...' : 'Einloggen' }}
+        </button>
+
+        <div class="text-muted-foreground flex items-center gap-3 text-xs" aria-hidden="true">
+          <hlm-separator class="flex-1" />
+          <span>oder</span>
+          <hlm-separator class="flex-1" />
+        </div>
+
+        <button
+          hlmBtn
+          variant="outline"
+          type="button"
+          class="w-full"
+          (click)="loginWithMidata()"
+        >
+          <img
+            ngSrc="assets/images/midata-logo.png"
+            alt=""
+            width="18"
+            height="18"
+            aria-hidden="true"
+          />
+          Mit MiData einloggen
+        </button>
+
+      </form>
+    </div>
+
+  </section>
+
+</div>

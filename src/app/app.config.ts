@@ -3,8 +3,8 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import localeDeCH from '@angular/common/locales/de-CH';
-import { jwtInterceptor } from './interceptors/jwt.interceptor';
-import { cacheInterceptor } from './interceptors/cache.interceptor';
+import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { cacheInterceptor } from './core/interceptors/cache.interceptor';
 
 import { routes } from './app.routes';
 

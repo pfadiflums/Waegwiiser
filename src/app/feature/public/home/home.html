@@ -1,0 +1,47 @@
+<div class="container bg-app-bg relative flex flex-col gap-37.5 pb-37.5 max-[1900px]:overflow-x-hidden max-md:gap-20 max-md:pb-20">
+
+  <section class="pt-20 mb-112.5 flex flex-col gap-10 relative z-2 max-md:pt-30 max-md:gap-5 max-md:-mb-11.25">
+    <h1 class="max-w-250 text-[96px] leading-30.25 text-primary uppercase font-extrabold bg-transparent max-md:text-[48px] max-md:leading-[1.1]">
+      Willkommen bei <br> Pfadi St. Justus <br> in Flums
+    </h1>
+    <a routerLink="/join"
+       class="w-94 h-18 border-[5px] border-black rounded-[81px] flex items-center justify-center font-bold text-[24px] text-black transition-all duration-300 hover:bg-black hover:text-app-bg hover:-translate-y-1 hover:shadow-[0_8px_16px_rgba(0,0,0,0.15)] active:-translate-y-0.5 max-md:w-full max-md:h-15 max-md:text-[20px] max-md:border-[3px]">
+      Mitglied werden
+    </a>
+  </section>
+
+  <div class="absolute top-15 right-0 w-full max-w-300 z-1 pointer-events-none max-md:top-25 max-md:opacity-70">
+    <div class="w-full flex justify-end relative z-2 right-25">
+      <img src="/assets/images/group.png" class="w-[60%] h-auto object-contain max-md:hidden" alt="Pfadi Gruppe">
+    </div>
+    <div class="absolute -bottom-87.5 -right-45 z-1 w-[70%]">
+      <img src="/assets/elements/blob.svg" alt="blob" class="w-full h-auto max-md:hidden">
+    </div>
+  </div>
+
+  <section class="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5.75 relative z-3 max-md:grid-cols-2 max-md:gap-3.75">
+    @if (stufeStore.isLoading()) {
+      @for (i of [1,2,3,4]; track i) {
+        <div class="aspect-square bg-dark/10 animate-pulse"></div>
+      }
+    } @else {
+      @for (group of stufeStore.stufen(); track group.slug) {
+        <div class="aspect-square flex items-center justify-center cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:scale-[1.03] hover:shadow-[0_12px_24px_rgba(0,0,0,0.15)] active:-translate-y-1 active:scale-[1.01]"
+             [routerLink]="['/stufe', group.slug]"
+             [style.background-color]="group.color">
+          <span class="font-bold text-[20px] uppercase pointer-events-none max-md:text-[16px]">{{ group.name }}</span>
+        </div>
+      }
+    }
+  </section>
+
+  <section class="flex flex-col gap-10 max-md:gap-5">
+    <h2 class="text-[48px] max-md:text-[28px]">Das läuft bei uns gerade</h2>
+    <div class="grid grid-cols-3 gap-7.5 max-md:grid-cols-1 max-md:gap-5 md:max-lg:grid-cols-2">
+      @for (i of [1,2,3,4,5,6,7,8,9]; track i) {
+        <div class="w-full h-134.5 bg-muted border-[5px] border-white box-border max-md:h-75"></div>
+      }
+    </div>
+  </section>
+
+</div>

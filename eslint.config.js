@@ -33,7 +33,7 @@ module.exports = tseslint.config(
     },
   },
   {
-    files: ["src/app/shared/components/ui/spartan/**/*.ts"],
+    files: ["src/app/shared/ui/spartan/**/*.ts"],
     rules: {
       "@angular-eslint/directive-selector": "off",
       "@angular-eslint/component-selector": "off",

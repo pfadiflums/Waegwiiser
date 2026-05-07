@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { Stufe, CreateStufeRequest, UpdateStufeRequest } from '../models/stufe.model';
 import { UebungenListResponse } from '../models/uebung.model';
 

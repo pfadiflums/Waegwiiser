@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { STUFEN } from '../../data/stufen.data';
+import { StufeStore } from '../../../core/store/stufe.store';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +9,10 @@ import { STUFEN } from '../../data/stufen.data';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Home {
-  readonly stufen = STUFEN;
+  protected readonly stufeStore = inject(StufeStore);
   readonly instagramPosts = Array(9).fill(null);
+
+  constructor() {
+    this.stufeStore.loadAll();
+  }
 }

@@ -20,12 +20,18 @@
   </div>
 
   <section class="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5.75 relative z-3 max-md:grid-cols-2 max-md:gap-3.75">
-    @for (group of stufen; track group.slug) {
-      <div class="aspect-square flex items-center justify-center cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:scale-[1.03] hover:shadow-[0_12px_24px_rgba(0,0,0,0.15)] active:-translate-y-1 active:scale-[1.01]"
-           [routerLink]="['/stufe', group.slug]"
-           [style.background-color]="group.color">
-        <span class="font-bold text-[20px] uppercase pointer-events-none max-md:text-[16px]">{{ group.name }}</span>
-      </div>
+    @if (stufeStore.isLoading()) {
+      @for (i of [1,2,3,4]; track i) {
+        <div class="aspect-square bg-dark/10 animate-pulse"></div>
+      }
+    } @else {
+      @for (group of stufeStore.stufen(); track group.slug) {
+        <div class="aspect-square flex items-center justify-center cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:scale-[1.03] hover:shadow-[0_12px_24px_rgba(0,0,0,0.15)] active:-translate-y-1 active:scale-[1.01]"
+             [routerLink]="['/stufe', group.slug]"
+             [style.background-color]="group.color">
+          <span class="font-bold text-[20px] uppercase pointer-events-none max-md:text-[16px]">{{ group.name }}</span>
+        </div>
+      }
     }
   </section>
 

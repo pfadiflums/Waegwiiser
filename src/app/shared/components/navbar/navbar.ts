@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgClass } from '@angular/common';
-import { AuthStore } from '../../store/auth.store';
+import { AuthStore } from '../../../core/store/auth.store';
 
 @Component({
   selector: 'app-navbar',

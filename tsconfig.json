@@ -14,43 +14,43 @@
     "module": "preserve",
     "paths": {
       "@spartan-ng/helm/sidebar": [
-        "./src/app/components/spartan/sidebar/src/index.ts"
+        "./src/app/shared/ui/spartan/sidebar/src/index.ts"
       ],
       "@spartan-ng/helm/utils": [
-        "./src/app/components/spartan/utils/src/index.ts"
+        "./src/app/shared/ui/spartan/utils/src/index.ts"
       ],
       "@spartan-ng/helm/button": [
-        "./src/app/components/spartan/button/src/index.ts"
+        "./src/app/shared/ui/spartan/button/src/index.ts"
       ],
       "@spartan-ng/helm/icon": [
-        "./src/app/components/spartan/icon/src/index.ts"
+        "./src/app/shared/ui/spartan/icon/src/index.ts"
       ],
       "@spartan-ng/helm/input": [
-        "./src/app/components/spartan/input/src/index.ts"
+        "./src/app/shared/ui/spartan/input/src/index.ts"
       ],
       "@spartan-ng/helm/separator": [
-        "./src/app/components/spartan/separator/src/index.ts"
+        "./src/app/shared/ui/spartan/separator/src/index.ts"
       ],
       "@spartan-ng/helm/sheet": [
-        "./src/app/components/spartan/sheet/src/index.ts"
+        "./src/app/shared/ui/spartan/sheet/src/index.ts"
       ],
       "@spartan-ng/helm/skeleton": [
-        "./src/app/components/spartan/skeleton/src/index.ts"
+        "./src/app/shared/ui/spartan/skeleton/src/index.ts"
       ],
       "@spartan-ng/helm/tooltip": [
-        "./src/app/components/spartan/tooltip/src/index.ts"
+        "./src/app/shared/ui/spartan/tooltip/src/index.ts"
       ],
       "@spartan-ng/helm/collapsible": [
-        "./src/app/components/spartan/collapsible/src/index.ts"
+        "./src/app/shared/ui/spartan/collapsible/src/index.ts"
       ],
       "@spartan-ng/helm/alert": [
-        "./src/app/components/spartan/alert/src/index.ts"
+        "./src/app/shared/ui/spartan/alert/src/index.ts"
       ],
       "@spartan-ng/helm/card": [
-        "./src/app/components/spartan/card/src/index.ts"
+        "./src/app/shared/ui/spartan/card/src/index.ts"
       ],
       "@spartan-ng/helm/label": [
-        "./src/app/components/spartan/label/src/index.ts"
+        "./src/app/shared/ui/spartan/label/src/index.ts"
       ]
     }
   },

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthStore } from '../../../store/auth.store';
+import { AuthStore } from '../../../core/store/auth.store';
 
 @Component({
   selector: 'app-oauth2-redirect',

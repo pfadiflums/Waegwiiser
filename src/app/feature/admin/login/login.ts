@@ -7,7 +7,7 @@ import { HlmLabelImports } from '@spartan-ng/helm/label';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmAlertImports } from '@spartan-ng/helm/alert';
 import { HlmSeparatorImports } from '@spartan-ng/helm/separator';
-import { AuthStore } from '../../../store/auth.store';
+import { AuthStore } from '../../../core/store/auth.store';
 import { environment } from '../../../../environments/environment';
 
 @Component({

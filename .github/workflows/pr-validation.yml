@@ -14,7 +14,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
@@ -27,12 +27,4 @@ jobs:
         run: npm run test:ci -- --watch=false --browsers=ChromeHeadless
 
       - name: Build
-        run: |
-          npx ng build --configuration production \
-          --base-href /${{ github.event.repository.name }}/
-
-      - name: Check build size
-        run: |
-          echo "Build size report:"
-          du -sh dist/Waegwiiser/browser
-          find dist/Waegwiiser/browser -type f -name "*.js" -exec du -h {} + | sort -rh | head -10
+        run: npx ng build --configuration production

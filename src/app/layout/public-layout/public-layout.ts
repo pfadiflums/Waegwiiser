@@ -7,17 +7,14 @@ import { Footer } from '../../components/footer/footer';
   selector: 'app-public-layout',
   imports: [RouterOutlet, Navbar, Footer],
   template: `
-    <app-navbar />
-    <main>
-      <router-outlet />
-    </main>
-    <app-footer />
+    <div class="public-app">
+      <app-navbar />
+      <main>
+        <router-outlet />
+      </main>
+      <app-footer />
+    </div>
   `,
-  styles: [`
-    main {
-      min-height: calc(100vh - 80px);
-    }
-  `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PublicLayout {

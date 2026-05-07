@@ -42,6 +42,15 @@
       ],
       "@spartan-ng/helm/collapsible": [
         "./src/app/components/spartan/collapsible/src/index.ts"
+      ],
+      "@spartan-ng/helm/alert": [
+        "./src/app/components/spartan/alert/src/index.ts"
+      ],
+      "@spartan-ng/helm/card": [
+        "./src/app/components/spartan/card/src/index.ts"
+      ],
+      "@spartan-ng/helm/label": [
+        "./src/app/components/spartan/label/src/index.ts"
       ]
     }
   },

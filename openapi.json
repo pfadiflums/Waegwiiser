@@ -1,0 +1,480 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Rucksack API",
+    "description": "Backend API für die Website der Pfadi St. Justus Flums",
+    "version": "1.0"
+  },
+  "servers": [
+    { "url": "/api/v1", "description": "Current instance" },
+    { "url": "https://api.pfadiflums.ch/api/v1", "description": "Production" }
+  ],
+  "security": [{ "bearerAuth": [] }],
+  "tags": [
+    { "name": "Uebungen", "description": "Scout section exercises (Uebungen)" },
+    { "name": "Stufen", "description": "Scout group sections (Stufen)" },
+    { "name": "Admin", "description": "Invite and manage authorized users (ADMIN only)" },
+    { "name": "Users", "description": "Authenticated user profile" }
+  ],
+  "paths": {
+    "/uebungen/{id}": {
+      "put": {
+        "tags": ["Uebungen"],
+        "summary": "Update an existing Uebung",
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/UebungCreateRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UebungDto" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      },
+      "delete": {
+        "tags": ["Uebungen"],
+        "summary": "Delete a Uebung (STUFENLEITER+ only)",
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": { "200": { "description": "OK" } },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/stufen/{slug}": {
+      "get": {
+        "tags": ["Stufen"],
+        "summary": "Get Stufe detail including Leitungsteam and next Uebung",
+        "operationId": "getBySlug",
+        "parameters": [
+          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/StufeDetailDto" } } }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Stufen"],
+        "summary": "Update a Stufe (STUFENLEITER+ with scope check)",
+        "operationId": "update_1",
+        "parameters": [
+          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/StufeRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/StufeOverviewDto" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/admin/users/{email}/roles": {
+      "put": {
+        "tags": ["Admin"],
+        "summary": "Update an existing user's roles",
+        "operationId": "updateRoles",
+        "parameters": [
+          { "name": "email", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/RoleUpdateRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserResponse" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/stufen": {
+      "get": {
+        "tags": ["Stufen"],
+        "summary": "List all Stufen",
+        "operationId": "listAll",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/StufeOverviewDto" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Stufen"],
+        "summary": "Create a new Stufe (ADMIN only)",
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/StufeRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/StufeOverviewDto" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/stufen/{slug}/uebungen": {
+      "get": {
+        "tags": ["Stufen"],
+        "summary": "List published Uebungen for a Stufe",
+        "operationId": "listUebungen",
+        "parameters": [
+          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/UebungDto" } }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Uebungen"],
+        "summary": "Create a new Uebung for a Stufe",
+        "operationId": "create_1",
+        "parameters": [
+          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/UebungCreateRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UebungDto" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/stufen/{slug}/leiter": {
+      "post": {
+        "tags": ["Stufen"],
+        "summary": "Assign a Leiter to a Stufe (STUFENLEITER+ with scope check)",
+        "operationId": "assignLeiter",
+        "parameters": [
+          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/AssignLeiterRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/LeiterDto" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/admin/invite": {
+      "post": {
+        "tags": ["Admin"],
+        "summary": "Invite a new user by email",
+        "operationId": "invite",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/InviteRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserResponse" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/uebungen/{id}/status": {
+      "patch": {
+        "tags": ["Uebungen"],
+        "summary": "Update the status of a Uebung",
+        "operationId": "setStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/UebungStatusRequest" } }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UebungDto" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/users/me": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get the current user's profile",
+        "operationId": "getMe",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserResponse" } } }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/admin/users": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "List all authorized users",
+        "operationId": "listUsers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/UserResponse" }
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }]
+      }
+    },
+    "/stufen/{slug}/leiter/{id}": {
+      "delete": {
+        "tags": ["Stufen"],
+        "summary": "Remove a Leiter from a Stufe (STUFENLEITER+ with scope check)",
+        "operationId": "removeLeiter",
+        "parameters": [
+          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": { "200": { "description": "OK" } },
+        "security": [{ "bearerAuth": [] }]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LocalTime": {
+        "type": "object",
+        "properties": {
+          "hour": { "type": "integer", "format": "int32" },
+          "minute": { "type": "integer", "format": "int32" },
+          "second": { "type": "integer", "format": "int32" },
+          "nano": { "type": "integer", "format": "int32" }
+        }
+      },
+      "UebungCreateRequest": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "format": "date" },
+          "antretenTime": { "$ref": "#/components/schemas/LocalTime" },
+          "antretenLocation": { "type": "string" },
+          "abtretenTime": { "$ref": "#/components/schemas/LocalTime" },
+          "abtretenLocation": { "type": "string" },
+          "motto": { "type": "string" },
+          "tenue": { "type": "string" },
+          "mitnehmen": { "type": "string" },
+          "weiteres": { "type": "string" }
+        }
+      },
+      "UebungDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "stufeSlug": { "type": "string" },
+          "date": { "type": "string", "format": "date" },
+          "antretenTime": { "$ref": "#/components/schemas/LocalTime" },
+          "antretenLocation": { "type": "string" },
+          "abtretenTime": { "$ref": "#/components/schemas/LocalTime" },
+          "abtretenLocation": { "type": "string" },
+          "motto": { "type": "string" },
+          "tenue": { "type": "string" },
+          "mitnehmen": { "type": "string" },
+          "weiteres": { "type": "string" },
+          "status": { "type": "string" }
+        }
+      },
+      "StufeRequest": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "slug": { "type": "string" },
+          "tagline": { "type": "string" },
+          "description": { "type": "string" },
+          "primaryColor": { "type": "string" },
+          "groupPhotoUrl": { "type": "string" },
+          "googleCalendarIframeUrl": { "type": "string" }
+        }
+      },
+      "StufeOverviewDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "name": { "type": "string" },
+          "slug": { "type": "string" },
+          "tagline": { "type": "string" },
+          "primaryColor": { "type": "string" },
+          "groupPhotoUrl": { "type": "string" }
+        }
+      },
+      "RoleUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "roles": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["ROLE_ADMIN", "ROLE_ABTEILUNGSLEITER", "ROLE_STUFENLEITER", "ROLE_LEITER"]
+            }
+          }
+        }
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "email": { "type": "string" },
+          "pfadiName": { "type": "string" },
+          "roles": { "type": "array", "items": { "type": "string" } },
+          "profilePhotoUrl": { "type": "string" }
+        }
+      },
+      "AssignLeiterRequest": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string" },
+          "sortOrder": { "type": "integer", "format": "int32" }
+        }
+      },
+      "LeiterDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "pfadiName": { "type": "string" },
+          "email": { "type": "string" },
+          "profilePhotoUrl": { "type": "string" },
+          "displayRole": { "type": "string" },
+          "sortOrder": { "type": "integer", "format": "int32" }
+        }
+      },
+      "InviteRequest": {
+        "required": ["email"],
+        "type": "object",
+        "properties": {
+          "email": { "type": "string" },
+          "roles": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["ROLE_ADMIN", "ROLE_ABTEILUNGSLEITER", "ROLE_STUFENLEITER", "ROLE_LEITER"]
+            }
+          }
+        }
+      },
+      "UebungStatusRequest": {
+        "type": "object",
+        "properties": { "status": { "type": "string", "enum": ["DRAFT", "PUBLISHED"] } }
+      },
+      "StufeDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "name": { "type": "string" },
+          "slug": { "type": "string" },
+          "tagline": { "type": "string" },
+          "description": { "type": "string" },
+          "primaryColor": { "type": "string" },
+          "groupPhotoUrl": { "type": "string" },
+          "googleCalendarIframeUrl": { "type": "string" },
+          "leitungsteam": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/LeiterDto" }
+          },
+          "nextUebung": { "$ref": "#/components/schemas/UebungDto" }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "description": "Paste the JWT token from the /auth/callback redirect. Log in first at /api/v1/oauth2/authorization/hitobito",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

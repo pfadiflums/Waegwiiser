@@ -1,7 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, input, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { StufeStore } from '../../../core/store/stufe.store';
+import { Api } from '../../../api/api';
+import { getBySlug } from '../../../api/fn/stufen/get-by-slug';
+import { StufeDetailDto } from '../../../api/models/stufe-detail-dto';
+import { LocalTime } from '../../../api/models/local-time';
 
 @Component({
   selector: 'app-stufe-detail',
@@ -9,20 +12,38 @@ import { StufeStore } from '../../../core/store/stufe.store';
   templateUrl: './stufe-detail.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StufeDetailComponent {
+export class StufeDetailComponent implements OnInit {
   private readonly sanitizer = inject(DomSanitizer);
-  protected readonly stufeStore = inject(StufeStore);
+  private readonly api = inject(Api);
 
   slug = input.required<string>();
 
-  readonly stufe = computed(() => this.stufeStore.stufeBySlug()[this.slug()] ?? null);
+  protected readonly stufe = signal<StufeDetailDto | null>(null);
+  protected readonly isLoading = signal(true);
+  protected readonly error = signal<string | null>(null);
 
   readonly calendarUrl = computed<SafeResourceUrl>(() => {
-    const url = this.stufe()?.calendarUrl;
+    const url = this.stufe()?.googleCalendarIframeUrl;
     return url ? this.sanitizer.bypassSecurityTrustResourceUrl(url) : '';
   });
 
-  constructor() {
-    this.stufeStore.loadAll();
+  ngOnInit(): void {
+    this.api.invoke$Response(getBySlug, { slug: this.slug() }).then(
+      response => {
+        this.stufe.set(response.body);
+        this.isLoading.set(false);
+      },
+      () => {
+        this.error.set('Fehler beim Laden der Stufe.');
+        this.isLoading.set(false);
+      },
+    );
+  }
+
+  protected formatTime(t: LocalTime | undefined): string {
+    if (!t) return '';
+    const h = String(t.hour ?? 0).padStart(2, '0');
+    const m = String(t.minute ?? 0).padStart(2, '0');
+    return `${h}:${m}`;
   }
 }

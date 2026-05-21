@@ -1,0 +1,192 @@
+<div hlmSidebarWrapper>
+  <hlm-sidebar>
+
+    <!-- Brand -->
+    <div hlmSidebarHeader class="border-b">
+      <ul hlmSidebarMenu>
+        <li hlmSidebarMenuItem>
+          <a hlmSidebarMenuButton class="!p-1.5" routerLink="/admin">
+            <ng-icon hlm name="tablerCampfire" class="!size-5"></ng-icon>
+            <span class="text-base font-semibold">Pfadi St. Justus</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div hlmSidebarContent>
+
+      <!-- Main nav -->
+      <div hlmSidebarGroup>
+        <div hlmSidebarGroupLabel>Übersicht</div>
+        <div hlmSidebarGroupContent>
+          <ul hlmSidebarMenu>
+            @for (item of navMain; track item.route) {
+              <li hlmSidebarMenuItem>
+                <a
+                  hlmSidebarMenuButton
+                  [routerLink]="item.route"
+                  routerLinkActive
+                  [routerLinkActiveOptions]="{ exact: item.exact }"
+                  #rla="routerLinkActive"
+                  [isActive]="rla.isActive"
+                >
+                  <ng-icon hlm [name]="item.icon"></ng-icon>
+                  <span>{{ item.title }}</span>
+                </a>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bereiche -->
+      <div hlmSidebarGroup>
+        <div hlmSidebarGroupLabel>Bereiche</div>
+        <div hlmSidebarGroupContent>
+          <ul hlmSidebarMenu>
+            @for (item of bereiche; track item.name) {
+              <li hlmSidebarMenuItem>
+                <a
+                  hlmSidebarMenuButton
+                  [routerLink]="item.route"
+                  routerLinkActive
+                  #rla="routerLinkActive"
+                  [isActive]="rla.isActive"
+                >
+                  <ng-icon hlm [name]="item.icon"></ng-icon>
+                  <span>{{ item.name }}</span>
+                </a>
+                <button hlmSidebarMenuAction [showOnHover]="true" [hlmDropdownMenuTrigger]="bereichMenu">
+                  <ng-icon hlm name="tablerDots"></ng-icon>
+                  <span class="sr-only">Mehr</span>
+                </button>
+              </li>
+            }
+            <ng-template #bereichMenu>
+              <hlm-dropdown-menu class="w-32 rounded-lg">
+                <button hlmDropdownMenuItem>
+                  <ng-icon hlm name="tablerFolder" size="sm"></ng-icon>
+                  <span>Öffnen</span>
+                </button>
+                <button hlmDropdownMenuItem>
+                  <ng-icon hlm name="tablerShare3" size="sm"></ng-icon>
+                  <span>Teilen</span>
+                </button>
+                <hlm-dropdown-menu-separator />
+                <button hlmDropdownMenuItem variant="destructive">
+                  <ng-icon hlm name="tablerTrash" size="sm"></ng-icon>
+                  <span>Löschen</span>
+                </button>
+              </hlm-dropdown-menu>
+            </ng-template>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Secondary nav -->
+      <div hlmSidebarGroup class="mt-auto">
+        <div hlmSidebarGroupContent>
+          <ul hlmSidebarMenu>
+            @for (item of navSecondary; track item.route) {
+              <li hlmSidebarMenuItem>
+                <a
+                  hlmSidebarMenuButton
+                  [routerLink]="item.route"
+                  routerLinkActive
+                  #rla="routerLinkActive"
+                  [isActive]="rla.isActive"
+                >
+                  <ng-icon hlm [name]="item.icon"></ng-icon>
+                  <span>{{ item.title }}</span>
+                </a>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- User footer -->
+    <div hlmSidebarFooter>
+      <ul hlmSidebarMenu>
+        <li hlmSidebarMenuItem>
+          <a
+            hlmSidebarMenuButton
+            size="lg"
+            class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            [hlmDropdownMenuTrigger]="userMenu"
+          >
+            <hlm-avatar class="size-8 rounded-lg">
+              <span class="bg-primary text-primary-foreground rounded-lg" hlmAvatarFallback>{{ userInitials }}</span>
+            </hlm-avatar>
+            <div class="grid flex-1 text-left text-sm leading-tight">
+              <span class="truncate font-medium">{{ displayName }}</span>
+              <span class="text-muted-foreground truncate text-xs">{{ authStore.user()?.email }}</span>
+            </div>
+            <ng-icon hlm name="tablerDotsVertical" class="ml-auto size-4"></ng-icon>
+          </a>
+        </li>
+      </ul>
+      <ng-template #userMenu>
+        <hlm-dropdown-menu class="min-w-56 rounded-lg">
+          <hlm-dropdown-menu-label class="p-0 font-normal">
+            <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+              <hlm-avatar class="size-8 rounded-lg">
+                <span class="bg-primary text-primary-foreground rounded-lg" hlmAvatarFallback>{{ userInitials }}</span>
+              </hlm-avatar>
+              <div class="grid flex-1 text-left text-sm leading-tight">
+                <span class="truncate font-medium">{{ displayName }}</span>
+                <span class="text-muted-foreground truncate text-xs">{{ authStore.user()?.email }}</span>
+              </div>
+            </div>
+          </hlm-dropdown-menu-label>
+          <hlm-dropdown-menu-separator />
+          <hlm-dropdown-menu-group>
+            <button hlmDropdownMenuItem>
+              <ng-icon hlm name="tablerUserCircle" size="sm"></ng-icon>
+              <span>Profil</span>
+            </button>
+            <button hlmDropdownMenuItem>
+              <ng-icon hlm name="tablerNotification" size="sm"></ng-icon>
+              <span>Benachrichtigungen</span>
+            </button>
+          </hlm-dropdown-menu-group>
+          <hlm-dropdown-menu-separator />
+          <button hlmDropdownMenuItem (click)="logout()">
+            <ng-icon hlm name="tablerLogout" size="sm"></ng-icon>
+            <span>Abmelden</span>
+          </button>
+        </hlm-dropdown-menu>
+      </ng-template>
+    </div>
+
+  </hlm-sidebar>
+
+  <main hlmSidebarInset>
+
+    <header
+      class="bg-background/90 sticky top-0 z-10 flex h-(--header-height) shrink-0 items-center gap-2 border-b backdrop-blur transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)"
+    >
+      <div class="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
+        <h1 class="text-base font-medium">{{ pageTitle() }}</h1>
+        <div class="ml-auto flex items-center gap-2">
+          <button hlmBtn size="sm" class="hidden h-7 gap-1.5 sm:flex">
+            <ng-icon hlm name="tablerCirclePlus" size="sm"></ng-icon>
+            <span>Neue Übung</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex flex-1 flex-col">
+      <div class="@container/main flex flex-1 flex-col gap-2">
+        <div class="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+          <router-outlet />
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+</div>

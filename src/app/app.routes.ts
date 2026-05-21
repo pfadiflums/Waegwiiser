@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { guestGuard } from './core/guards/auth.guard';
+import { authGuard, guestGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -7,18 +7,45 @@ export const routes: Routes = [
     loadComponent: () => import('./layout/admin-layout/admin-layout').then((m) => m.AdminLayout),
     children: [
       {
+        path: '',
+        canActivate: [authGuard],
+        loadComponent: () => import('./layout/admin-shell/admin-shell').then((m) => m.AdminShell),
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./feature/admin/dashboard/dashboard').then((m) => m.DashboardComponent),
+            data: { title: 'Dashboard' },
+          },
+          {
+            path: 'stufen',
+            loadComponent: () => import('./feature/admin/stufen/stufen').then((m) => m.StufenComponent),
+            data: { title: 'Stufen' },
+          },
+          {
+            path: 'uebungen',
+            loadComponent: () => import('./feature/admin/uebungen/uebungen').then((m) => m.UebungenComponent),
+            data: { title: 'Übungen' },
+          },
+          {
+            path: 'fotos',
+            loadComponent: () => import('./feature/admin/fotos/fotos').then((m) => m.FotosComponent),
+            data: { title: 'Fotos' },
+          },
+        ],
+      },
+      {
         path: 'login',
         canActivate: [guestGuard],
         loadComponent: () => import('./feature/admin/login/login').then((m) => m.LoginComponent),
       },
-      {
-        path: 'oauth2/redirect',
-        loadComponent: () =>
-          import('./feature/admin/oauth2-redirect/oauth2-redirect').then(
-            (m) => m.OAuth2RedirectComponent,
-          ),
-      },
     ],
+  },
+  {
+    path: 'auth/callback',
+    loadComponent: () =>
+      import('./feature/admin/oauth2-redirect/oauth2-redirect').then(
+        (m) => m.OAuth2RedirectComponent,
+      ),
   },
   {
     path: '',

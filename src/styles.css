@@ -1,27 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;700;800&family=Inter:wght@300;400;500;600&display=swap');
+@import '@fontsource/geist/latin.css';
+@import '@fontsource/geist-mono/latin.css';
 @import "tailwindcss";
 @import "@spartan-ng/brain/hlm-tailwind-preset.css";
 
 @theme {
-  /* Colors */
-  --color-primary: #ebc531;
-  --color-accent: #4251d5;
-  --color-muted: #5c6196;
+  /* Public-only colors (do not conflict with spartan-ng token names) */
   --color-app-bg: #f7f5ee;
   --color-dark: #373841;
   --color-biber: #eac04a;
   --color-woelfe: #1380a3;
   --color-pfader: #b78e60;
   --color-pios: #bf2e26;
-
-  /* Admin colors */
-  --color-admin-primary: #6366f1;
-  --color-admin-bg: #f9fafb;
-  --color-admin-surface: #ffffff;
-  --color-admin-text: #111827;
-  --color-admin-text-muted: #6b7280;
-  --color-admin-border: #e5e7eb;
-  --color-admin-sidebar: #1f2937;
 
   /* Fonts */
   --font-sans: 'Outfit', sans-serif;
@@ -32,11 +22,71 @@
   --breakpoint-lg: 62rem; /* 992px */
 }
 
+/* ─── Spartan-ng neutral theme (global default) ──────────────────────────────
+   These are read by spartan-ng via @theme inline { --color-primary: var(--primary) }
+   etc. The admin-layout :host resets them to the same values explicitly.
+   The public layout overrides the three brand colors below.
+   ─────────────────────────────────────────────────────────────────────────── */
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+/* ─── Spartan-ng base rules (admin only) ────────────────────────────────────
+   These mirror the official spartan.ng styles.css `@layer base` block but are
+   scoped to app-admin-layout so they don't affect the public site.
+   ─────────────────────────────────────────────────────────────────────────── */
+@layer base {
+  app-admin-layout,
+  app-admin-layout * {
+    border-color: var(--border);
+    outline-color: color-mix(in oklch, var(--ring) 50%, transparent);
+  }
+
+  app-admin-layout {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
+
 /* ─── Public layout styles ───────────────────────────────────────────────────
    All rules here are scoped to .public-app so they never affect admin routes.
    ─────────────────────────────────────────────────────────────────────────── */
 @layer base {
   .public-app {
+    /* Restore pfadi brand colors for the spartan-ng token names used in public templates */
+    --primary: #ebc531;
+    --primary-foreground: #373841;
+    --accent: #4251d5;
+    --accent-foreground: #ffffff;
+    --muted: #5c6196;
+    --muted-foreground: #5c6196;
+
     min-height: 100vh;
     background-color: var(--color-app-bg);
     color: var(--color-dark);

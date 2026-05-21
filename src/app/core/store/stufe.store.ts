@@ -1,9 +1,10 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { Stufe } from '../models/stufe.model';
-import { StufeService } from '../services/stufe.service';
+import { Api } from '../../api/api';
+import { listAll } from '../../api/fn/stufen/list-all';
+import { StufeOverviewDto } from '../../api/models/stufe-overview-dto';
 
 interface StufeState {
-  stufen: Stufe[];
+  stufen: StufeOverviewDto[];
   isLoading: boolean;
   loaded: boolean;
   error: string | null;
@@ -11,7 +12,7 @@ interface StufeState {
 
 @Injectable({ providedIn: 'root' })
 export class StufeStore {
-  private readonly stufeService = inject(StufeService);
+  private readonly api = inject(Api);
 
   private readonly _state = signal<StufeState>({
     stufen: [],
@@ -25,22 +26,23 @@ export class StufeStore {
   readonly loaded = computed(() => this._state().loaded);
   readonly error = computed(() => this._state().error);
 
-  readonly stufeBySlug = computed<Record<string, Stufe>>(() =>
-    Object.fromEntries(this._state().stufen.map(s => [s.slug, s]))
-  );
-
   loadAll(): void {
     const { loaded, isLoading } = this._state();
     if (loaded || isLoading) return;
 
     this._state.update(s => ({ ...s, isLoading: true, error: null }));
-    this.stufeService.getAll().subscribe({
-      next: stufen => this._state.update(s => ({ ...s, stufen, isLoading: false, loaded: true })),
-      error: () => this._state.update(s => ({
+    this.api.invoke$Response(listAll).then(
+      response => this._state.update(s => ({
+        ...s,
+        stufen: response.body ?? [],
+        isLoading: false,
+        loaded: true,
+      })),
+      () => this._state.update(s => ({
         ...s,
         isLoading: false,
         error: 'Fehler beim Laden der Stufen.',
       })),
-    });
+    );
   }
 }

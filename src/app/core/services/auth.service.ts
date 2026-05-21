@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AuthResponse, LoginRequest, UserResponse } from '../models/auth.model';
+import { AuthResponse, LoginRequest } from '../models/auth.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -15,9 +15,5 @@ export class AuthService {
 
   logout(): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/auth/logout`, {});
-  }
-
-  fetchCurrentUser(): Observable<UserResponse> {
-    return this.http.get<UserResponse>(`${this.apiUrl}/users/me`);
   }
 }

@@ -1,0 +1,240 @@
+<div class="px-4 lg:px-6">
+
+  <!-- Toolbar -->
+  <div class="mb-4 flex items-center justify-between gap-3">
+    <select
+      hlmInput
+      class="h-9 w-48"
+      [value]="selectedStufeSlug()"
+      (change)="selectedStufeSlug.set($any($event.target).value)"
+    >
+      <option value="all">Alle Stufen</option>
+      @for (s of stufeStore.stufen(); track s.slug) {
+        <option [value]="s.slug">{{ s.name }}</option>
+      }
+    </select>
+
+    <button hlmBtn size="sm" (click)="openCreate()">
+      <ng-icon hlm name="tablerPlus" size="sm" />
+      Neue Übung
+    </button>
+  </div>
+
+  <!-- Table -->
+  <div hlmTableContainer>
+    <table hlmTable>
+      <thead hlmTHead>
+        <tr hlmTr>
+          <th hlmTh>Datum</th>
+          <th hlmTh>Motto</th>
+          <th hlmTh>Stufe</th>
+          <th hlmTh>Status</th>
+          <th hlmTh>Antreten</th>
+          <th hlmTh>Abtreten</th>
+          <th hlmTh class="w-28 text-right">Aktionen</th>
+        </tr>
+      </thead>
+      <tbody hlmTBody>
+        @if (uebungStore.isLoading()) {
+          @for (i of [1,2,3,4,5]; track i) {
+            <tr hlmTr>
+              @for (j of [1,2,3,4,5,6,7]; track j) {
+                <td hlmTd>
+                  <div class="bg-muted h-4 w-24 animate-pulse rounded"></div>
+                </td>
+              }
+            </tr>
+          }
+        } @else if (filteredUebungen().length === 0) {
+          <tr hlmTr>
+            <td hlmTd colspan="7" class="text-muted-foreground py-10 text-center text-sm">
+              Keine Übungen vorhanden.
+            </td>
+          </tr>
+        } @else {
+          @for (u of filteredUebungen(); track u.id) {
+            <tr hlmTr>
+              <td hlmTd class="font-medium">{{ formatDate(u.date) }}</td>
+              <td hlmTd>{{ u.motto || '—' }}</td>
+              <td hlmTd>{{ stufeName(u.stufeSlug) }}</td>
+              <td hlmTd>
+                <button
+                  hlmBadge
+                  [variant]="u.status === 'PUBLISHED' ? 'default' : 'secondary'"
+                  class="cursor-pointer select-none"
+                  (click)="toggleStatus(u)"
+                  [title]="u.status === 'PUBLISHED' ? 'Auf Entwurf setzen' : 'Veröffentlichen'"
+                >
+                  {{ u.status === 'PUBLISHED' ? 'Veröffentlicht' : 'Entwurf' }}
+                </button>
+              </td>
+              <td hlmTd class="text-sm">
+                <span class="font-medium">{{ formatTime(u.antretenTime) }}</span>
+                @if (u.antretenLocation) {
+                  <br><span class="text-muted-foreground text-xs">{{ u.antretenLocation }}</span>
+                }
+              </td>
+              <td hlmTd class="text-sm">
+                <span class="font-medium">{{ formatTime(u.abtretenTime) }}</span>
+                @if (u.abtretenLocation) {
+                  <br><span class="text-muted-foreground text-xs">{{ u.abtretenLocation }}</span>
+                }
+              </td>
+              <td hlmTd class="text-right">
+                <div class="flex justify-end gap-1">
+                  <button hlmBtn variant="ghost" size="icon" (click)="openEdit(u)">
+                    <ng-icon hlm name="tablerEdit" size="sm" />
+                    <span class="sr-only">Bearbeiten</span>
+                  </button>
+                  <button hlmBtn variant="ghost" size="icon" (click)="confirmDelete(u.id!)">
+                    <ng-icon hlm name="tablerTrash" size="sm" class="text-destructive" />
+                    <span class="sr-only">Löschen</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (uebungStore.error()) {
+    <p class="text-destructive mt-4 text-sm">{{ uebungStore.error() }}</p>
+  }
+
+</div>
+
+<!-- Create / Edit Dialog -->
+<hlm-dialog #uebungDialog>
+  <ng-template hlmDialogPortal>
+    <hlm-dialog-content class="sm:max-w-2xl overflow-y-auto max-h-[90vh]">
+      <hlm-dialog-header>
+        <h2 hlmDialogTitle>
+          {{ dialogMode() === 'create' ? 'Neue Übung erstellen' : 'Übung bearbeiten' }}
+        </h2>
+        <p hlmDialogDescription>
+          {{ dialogMode() === 'create' ? 'Füge eine neue Übung für eine Stufe hinzu.' : 'Ändere die Angaben zur Übung.' }}
+        </p>
+      </hlm-dialog-header>
+
+      <form [formGroup]="form" (ngSubmit)="save()" class="grid gap-4 py-2">
+
+        <!-- Stufe (create only) -->
+        @if (dialogMode() === 'create') {
+          <div class="grid gap-1.5">
+            <label hlmLabel for="stufeSlug">Stufe *</label>
+            <select hlmInput id="stufeSlug" formControlName="stufeSlug">
+              <option value="" disabled>Stufe wählen…</option>
+              @for (s of stufeStore.stufen(); track s.slug) {
+                <option [value]="s.slug">{{ s.name }}</option>
+              }
+            </select>
+          </div>
+        }
+
+        <!-- Datum + Motto -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="grid gap-1.5">
+            <label hlmLabel for="date">Datum</label>
+            <input hlmInput type="date" id="date" formControlName="date" />
+          </div>
+          <div class="grid gap-1.5">
+            <label hlmLabel for="motto">Motto</label>
+            <input hlmInput type="text" id="motto" placeholder="z.B. Waldabenteuer" formControlName="motto" />
+          </div>
+        </div>
+
+        <!-- Tenue -->
+        <div class="grid gap-1.5">
+          <label hlmLabel for="tenue">Tenue</label>
+          <input hlmInput type="text" id="tenue" placeholder="z.B. Pfadihemd" formControlName="tenue" />
+        </div>
+
+        <!-- Antreten -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="grid gap-1.5">
+            <label hlmLabel for="antretenTime">Antreten Uhrzeit</label>
+            <input hlmInput type="time" id="antretenTime" formControlName="antretenTime" />
+          </div>
+          <div class="grid gap-1.5">
+            <label hlmLabel for="antretenLocation">Antreten Ort</label>
+            <input hlmInput type="text" id="antretenLocation" placeholder="z.B. Pfadiheim" formControlName="antretenLocation" />
+          </div>
+        </div>
+
+        <!-- Abtreten -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="grid gap-1.5">
+            <label hlmLabel for="abtretenTime">Abtreten Uhrzeit</label>
+            <input hlmInput type="time" id="abtretenTime" formControlName="abtretenTime" />
+          </div>
+          <div class="grid gap-1.5">
+            <label hlmLabel for="abtretenLocation">Abtreten Ort</label>
+            <input hlmInput type="text" id="abtretenLocation" placeholder="z.B. Parkplatz" formControlName="abtretenLocation" />
+          </div>
+        </div>
+
+        <!-- Mitnehmen -->
+        <div class="grid gap-1.5">
+          <label hlmLabel for="mitnehmen">Mitnehmen</label>
+          <textarea
+            hlmInput
+            id="mitnehmen"
+            rows="2"
+            placeholder="z.B. Znüni, Regenjacke"
+            formControlName="mitnehmen"
+            class="resize-none"
+          ></textarea>
+        </div>
+
+        <!-- Weiteres -->
+        <div class="grid gap-1.5">
+          <label hlmLabel for="weiteres">Weiteres</label>
+          <textarea
+            hlmInput
+            id="weiteres"
+            rows="2"
+            placeholder="Weitere Infos…"
+            formControlName="weiteres"
+            class="resize-none"
+          ></textarea>
+        </div>
+
+      </form>
+
+      <hlm-dialog-footer>
+        <button hlmBtn variant="outline" hlmDialogClose>Abbrechen</button>
+        <button hlmBtn (click)="save()" [disabled]="form.invalid || saving()">
+          @if (saving()) {
+            <ng-icon hlm name="tablerLoader2" size="sm" class="animate-spin" />
+          }
+          {{ dialogMode() === 'create' ? 'Erstellen' : 'Speichern' }}
+        </button>
+      </hlm-dialog-footer>
+    </hlm-dialog-content>
+  </ng-template>
+</hlm-dialog>
+
+<!-- Delete Confirmation Dialog -->
+<hlm-dialog #deleteDialog>
+  <ng-template hlmDialogPortal>
+    <hlm-dialog-content class="sm:max-w-md">
+      <hlm-dialog-header>
+        <h2 hlmDialogTitle>Übung löschen</h2>
+        <p hlmDialogDescription>
+          Diese Übung wird unwiderruflich gelöscht. Bist du sicher?
+        </p>
+      </hlm-dialog-header>
+      <hlm-dialog-footer>
+        <button hlmBtn variant="outline" hlmDialogClose>Abbrechen</button>
+        <button hlmBtn variant="destructive" (click)="doDelete()" [disabled]="deleting()">
+          @if (deleting()) {
+            <ng-icon hlm name="tablerLoader2" size="sm" class="animate-spin" />
+          }
+          Löschen
+        </button>
+      </hlm-dialog-footer>
+    </hlm-dialog-content>
+  </ng-template>
+</hlm-dialog>

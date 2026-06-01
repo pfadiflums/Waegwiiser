@@ -1,0 +1,224 @@
+<div class="px-4 lg:px-6">
+
+  <!-- Toolbar -->
+  <div class="mb-4 flex justify-end">
+    <button hlmBtn size="sm" (click)="openCreate()">
+      <ng-icon hlm name="tablerPlus" size="sm" />
+      Neue Stufe
+    </button>
+  </div>
+
+  <!-- Table -->
+  <div hlmTableContainer>
+    <table hlmTable>
+      <thead hlmTHead>
+        <tr hlmTr>
+          <th hlmTh class="w-10">Farbe</th>
+          <th hlmTh>Name</th>
+          <th hlmTh>Slug</th>
+          <th hlmTh>Tagline</th>
+          <th hlmTh class="w-32 text-right">Aktionen</th>
+        </tr>
+      </thead>
+      <tbody hlmTBody>
+        @if (stufeStore.isLoading()) {
+          @for (i of [1,2,3,4]; track i) {
+            <tr hlmTr>
+              @for (j of [1,2,3,4,5]; track j) {
+                <td hlmTd><div class="bg-muted h-4 w-24 animate-pulse rounded"></div></td>
+              }
+            </tr>
+          }
+        } @else if (stufeStore.stufen().length === 0) {
+          <tr hlmTr>
+            <td hlmTd colspan="5" class="text-muted-foreground py-10 text-center text-sm">
+              Keine Stufen vorhanden.
+            </td>
+          </tr>
+        } @else {
+          @for (s of stufeStore.stufen(); track s.slug) {
+            <tr hlmTr>
+              <td hlmTd>
+                <span
+                  class="inline-block size-6 rounded-full border"
+                  [style.background-color]="s.primaryColor"
+                ></span>
+              </td>
+              <td hlmTd class="font-medium">{{ s.name }}</td>
+              <td hlmTd>
+                <span hlmBadge variant="secondary">{{ s.slug }}</span>
+              </td>
+              <td hlmTd class="text-muted-foreground text-sm">{{ s.tagline || '—' }}</td>
+              <td hlmTd class="text-right">
+                <div class="flex justify-end gap-1">
+                  <button hlmBtn variant="ghost" size="icon" (click)="openLeiter(s)" title="Leitungsteam">
+                    <ng-icon hlm name="tablerUsers" size="sm" />
+                    <span class="sr-only">Leitungsteam</span>
+                  </button>
+                  <button hlmBtn variant="ghost" size="icon" (click)="openEdit(s)" title="Bearbeiten">
+                    <ng-icon hlm name="tablerEdit" size="sm" />
+                    <span class="sr-only">Bearbeiten</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (stufeStore.error()) {
+    <p class="text-destructive mt-4 text-sm">{{ stufeStore.error() }}</p>
+  }
+
+</div>
+
+<!-- Create / Edit Stufe Dialog -->
+<hlm-dialog #stufeDialog>
+  <ng-template hlmDialogPortal>
+    <hlm-dialog-content class="sm:max-w-lg overflow-y-auto max-h-[90vh]">
+      <hlm-dialog-header>
+        <h2 hlmDialogTitle>
+          {{ dialogMode() === 'create' ? 'Neue Stufe erstellen' : 'Stufe bearbeiten' }}
+        </h2>
+      </hlm-dialog-header>
+
+      <form [formGroup]="stufeForm" (ngSubmit)="save()" class="grid gap-4 py-2">
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="grid gap-1.5">
+            <label hlmLabel for="stName">Name *</label>
+            <input hlmInput type="text" id="stName" placeholder="z.B. Wolfsstufe" formControlName="name" />
+          </div>
+          <div class="grid gap-1.5">
+            <label hlmLabel for="stSlug">Slug *</label>
+            <input hlmInput type="text" id="stSlug" placeholder="z.B. wölfe" formControlName="slug" />
+          </div>
+        </div>
+
+        <div class="grid gap-1.5">
+          <label hlmLabel for="stTagline">Tagline</label>
+          <input hlmInput type="text" id="stTagline" placeholder="Kurzbeschreibung" formControlName="tagline" />
+        </div>
+
+        <div class="grid gap-1.5">
+          <label hlmLabel for="stDescription">Beschreibung</label>
+          <textarea
+            hlmInput
+            id="stDescription"
+            rows="3"
+            placeholder="Ausführliche Beschreibung der Stufe…"
+            formControlName="description"
+            class="resize-none"
+          ></textarea>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="grid gap-1.5">
+            <label hlmLabel for="stColor">Farbe</label>
+            <div class="flex items-center gap-2">
+              <input type="color" id="stColor" formControlName="primaryColor" class="h-9 w-12 cursor-pointer rounded border p-0.5" />
+              <input hlmInput type="text" formControlName="primaryColor" placeholder="#000000" class="flex-1" />
+            </div>
+          </div>
+          <div class="grid gap-1.5">
+            <label hlmLabel for="stPhoto">Gruppenfoto URL</label>
+            <input hlmInput type="url" id="stPhoto" placeholder="https://…" formControlName="groupPhotoUrl" />
+          </div>
+        </div>
+
+        <div class="grid gap-1.5">
+          <label hlmLabel for="stCal">Google Kalender iframe URL</label>
+          <input hlmInput type="url" id="stCal" placeholder="https://calendar.google.com/…" formControlName="googleCalendarIframeUrl" />
+        </div>
+
+      </form>
+
+      <hlm-dialog-footer>
+        <button hlmBtn variant="outline" hlmDialogClose>Abbrechen</button>
+        <button hlmBtn (click)="save()" [disabled]="stufeForm.invalid || saving()">
+          @if (saving()) {
+            <ng-icon hlm name="tablerLoader2" size="sm" class="animate-spin" />
+          }
+          {{ dialogMode() === 'create' ? 'Erstellen' : 'Speichern' }}
+        </button>
+      </hlm-dialog-footer>
+    </hlm-dialog-content>
+  </ng-template>
+</hlm-dialog>
+
+<!-- Leitungsteam Dialog -->
+<hlm-dialog #leiterDialog>
+  <ng-template hlmDialogPortal>
+    <hlm-dialog-content class="sm:max-w-lg">
+      <hlm-dialog-header>
+        <h2 hlmDialogTitle>Leitungsteam</h2>
+        <p hlmDialogDescription>Leiter:innen für diese Stufe verwalten.</p>
+      </hlm-dialog-header>
+
+      <div class="py-2 space-y-4">
+
+        <!-- Current leaders list -->
+        <div class="space-y-2">
+          @if (!activeDetail()) {
+            <div class="text-muted-foreground flex items-center gap-2 text-sm">
+              <ng-icon hlm name="tablerLoader2" size="sm" class="animate-spin" />
+              Wird geladen…
+            </div>
+          } @else if ((activeDetail()?.leitungsteam ?? []).length === 0) {
+            <p class="text-muted-foreground text-sm">Noch keine Leiter:innen zugewiesen.</p>
+          } @else {
+            @for (l of activeDetail()?.leitungsteam ?? []; track l.id) {
+              <div class="flex items-center justify-between rounded-md border px-3 py-2">
+                <div class="min-w-0">
+                  <p class="truncate text-sm font-medium">{{ l.pfadiName || l.email }}</p>
+                  <p class="text-muted-foreground truncate text-xs">{{ l.email }}</p>
+                </div>
+                <button
+                  hlmBtn
+                  variant="ghost"
+                  size="icon"
+                  [disabled]="removingLeiterId() === l.id"
+                  (click)="removeLeiter(l.id!)"
+                >
+                  @if (removingLeiterId() === l.id) {
+                    <ng-icon hlm name="tablerLoader2" size="sm" class="animate-spin" />
+                  } @else {
+                    <ng-icon hlm name="tablerTrash" size="sm" class="text-destructive" />
+                  }
+                </button>
+              </div>
+            }
+          }
+        </div>
+
+        <!-- Add leiter form -->
+        <form [formGroup]="leiterForm" (ngSubmit)="addLeiter()" class="border-t pt-4">
+          <p class="mb-2 text-sm font-medium">Leiter:in hinzufügen</p>
+          <div class="flex gap-2">
+            <input
+              hlmInput
+              type="email"
+              placeholder="E-Mail-Adresse"
+              formControlName="email"
+              class="flex-1"
+            />
+            <button hlmBtn type="submit" [disabled]="leiterForm.invalid || addingLeiter()">
+              @if (addingLeiter()) {
+                <ng-icon hlm name="tablerLoader2" size="sm" class="animate-spin" />
+              } @else {
+                <ng-icon hlm name="tablerUserPlus" size="sm" />
+              }
+            </button>
+          </div>
+        </form>
+
+      </div>
+
+      <hlm-dialog-footer>
+        <button hlmBtn variant="outline" hlmDialogClose>Schliessen</button>
+      </hlm-dialog-footer>
+    </hlm-dialog-content>
+  </ng-template>
+</hlm-dialog>

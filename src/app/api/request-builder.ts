@@ -103,7 +103,7 @@ class PathParameter extends Parameter {
         } else {
           // For objects we have to put each the key / value pairs
           value = this.serializeValue(value, ';');
-          alreadySerialized = true
+          alreadySerialized = true;
         }
       }
     }

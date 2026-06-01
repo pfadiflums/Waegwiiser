@@ -5,6 +5,8 @@ import { registerLocaleData } from '@angular/common';
 import localeDeCH from '@angular/common/locales/de-CH';
 import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { cacheInterceptor } from './core/interceptors/cache.interceptor';
+import { provideApiConfiguration } from './api/api-configuration';
+import { environment } from '../environments/environment';
 
 import { routes } from './app.routes';
 
@@ -16,5 +18,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(withInterceptors([cacheInterceptor, jwtInterceptor])),
     { provide: LOCALE_ID, useValue: 'de-CH' },
+    provideApiConfiguration(environment.apiUrl),
   ]
 };

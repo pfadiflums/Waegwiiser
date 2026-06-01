@@ -3,7 +3,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { switchMap, tap } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { LoginRequest, UserResponse } from '../models/auth.model';
+import { LoginRequest } from '../models/auth.model';
+import { Api } from '../../api/api';
+import { getMe } from '../../api/fn/users/get-me';
+import { UserResponse } from '../../api/models/user-response';
 
 interface AuthState {
   token: string | null;
@@ -32,6 +35,7 @@ function loadStoredUser(): UserResponse | null {
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
   private readonly authService = inject(AuthService);
+  private readonly api = inject(Api);
   private readonly router = inject(Router);
 
   private readonly _state = signal<AuthState>({
@@ -41,7 +45,7 @@ export class AuthStore {
     error: null,
   });
 
-  readonly isAuthenticated = computed(() => !!this._state().token);
+  readonly isAuthenticated = computed(() => !!this._state().token || !!this._state().user);
   readonly isLoading = computed(() => this._state().isLoading);
   readonly error = computed(() => this._state().error);
   readonly user = computed(() => this._state().user);
@@ -63,9 +67,10 @@ export class AuthStore {
         localStorage.setItem(TOKEN_KEY, response.token);
         this._state.update(s => ({ ...s, token: response.token }));
       }),
-      switchMap(() => this.authService.fetchCurrentUser()),
+      switchMap(() => this.api.invoke$Response(getMe)),
     ).subscribe({
-      next: user => {
+      next: response => {
+        const user = response.body;
         localStorage.setItem(USER_KEY, JSON.stringify(user));
         this._state.update(s => ({ ...s, user, isLoading: false }));
         this.router.navigate(['/admin']);
@@ -79,26 +84,44 @@ export class AuthStore {
 
   logout(): void {
     this.authService.logout().subscribe({
-      complete: () => this.clearSession(),
-      error: () => this.clearSession(),
+      complete: () => this.handleUnauthorized(),
+      error: () => this.handleUnauthorized(),
     });
+  }
+
+  initFromCookie(): void {
+    this._state.update(s => ({ ...s, isLoading: true }));
+
+    this.api.invoke$Response(getMe).then(
+      response => {
+        const user = response.body;
+        localStorage.setItem(USER_KEY, JSON.stringify(user));
+        this._state.update(s => ({ ...s, user, isLoading: false }));
+        this.router.navigate(['/admin']);
+      },
+      () => {
+        this._state.update(s => ({ ...s, isLoading: false }));
+        this.router.navigate(['/admin/login'], { queryParams: { error: 'auth_failed' } });
+      },
+    );
   }
 
   initFromOAuth(token: string): void {
     localStorage.setItem(TOKEN_KEY, token);
     this._state.update(s => ({ ...s, token, isLoading: true }));
 
-    this.authService.fetchCurrentUser().subscribe({
-      next: user => {
+    this.api.invoke$Response(getMe).then(
+      response => {
+        const user = response.body;
         localStorage.setItem(USER_KEY, JSON.stringify(user));
         this._state.update(s => ({ ...s, user, isLoading: false }));
         this.router.navigate(['/admin']);
       },
-      error: () => {
+      () => {
         this.clearSession();
         this.router.navigate(['/admin/login'], { queryParams: { error: 'auth_failed' } });
       },
-    });
+    );
   }
 
   handleUnauthorized(): void {

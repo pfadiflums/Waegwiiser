@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { StufeStore } from '../../../core/store/stufe.store';
 import { HeroDecoration } from '../../../shared/components/hero-decoration/hero-decoration';
+import { STUFEN } from '../../../shared/data/stufen';
 
 @Component({
   selector: 'app-home',
@@ -9,9 +9,6 @@ import { HeroDecoration } from '../../../shared/components/hero-decoration/hero-
   templateUrl: './home.html',
 })
 export class Home {
-  protected readonly stufeStore = inject(StufeStore);
-
-  constructor() {
-    void this.stufeStore.loadAll();
-  }
+  /** Feste Liste — die Startseite wartet bewusst nicht auf die API. */
+  protected readonly stufen = STUFEN;
 }

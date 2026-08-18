@@ -94,6 +94,27 @@ behoben:
 Vor einer Neubewertung zuerst `npm audit --omit=dev` prüfen – solange das 0
 meldet, besteht kein Handlungsbedarf für die Website.
 
+### Barrierefreiheit & Markenfarben
+
+Die Website erfuellt WCAG 2.1 AA mit einer **bewussten Ausnahme**: den
+Markenfarben als Schriftfarbe auf hellem Grund.
+
+| Verwendung | Kontrast | AA |
+|---|---|---|
+| `text-primary` (#ebc531) auf `--color-app-bg` | 1.53:1 | nein |
+| `text-biber` (#eac04a) auf `--color-app-bg` | 1.59:1 | nein |
+| Stufenfarbe als Ueberschrift (Biber / Pfader) | 1.59:1 / 2.73:1 | nein |
+| Kachelbeschriftung auf Woelfe / Pios | 2.57:1 / 2.01:1 | nein |
+
+Das ist **Absicht**: Wiedererkennung und Markenidentitaet wiegen hier schwerer
+als der Kontrastwert. Diese Werte bitte nicht "korrigieren", wenn ein
+Audit-Tool (Lighthouse, AXE) sie meldet.
+
+Alles Uebrige ist umgesetzt: Tastaturbedienbarkeit, Fokus-Indikatoren,
+`lang="de-CH"`, Titel pro Route, Skip-Link, ARIA-Zustaende in der
+Navigation, iframe-Titel sowie ausreichende Kontraste bei allen **nicht** markenfarbenen
+Texten.
+
 ---
 
 ## Projektstruktur

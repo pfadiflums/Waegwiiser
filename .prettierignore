@@ -1,0 +1,9 @@
+# Generierter API-Client (ng-openapi-gen)
+src/app/api/
+
+# Von der spartan-ng CLI generierte Komponenten
+src/app/shared/ui/
+
+dist/
+node_modules/
+package-lock.json

@@ -74,6 +74,35 @@ export const routes: Routes = [
         loadComponent: () => import('./feature/public/about/about').then((m) => m.AboutComponent),
       },
       {
+        path: 'abteilung',
+        children: [
+          {
+            path: '',
+            redirectTo: 'abteilungsleitung',
+            pathMatch: 'full',
+          },
+          {
+            path: 'abteilungsleitung',
+            loadComponent: () =>
+              import('./feature/public/abteilungsleitung/abteilungsleitung').then(
+                (m) => m.AbteilungsleitungComponent,
+              ),
+          },
+          {
+            path: 'abteilungskomitee',
+            loadComponent: () =>
+              import('./feature/public/abteilungskomitee/abteilungskomitee').then(
+                (m) => m.AbteilungskomiteeComponent,
+              ),
+          },
+          {
+            path: 'altpfader',
+            loadComponent: () =>
+              import('./feature/public/altpfader/altpfader').then((m) => m.AltpfaderComponent),
+          },
+        ],
+      },
+      {
         path: 'downloads',
         loadComponent: () =>
           import('./feature/public/downloads/downloads').then((m) => m.DownloadsComponent),

@@ -10,14 +10,7 @@
     </a>
   </section>
 
-  <div class="absolute top-15 right-0 w-full max-w-300 z-1 pointer-events-none max-md:top-25 max-md:opacity-70">
-    <div class="w-full flex justify-end relative z-2 right-25">
-      <img src="/assets/images/group.png" class="w-[60%] h-auto object-contain max-md:hidden" alt="Pfadi Gruppe">
-    </div>
-    <div class="absolute -bottom-87.5 -right-45 z-1 w-[70%]">
-      <img src="/assets/elements/blob.svg" alt="blob" class="w-full h-auto max-md:hidden">
-    </div>
-  </div>
+  <app-hero-decoration />
 
   <section class="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5.75 relative z-3 max-md:grid-cols-2 max-md:gap-3.75">
     @if (stufeStore.isLoading()) {

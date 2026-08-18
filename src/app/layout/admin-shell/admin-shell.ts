@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
+import { Component, ViewEncapsulation, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { filter, map, startWith } from 'rxjs';
@@ -85,7 +85,6 @@ import { AuthStore } from '../../core/store/auth.store';
     }
   `],
   templateUrl: './admin-shell.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminShell {
   protected readonly authStore = inject(AuthStore);
@@ -100,7 +99,7 @@ export class AdminShell {
       map(() => {
         let route = this.activatedRoute;
         while (route.firstChild) route = route.firstChild;
-        return (route.snapshot.data['title'] as string | undefined) ?? 'Dashboard';
+        return route.snapshot.title ?? 'Dashboard';
       }),
     ),
     { initialValue: 'Dashboard' },
@@ -124,17 +123,15 @@ export class AdminShell {
     { title: 'Suchen', route: '/admin/search', icon: 'tablerSearch' },
   ];
 
-  protected get userInitials(): string {
+  protected readonly userInitials = computed(() => {
     const user = this.authStore.user();
-    const name = user?.pfadiName ?? user?.email ?? '?';
-    return name.slice(0, 2).toUpperCase();
-  }
+    return (user?.pfadiName ?? user?.email ?? '?').slice(0, 2).toUpperCase();
+  });
 
-  protected get displayName(): string {
-    return this.authStore.user()?.pfadiName
-      ?? this.authStore.user()?.email?.split('@')[0]
-      ?? '—';
-  }
+  protected readonly displayName = computed(() => {
+    const user = this.authStore.user();
+    return user?.pfadiName ?? user?.email?.split('@')[0] ?? '—';
+  });
 
   logout(): void {
     this.authStore.logout();

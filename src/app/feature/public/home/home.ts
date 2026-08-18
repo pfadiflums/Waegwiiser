@@ -1,18 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { StufeStore } from '../../../core/store/stufe.store';
+import { HeroDecoration } from '../../../shared/components/hero-decoration/hero-decoration';
+import { STUFEN } from '../../../shared/data/stufen';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink],
+  imports: [RouterLink, HeroDecoration],
   templateUrl: './home.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Home {
-  protected readonly stufeStore = inject(StufeStore);
-  readonly instagramPosts = Array(9).fill(null);
-
-  constructor() {
-    this.stufeStore.loadAll();
-  }
+  protected readonly stufen = STUFEN;
 }

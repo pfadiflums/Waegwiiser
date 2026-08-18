@@ -1,0 +1,48 @@
+<div class="container bg-app-bg relative flex flex-col gap-37.5 pb-37.5 max-[1900px]:overflow-x-hidden max-md:gap-20 max-md:pb-20">
+
+  <section class="pt-20 mb-90 flex flex-col relative z-2 max-md:pt-30 max-md:mb-0">
+    <h1 class="max-w-250 text-[96px] leading-30.25 text-primary uppercase font-extrabold bg-transparent max-md:text-[48px] max-md:leading-[1.1]">
+      @for (line of content().titleLines; track $index) {
+        {{ line }}@if (!$last) {<br>}
+      }
+    </h1>
+
+    <div class="max-w-115 max-md:max-w-full">
+      <p class="mt-7.5 text-[16px] leading-normal tracking-normal text-dark max-md:mt-5">
+        {{ content().description }}
+      </p>
+
+      @if (content().aufgaben?.length) {
+        <p class="mt-7.5 text-[16px] leading-normal font-bold tracking-normal text-dark">Aufgaben:</p>
+        <ul class="mt-2.5 list-disc pl-5 flex flex-col gap-1.25 text-[16px] leading-normal tracking-normal text-dark">
+          @for (aufgabe of content().aufgaben; track $index) {
+            <li>{{ aufgabe }}</li>
+          }
+        </ul>
+      }
+    </div>
+  </section>
+
+  <app-hero-decoration />
+
+  <section class="relative z-3 flex flex-wrap justify-center gap-10 max-md:gap-5">
+    @for (member of content().members; track member.pfadiName) {
+      <div class="w-62.5 flex flex-col items-center max-md:w-37.5">
+        <div class="w-62.5 h-62.5 rounded-full overflow-hidden bg-dark/15 mb-7.5 max-md:w-37.5 max-md:h-37.5 max-md:mb-3.75">
+          @if (member.imageUrl) {
+            <img [src]="member.imageUrl" [alt]="member.pfadiName" class="w-full h-full object-cover">
+          }
+        </div>
+        <span class="text-[20px] font-bold uppercase text-center leading-[1.2] text-dark max-md:text-[16px]">
+          {{ member.pfadiName }}
+        </span>
+        @for (role of member.roles; track role) {
+          <span class="text-[16px] font-normal text-center leading-[1.35] text-dark max-md:text-[14px]">
+            {{ role }}
+          </span>
+        }
+      </div>
+    }
+  </section>
+
+</div>

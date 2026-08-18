@@ -1,6 +1,5 @@
 <div class="px-4 lg:px-6">
 
-  <!-- Toolbar -->
   <div class="mb-4 flex justify-end">
     <button hlmBtn size="sm" (click)="openCreate()">
       <ng-icon hlm name="tablerPlus" size="sm" />
@@ -8,7 +7,6 @@
     </button>
   </div>
 
-  <!-- Table -->
   <div hlmTableContainer>
     <table hlmTable>
       <thead hlmTHead>
@@ -74,7 +72,6 @@
 
 </div>
 
-<!-- Create / Edit Stufe Dialog -->
 <hlm-dialog #stufeDialog>
   <ng-template hlmDialogPortal>
     <hlm-dialog-content class="sm:max-w-lg overflow-y-auto max-h-[90vh]">
@@ -148,7 +145,6 @@
   </ng-template>
 </hlm-dialog>
 
-<!-- Leitungsteam Dialog -->
 <hlm-dialog #leiterDialog>
   <ng-template hlmDialogPortal>
     <hlm-dialog-content class="sm:max-w-lg">
@@ -159,7 +155,6 @@
 
       <div class="py-2 space-y-4">
 
-        <!-- Current leaders list -->
         <div class="space-y-2">
           @if (!activeDetail()) {
             <div class="text-muted-foreground flex items-center gap-2 text-sm">
@@ -193,7 +188,6 @@
           }
         </div>
 
-        <!-- Add leiter form -->
         <form [formGroup]="leiterForm" (ngSubmit)="addLeiter()" class="border-t pt-4">
           <p class="mb-2 text-sm font-medium">Leiter:in hinzufügen</p>
           <div class="flex gap-2">

@@ -1,12 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  signal,
-  ViewChild,
-} from '@angular/core';
+import { Component, computed, inject, signal, viewChild } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -43,6 +36,7 @@ function stringToTime(s: string): LocalTime | undefined {
 @Component({
   selector: 'app-uebungen',
   imports: [
+    DatePipe,
     ReactiveFormsModule,
     NgIcon,
     HlmTableImports,
@@ -57,14 +51,13 @@ function stringToTime(s: string): LocalTime | undefined {
     provideIcons({ tablerPlus, tablerEdit, tablerTrash, tablerCheck, tablerLoader2 }),
   ],
   templateUrl: './uebungen.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UebungenComponent {
   protected readonly stufeStore = inject(StufeStore);
   protected readonly uebungStore = inject(UebungStore);
 
-  @ViewChild('uebungDialog') private uebungDialog!: HlmDialog;
-  @ViewChild('deleteDialog') private deleteDialog!: HlmDialog;
+  private readonly uebungDialog = viewChild.required<HlmDialog>('uebungDialog');
+  private readonly deleteDialog = viewChild.required<HlmDialog>('deleteDialog');
 
   protected readonly selectedStufeSlug = signal<string>('all');
   protected readonly dialogMode = signal<'create' | 'edit'>('create');
@@ -94,26 +87,19 @@ export class UebungenComponent {
   private editingId: number | null = null;
 
   constructor() {
-    this.stufeStore.loadAll();
-    effect(() => {
-      const slugs = this.stufeStore.stufen().map(s => s.slug!).filter(Boolean);
-      if (slugs.length) {
-        this.uebungStore.loadForStufen(slugs);
-      }
-    });
+    void this.loadAll();
+  }
+
+  private async loadAll(): Promise<void> {
+    await this.stufeStore.loadAll();
+    const slugs = this.stufeStore.stufen().map(s => s.slug!).filter(Boolean);
+    if (slugs.length) {
+      await this.uebungStore.loadForStufen(slugs);
+    }
   }
 
   protected stufeName(slug?: string): string {
     return this.stufeStore.stufen().find(s => s.slug === slug)?.name ?? slug ?? '—';
-  }
-
-  protected formatDate(dateStr?: string): string {
-    if (!dateStr) return '—';
-    return new Date(dateStr).toLocaleDateString('de-CH', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
   }
 
   protected formatTime(t?: LocalTime): string {
@@ -124,7 +110,7 @@ export class UebungenComponent {
     this.editingId = null;
     this.dialogMode.set('create');
     this.form.reset();
-    this.uebungDialog.open();
+    this.uebungDialog().open();
   }
 
   protected openEdit(u: UebungDto): void {
@@ -142,7 +128,7 @@ export class UebungenComponent {
       mitnehmen: u.mitnehmen ?? '',
       weiteres: u.weiteres ?? '',
     });
-    this.uebungDialog.open();
+    this.uebungDialog().open();
   }
 
   protected async save(): Promise<void> {
@@ -166,7 +152,7 @@ export class UebungenComponent {
       } else if (this.editingId !== null) {
         await this.uebungStore.update(this.editingId, req);
       }
-      this.uebungDialog.close();
+      this.uebungDialog().close();
     } finally {
       this.saving.set(false);
     }
@@ -174,7 +160,7 @@ export class UebungenComponent {
 
   protected confirmDelete(id: number): void {
     this.deleteTargetId.set(id);
-    this.deleteDialog.open();
+    this.deleteDialog().open();
   }
 
   protected async doDelete(): Promise<void> {
@@ -183,7 +169,7 @@ export class UebungenComponent {
     this.deleting.set(true);
     try {
       await this.uebungStore.delete(id);
-      this.deleteDialog.close();
+      this.deleteDialog().close();
     } finally {
       this.deleting.set(false);
       this.deleteTargetId.set(null);

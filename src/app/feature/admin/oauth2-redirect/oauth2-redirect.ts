@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthStore } from '../../../core/store/auth.store';
 
 @Component({
   selector: 'app-oauth2-redirect',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="min-h-screen flex items-center justify-center bg-[#f9fafb]">
       <p class="font-mono text-sm text-gray-500">Anmeldung wird verarbeitet…</p>

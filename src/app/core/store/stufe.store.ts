@@ -31,30 +31,39 @@ export class StufeStore {
     error: null,
   });
 
+  private inFlight: Promise<void> | null = null;
+
   readonly stufen = computed(() => this._state().stufen);
   readonly isLoading = computed(() => this._state().isLoading);
   readonly loaded = computed(() => this._state().loaded);
   readonly error = computed(() => this._state().error);
   readonly details = computed(() => this._state().details);
 
-  loadAll(): void {
-    const { loaded, isLoading } = this._state();
-    if (loaded || isLoading) return;
+  loadAll(): Promise<void> {
+    if (this._state().loaded) return Promise.resolve();
+    if (this.inFlight) return this.inFlight;
 
     this._state.update(s => ({ ...s, isLoading: true, error: null }));
-    this.api.invoke$Response(listAll).then(
-      response => this._state.update(s => ({
-        ...s,
-        stufen: response.body ?? [],
-        isLoading: false,
-        loaded: true,
-      })),
-      () => this._state.update(s => ({
-        ...s,
-        isLoading: false,
-        error: 'Fehler beim Laden der Stufen.',
-      })),
-    );
+    this.inFlight = this.api
+      .invoke$Response(listAll)
+      .then(
+        response => this._state.update(s => ({
+          ...s,
+          stufen: response.body ?? [],
+          isLoading: false,
+          loaded: true,
+        })),
+        () => this._state.update(s => ({
+          ...s,
+          isLoading: false,
+          error: 'Fehler beim Laden der Stufen.',
+        })),
+      )
+      .finally(() => {
+        this.inFlight = null;
+      });
+
+    return this.inFlight;
   }
 
   async loadDetail(slug: string): Promise<void> {

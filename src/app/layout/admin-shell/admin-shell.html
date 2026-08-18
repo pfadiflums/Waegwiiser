@@ -1,7 +1,6 @@
 <div hlmSidebarWrapper>
   <hlm-sidebar>
 
-    <!-- Brand -->
     <div hlmSidebarHeader class="border-b">
       <ul hlmSidebarMenu>
         <li hlmSidebarMenuItem>
@@ -15,7 +14,6 @@
 
     <div hlmSidebarContent>
 
-      <!-- Main nav -->
       <div hlmSidebarGroup>
         <div hlmSidebarGroupLabel>Übersicht</div>
         <div hlmSidebarGroupContent>
@@ -39,7 +37,6 @@
         </div>
       </div>
 
-      <!-- Bereiche -->
       <div hlmSidebarGroup>
         <div hlmSidebarGroupLabel>Bereiche</div>
         <div hlmSidebarGroupContent>
@@ -83,7 +80,6 @@
         </div>
       </div>
 
-      <!-- Secondary nav -->
       <div hlmSidebarGroup class="mt-auto">
         <div hlmSidebarGroupContent>
           <ul hlmSidebarMenu>
@@ -107,7 +103,6 @@
 
     </div>
 
-    <!-- User footer -->
     <div hlmSidebarFooter>
       <ul hlmSidebarMenu>
         <li hlmSidebarMenuItem>
@@ -118,10 +113,10 @@
             [hlmDropdownMenuTrigger]="userMenu"
           >
             <hlm-avatar class="size-8 rounded-lg">
-              <span class="bg-primary text-primary-foreground rounded-lg" hlmAvatarFallback>{{ userInitials }}</span>
+              <span class="bg-primary text-primary-foreground rounded-lg" hlmAvatarFallback>{{ userInitials() }}</span>
             </hlm-avatar>
             <div class="grid flex-1 text-left text-sm leading-tight">
-              <span class="truncate font-medium">{{ displayName }}</span>
+              <span class="truncate font-medium">{{ displayName() }}</span>
               <span class="text-muted-foreground truncate text-xs">{{ authStore.user()?.email }}</span>
             </div>
             <ng-icon hlm name="tablerDotsVertical" class="ml-auto size-4"></ng-icon>
@@ -133,10 +128,10 @@
           <hlm-dropdown-menu-label class="p-0 font-normal">
             <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
               <hlm-avatar class="size-8 rounded-lg">
-                <span class="bg-primary text-primary-foreground rounded-lg" hlmAvatarFallback>{{ userInitials }}</span>
+                <span class="bg-primary text-primary-foreground rounded-lg" hlmAvatarFallback>{{ userInitials() }}</span>
               </hlm-avatar>
               <div class="grid flex-1 text-left text-sm leading-tight">
-                <span class="truncate font-medium">{{ displayName }}</span>
+                <span class="truncate font-medium">{{ displayName() }}</span>
                 <span class="text-muted-foreground truncate text-xs">{{ authStore.user()?.email }}</span>
               </div>
             </div>

@@ -1,8 +1,6 @@
 <div class="container bg-app-bg flex flex-col gap-37.5 pb-37.5 max-md:gap-20 max-md:pb-20">
 
-  @if (error()) {
-    <div class="py-25"><p>{{ error() }}</p></div>
-  } @else if (isLoading()) {
+  @if (isLoading()) {
     <div class="pt-20 flex flex-col gap-6 animate-pulse">
       <div class="h-24 w-96 bg-dark/10 rounded max-md:h-12 max-md:w-64"></div>
       <div class="h-12 w-72 bg-dark/10 rounded max-md:h-8 max-md:w-48"></div>
@@ -77,6 +75,7 @@
           <div class="flex-1 max-w-125 w-full max-md:max-w-full">
             <iframe
               [src]="calendarUrl()"
+              [title]="'Kalender der Stufe ' + s.name"
               loading="lazy"
               style="border: 0"
               frameborder="0"

@@ -26,7 +26,7 @@
           @if (link.children) {
             <button type="button"
                     class="font-bold text-base uppercase text-dark tracking-widest inline-flex items-center gap-1.5 rounded-md
-                           transition-[color,transform] duration-200 hover:text-primary hover:-translate-y-0.5 active:translate-y-0
+                           transition-[color,transform] duration-200 hover:text-primary-ink hover:-translate-y-0.5 active:translate-y-0
                            focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-app-bg
                            max-md:text-2xl"
                     aria-haspopup="true"
@@ -66,7 +66,7 @@
                               focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset
                               max-md:text-xl max-md:tracking-widest max-md:justify-center max-md:rounded-none max-md:px-0 max-md:py-0"
                        [ngClass]="rla.isActive
-                         ? ['text-dark', 'bg-primary/20', 'max-md:bg-transparent', 'max-md:text-primary']
+                         ? ['text-dark', 'bg-primary/20', 'max-md:bg-transparent', 'max-md:text-primary-ink']
                          : ['text-dark/70', 'hover:text-dark', 'hover:bg-dark/6', 'max-md:hover:bg-transparent']"
                        (click)="closeMenu()">
                       @if (rla.isActive) {
@@ -81,9 +81,9 @@
             </div>
           } @else {
             <a [routerLink]="link.path"
-               routerLinkActive="text-primary"
+               routerLinkActive="text-primary-ink"
                class="font-bold text-base uppercase text-dark tracking-widest inline-block rounded-md
-                      transition-[color,transform] duration-200 hover:text-primary hover:opacity-100 hover:-translate-y-0.5 active:translate-y-0
+                      transition-[color,transform] duration-200 hover:text-primary-ink hover:opacity-100 hover:-translate-y-0.5 active:translate-y-0
                       focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-app-bg
                       max-md:text-2xl"
                (click)="closeMenu()">

@@ -99,7 +99,7 @@ export class AdminShell {
       map(() => {
         let route = this.activatedRoute;
         while (route.firstChild) route = route.firstChild;
-        return (route.snapshot.data['title'] as string | undefined) ?? 'Dashboard';
+        return route.snapshot.title ?? 'Dashboard';
       }),
     ),
     { initialValue: 'Dashboard' },

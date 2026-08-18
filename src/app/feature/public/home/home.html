@@ -1,7 +1,7 @@
 <div class="container bg-app-bg relative flex flex-col gap-37.5 pb-37.5 max-[1900px]:overflow-x-hidden max-md:gap-20 max-md:pb-20">
 
   <section class="pt-20 mb-112.5 flex flex-col gap-10 relative z-2 max-md:pt-30 max-md:gap-5 max-md:-mb-11.25">
-    <h1 class="max-w-250 text-[96px] leading-30.25 text-primary uppercase font-extrabold bg-transparent max-md:text-[48px] max-md:leading-[1.1]">
+    <h1 class="max-w-250 text-[96px] leading-30.25 text-primary-ink uppercase font-extrabold bg-transparent max-md:text-[48px] max-md:leading-[1.1]">
       Willkommen bei <br> Pfadi St. Justus <br> in Flums
     </h1>
     <a routerLink="/join"
@@ -18,12 +18,13 @@
         <div class="aspect-square bg-dark/10 animate-pulse"></div>
       }
     } @else {
-      @for (group of stufeStore.stufen(); track group.slug) {
-        <div class="aspect-square flex items-center justify-center cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:scale-[1.03] hover:shadow-[0_12px_24px_rgba(0,0,0,0.15)] active:-translate-y-1 active:scale-[1.01]"
-             [routerLink]="['/stufe', group.slug]"
-             [style.background-color]="group.primaryColor">
-          <span class="font-bold text-[20px] uppercase pointer-events-none max-md:text-[16px]">{{ group.name }}</span>
-        </div>
+      @for (tile of stufenTiles(); track tile.slug) {
+        <a class="aspect-square flex items-center justify-center transition-all duration-300 hover:-translate-y-2 hover:scale-[1.03] hover:shadow-[0_12px_24px_rgba(0,0,0,0.15)] active:-translate-y-1 active:scale-[1.01] focus:outline-none focus-visible:ring-4 focus-visible:ring-dark focus-visible:ring-offset-2 focus-visible:ring-offset-app-bg"
+           [routerLink]="['/stufe', tile.slug]"
+           [style.background-color]="tile.primaryColor"
+           [style.color]="tile.ink">
+          <span class="font-bold text-[20px] uppercase pointer-events-none max-md:text-[16px]">{{ tile.name }}</span>
+        </a>
       }
     }
   </section>

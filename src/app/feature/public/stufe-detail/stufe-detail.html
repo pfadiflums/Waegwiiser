@@ -17,10 +17,10 @@
     <section class="pt-20 flex flex-col max-md:pt-30">
       <div class="flex flex-col">
         <h1 class="text-[96px] font-extrabold leading-30.25 tracking-widest uppercase m-0 max-md:text-[48px] max-md:leading-[1.1]"
-            [style.color]="s.primaryColor">{{ s.name }}</h1>
+            [style.color]="headingColor()">{{ s.name }}</h1>
         @if (s.tagline) {
           <h2 class="text-[36px] font-extrabold tracking-widest uppercase -mt-2.5 max-md:text-[24px] max-md:mt-1.25"
-              [style.color]="s.primaryColor">{{ s.tagline }}</h2>
+              [style.color]="headingColor()">{{ s.tagline }}</h2>
         }
         <div class="mt-15 max-w-md text-[20px] leading-6.25 text-dark max-md:mt-7.5 max-md:text-[16px]">
           <p>{{ s.description }}</p>
@@ -30,7 +30,7 @@
 
     <section class="flex flex-col gap-10 max-md:gap-5">
       <h2 class="text-[36px] font-extrabold uppercase tracking-widest m-0 max-md:text-[24px]"
-          [style.color]="s.primaryColor">NÄCHSTE ÜBUNG</h2>
+          [style.color]="headingColor()">NÄCHSTE ÜBUNG</h2>
       <h3 class="text-[24px] font-bold -mt-2.5 uppercase max-md:text-[18px] max-md:mt-0">
         @if (s.nextUebung?.date; as datum) {
           {{ datum | date:'EEEE, d. MMMM yyyy' }}
@@ -77,6 +77,7 @@
           <div class="flex-1 max-w-125 w-full max-md:max-w-full">
             <iframe
               [src]="calendarUrl()"
+              [title]="'Kalender der Stufe ' + s.name"
               loading="lazy"
               style="border: 0"
               frameborder="0"
@@ -109,7 +110,7 @@
     @if (s.leitungsteam && s.leitungsteam.length > 0) {
       <section>
         <h2 class="text-[36px] font-extrabold uppercase tracking-widest m-0 mb-10 max-md:text-[24px] max-md:mb-5"
-            [style.color]="s.primaryColor">LEITERTEAM</h2>
+            [style.color]="headingColor()">LEITERTEAM</h2>
         <div class="flex flex-wrap gap-10 justify-start max-md:gap-5 max-md:justify-center">
           @for (leader of s.leitungsteam; track leader.id) {
             <div class="w-62.5 flex flex-col items-center max-md:w-37.5">

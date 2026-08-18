@@ -5,6 +5,9 @@ const angular = require("angular-eslint");
 
 module.exports = tseslint.config(
   {
+    ignores: ["src/app/api/**"],
+  },
+  {
     files: ["**/*.ts"],
     extends: [
       eslint.configs.recommended,
@@ -33,11 +36,15 @@ module.exports = tseslint.config(
     },
   },
   {
-    files: ["src/app/shared/ui/spartan/**/*.ts"],
+    files: ["src/app/shared/ui/**/*.ts"],
+    linterOptions: {
+      reportUnusedDisableDirectives: "off",
+    },
     rules: {
       "@angular-eslint/directive-selector": "off",
       "@angular-eslint/component-selector": "off",
       "@angular-eslint/no-input-rename": "off",
+      "@typescript-eslint/consistent-type-definitions": "off",
     },
   },
   {

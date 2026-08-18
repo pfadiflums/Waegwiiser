@@ -8,12 +8,12 @@ Das Frontend-Projekt für die offizielle Website der **Pfadi St. Justus Flums**.
 
 | Technologie | Version |
 |---|---|
-| Angular | 21.1.2 |
-| TypeScript | ~5.9.2 |
-| Tailwind CSS | 4.1.16 |
-| spartan/ui | – |
-| Lucide Angular (Icons) | 1.0.0 |
-| RxJS | ~7.8.0 |
+| Angular | 22.1.2 |
+| TypeScript | 6.0.3 |
+| Tailwind CSS | 4.2.4 |
+| spartan/ui (brain) | 1.3.1 |
+| ng-icons | 33.2.2 |
+| RxJS | 7.8.2 |
 
 **Styling:** Tailwind CSS v4 mit einem einzigen Einstiegspunkt (`src/styles.css`). Alle Design Tokens sind als CSS-Variablen im `@theme`-Block definiert. spartan/ui wird ausschliesslich im Admin-Bereich verwendet.
 
@@ -77,6 +77,23 @@ npm run build
 npm run lint
 ```
 
+### npm audit
+
+`npm audit` meldet aktuell 12 High-Severity-Findings. Diese sind bewusst nicht
+behoben:
+
+- Sie stammen **ausschliesslich** aus `@spartan-ng/cli` (devDependency) und
+  dessen `nx`-Abhängigkeitsbaum (`brace-expansion`, `less` → `image-size`).
+- `npm audit --omit=dev` meldet **0 Vulnerabilities** – nichts davon landet im
+  ausgelieferten Bundle.
+- Es handelt sich um DoS-Advisories in Build-Werkzeugen, die nur bei bewusst
+  bösartigen Eingaben an den Generator greifen.
+- `npm audit fix` kann sie nicht beheben, da `@spartan-ng/cli` seine
+  `nx`-Version pinnt.
+
+Vor einer Neubewertung zuerst `npm audit --omit=dev` prüfen – solange das 0
+meldet, besteht kein Handlungsbedarf für die Website.
+
 ---
 
 ## Projektstruktur
@@ -84,10 +101,13 @@ npm run lint
 ```
 src/
 ├── app/
-│   ├── components/         # Shared Components (navbar, footer)
-│   ├── feature/            # Feature-Module (home, stufe-detail, etc.)
+│   ├── api/                # Generierter API-Client (ng-openapi-gen, nicht editieren)
+│   ├── core/               # Guards, Interceptors, Services, Signal-Stores
+│   ├── feature/            # Feature-Seiten (public/, admin/)
 │   ├── layout/             # Layout-Komponenten (public-layout, admin-layout)
-│   └── services/           # Angular Services (auth, etc.)
+│   └── shared/
+│       ├── components/     # Shared Components (navbar, footer, hero-decoration)
+│       └── ui/             # spartan/ui Komponenten (generiert, nicht editieren)
 └── styles.css              # Globale Styles, Tailwind-Theme & Typografie
 ```
 

@@ -110,6 +110,7 @@
     }
   },
   "cli": {
+    "packageManager": "npm",
     "schematicCollections": [
       "angular-eslint"
     ]

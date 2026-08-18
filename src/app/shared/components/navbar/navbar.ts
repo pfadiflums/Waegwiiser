@@ -1,6 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { NgClass } from '@angular/common';
 import { AuthStore } from '../../../core/store/auth.store';
 
 export interface NavLink {
@@ -12,8 +11,8 @@ export interface NavLink {
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.html',
-  host: { class: 'block' },
-  imports: [RouterLink, RouterLinkActive, NgClass],
+  host: { class: 'block', '(document:keydown.escape)': 'onEscape()' },
+  imports: [RouterLink, RouterLinkActive],
 })
 export class Navbar {
   protected readonly authStore = inject(AuthStore);
@@ -36,6 +35,20 @@ export class Navbar {
     { path: '/shop', label: 'Shop' },
     { path: '/pfadihaus', label: 'Pfadihaus' },
   ];
+
+  /** Escape schliesst zuerst das Untermenue, danach das Mobile-Menue. */
+  onEscape(): void {
+    if (this.openDropdown() !== null) {
+      this.closeDropdown();
+    } else {
+      this.closeMenu();
+    }
+  }
+
+  /** Oeffnet das Untermenue beim Ueberfahren mit der Maus (Desktop). */
+  openDropdownFor(label: string): void {
+    this.openDropdown.set(label);
+  }
 
   toggleDropdown(label: string): void {
     this.openDropdown.update((current) => (current === label ? null : label));

@@ -5,7 +5,6 @@ import { Api } from '../../../api/api';
 import { getBySlug } from '../../../api/fn/stufen/get-by-slug';
 import { StufeDetailDto } from '../../../api/models/stufe-detail-dto';
 import { LocalTime } from '../../../api/models/local-time';
-import { APP_BG, INK_DARK, ensureReadable } from '../../../shared/utils/color';
 
 @Component({
   selector: 'app-stufe-detail',
@@ -27,15 +26,6 @@ export class StufeDetailComponent implements OnInit {
     const url = this.stufe()?.googleCalendarIframeUrl;
     return url ? this.sanitizer.bypassSecurityTrustResourceUrl(url) : '';
   });
-
-  /**
-   * Die Stufenfarbe wird im Admin frei gesetzt und erreicht als Schriftfarbe
-   * auf dem hellen Hintergrund nicht immer AA (Biber 1.59:1, Pfader 2.73:1).
-   * Sie wird darum so weit abgedunkelt, bis 4.5:1 erreicht sind.
-   */
-  protected readonly headingColor = computed(() =>
-    ensureReadable(this.stufe()?.primaryColor ?? INK_DARK, APP_BG),
-  );
 
   ngOnInit(): void {
     this.api.invoke$Response(getBySlug, { slug: this.slug() }).then(

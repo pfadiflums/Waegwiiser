@@ -9,6 +9,5 @@ import { STUFEN } from '../../../shared/data/stufen';
   templateUrl: './home.html',
 })
 export class Home {
-  /** Feste Liste — die Startseite wartet bewusst nicht auf die API. */
   protected readonly stufen = STUFEN;
 }

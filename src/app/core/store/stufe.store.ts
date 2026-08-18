@@ -39,10 +39,6 @@ export class StufeStore {
   readonly error = computed(() => this._state().error);
   readonly details = computed(() => this._state().details);
 
-  /**
-   * Laedt die Stufen einmalig. Parallele Aufrufer erhalten dieselbe Promise,
-   * damit ein zweiter Aufruf nicht vor den Daten zurueckkehrt.
-   */
   loadAll(): Promise<void> {
     if (this._state().loaded) return Promise.resolve();
     if (this.inFlight) return this.inFlight;

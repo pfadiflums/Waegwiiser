@@ -55,10 +55,6 @@ export class AdminLayout {
     '(prefers-color-scheme: dark)',
   );
 
-  /**
-   * `toSignal` meldet sich beim Zerstoeren der Komponente selbst ab, darum
-   * braucht es hier kein `ngOnDestroy` mehr.
-   */
   protected readonly isDark = toSignal(
     fromEvent<MediaQueryListEvent>(this.darkQuery, 'change').pipe(map((e) => e.matches)),
     { initialValue: this.darkQuery.matches },

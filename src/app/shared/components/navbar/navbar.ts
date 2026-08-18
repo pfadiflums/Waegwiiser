@@ -36,7 +36,6 @@ export class Navbar {
     { path: '/pfadihaus', label: 'Pfadihaus' },
   ];
 
-  /** Escape schliesst zuerst das Untermenue, danach das Mobile-Menue. */
   onEscape(): void {
     if (this.openDropdown() !== null) {
       this.closeDropdown();
@@ -45,7 +44,6 @@ export class Navbar {
     }
   }
 
-  /** Oeffnet das Untermenue beim Ueberfahren mit der Maus (Desktop). */
   openDropdownFor(label: string): void {
     this.openDropdown.set(label);
   }

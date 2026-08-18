@@ -1,6 +1,5 @@
 <div class="px-4 lg:px-6">
 
-  <!-- Toolbar -->
   <div class="mb-4 flex items-center justify-between gap-3">
     <select
       hlmInput
@@ -20,7 +19,6 @@
     </button>
   </div>
 
-  <!-- Table -->
   <div hlmTableContainer>
     <table hlmTable>
       <thead hlmTHead>
@@ -105,7 +103,6 @@
 
 </div>
 
-<!-- Create / Edit Dialog -->
 <hlm-dialog #uebungDialog>
   <ng-template hlmDialogPortal>
     <hlm-dialog-content class="sm:max-w-2xl overflow-y-auto max-h-[90vh]">
@@ -120,7 +117,6 @@
 
       <form [formGroup]="form" (ngSubmit)="save()" class="grid gap-4 py-2">
 
-        <!-- Stufe (create only) -->
         @if (dialogMode() === 'create') {
           <div class="grid gap-1.5">
             <label hlmLabel for="stufeSlug">Stufe *</label>
@@ -133,7 +129,6 @@
           </div>
         }
 
-        <!-- Datum + Motto -->
         <div class="grid grid-cols-2 gap-3">
           <div class="grid gap-1.5">
             <label hlmLabel for="date">Datum</label>
@@ -145,13 +140,11 @@
           </div>
         </div>
 
-        <!-- Tenue -->
         <div class="grid gap-1.5">
           <label hlmLabel for="tenue">Tenue</label>
           <input hlmInput type="text" id="tenue" placeholder="z.B. Pfadihemd" formControlName="tenue" />
         </div>
 
-        <!-- Antreten -->
         <div class="grid grid-cols-2 gap-3">
           <div class="grid gap-1.5">
             <label hlmLabel for="antretenTime">Antreten Uhrzeit</label>
@@ -163,7 +156,6 @@
           </div>
         </div>
 
-        <!-- Abtreten -->
         <div class="grid grid-cols-2 gap-3">
           <div class="grid gap-1.5">
             <label hlmLabel for="abtretenTime">Abtreten Uhrzeit</label>
@@ -175,7 +167,6 @@
           </div>
         </div>
 
-        <!-- Mitnehmen -->
         <div class="grid gap-1.5">
           <label hlmLabel for="mitnehmen">Mitnehmen</label>
           <textarea
@@ -188,7 +179,6 @@
           ></textarea>
         </div>
 
-        <!-- Weiteres -->
         <div class="grid gap-1.5">
           <label hlmLabel for="weiteres">Weiteres</label>
           <textarea
@@ -216,7 +206,6 @@
   </ng-template>
 </hlm-dialog>
 
-<!-- Delete Confirmation Dialog -->
 <hlm-dialog #deleteDialog>
   <ng-template hlmDialogPortal>
     <hlm-dialog-content class="sm:max-w-md">

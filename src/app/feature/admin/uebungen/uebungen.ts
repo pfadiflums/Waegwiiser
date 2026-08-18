@@ -90,11 +90,6 @@ export class UebungenComponent {
     void this.loadAll();
   }
 
-  /**
-   * Uebungen haengen an den Stufen-Slugs, darum werden die Stufen zuerst
-   * abgewartet. Bewusst kein `effect()`: Effekte sind fuer die Synchronisation
-   * mit der Aussenwelt gedacht, nicht fuer das Nachladen von Daten.
-   */
   private async loadAll(): Promise<void> {
     await this.stufeStore.loadAll();
     const slugs = this.stufeStore.stufen().map(s => s.slug!).filter(Boolean);

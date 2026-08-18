@@ -31,11 +31,6 @@ export class StufeDetailComponent implements OnInit {
     void this.load();
   }
 
-  /**
-   * Laedt die Stufe. Schlaegt das fehl oder ist die Antwort leer, wird die
-   * Seite trotzdem gerendert — mit dem Namen aus der festen Stufen-Liste,
-   * einem Platzhaltertext und leeren Tabellen statt einer Fehlermeldung.
-   */
   private async load(): Promise<void> {
     let loaded: StufeDetailDto | null = null;
     try {
@@ -54,7 +49,6 @@ export class StufeDetailComponent implements OnInit {
     }
   }
 
-  /** Platzhalter aus der festen Stufen-Liste, oder null bei unbekanntem Slug. */
   private buildPlaceholder(): StufeDetailDto | null {
     const known = findStufe(this.slug());
     if (!known) return null;

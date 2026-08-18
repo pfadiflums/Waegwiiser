@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, input, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, input, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Api } from '../../../api/api';
@@ -10,7 +10,6 @@ import { LocalTime } from '../../../api/models/local-time';
   selector: 'app-stufe-detail',
   imports: [DatePipe],
   templateUrl: './stufe-detail.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StufeDetailComponent implements OnInit {
   private readonly sanitizer = inject(DomSanitizer);

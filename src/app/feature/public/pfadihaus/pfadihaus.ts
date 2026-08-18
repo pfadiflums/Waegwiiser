@@ -1,4 +1,4 @@
-import { Component, inject, computed, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -26,7 +26,6 @@ interface PfadihausContact {
 @Component({
   selector: 'app-pfadihaus',
   imports: [NgOptimizedImage],
-  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './pfadihaus.html',
 })
 export class PfadihausComponent {

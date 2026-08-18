@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -46,7 +46,6 @@ import { RouterOutlet } from '@angular/router';
       }
     }
   `],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminLayout implements OnInit, OnDestroy {
   private readonly _darkQuery = window.matchMedia('(prefers-color-scheme: dark)');

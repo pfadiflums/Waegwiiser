@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { StufeStore } from '../../../core/store/stufe.store';
 import { HeroDecoration } from '../../../shared/components/hero-decoration/hero-decoration';
@@ -7,7 +7,6 @@ import { HeroDecoration } from '../../../shared/components/hero-decoration/hero-
   selector: 'app-home',
   imports: [RouterLink, HeroDecoration],
   templateUrl: './home.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Home {
   protected readonly stufeStore = inject(StufeStore);

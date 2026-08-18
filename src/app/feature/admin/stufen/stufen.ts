@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -44,7 +43,6 @@ import { HlmDialog } from '../../../shared/ui/dialog/src/lib/hlm-dialog';
     provideIcons({ tablerPlus, tablerEdit, tablerTrash, tablerLoader2, tablerUsers, tablerUserPlus }),
   ],
   templateUrl: './stufen.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StufenComponent {
   protected readonly stufeStore = inject(StufeStore);

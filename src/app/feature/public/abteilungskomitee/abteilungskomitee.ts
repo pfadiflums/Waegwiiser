@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { AbteilungPageComponent } from '../abteilung-page/abteilung-page';
 import { AbteilungPageContent } from '../abteilung-page/abteilung-page.model';
 
@@ -6,7 +6,6 @@ import { AbteilungPageContent } from '../abteilung-page/abteilung-page.model';
   selector: 'app-abteilungskomitee',
   imports: [AbteilungPageComponent],
   templateUrl: './abteilungskomitee.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AbteilungskomiteeComponent {
   protected readonly content: AbteilungPageContent = {

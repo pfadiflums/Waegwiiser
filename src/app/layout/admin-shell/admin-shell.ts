@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { filter, map, startWith } from 'rxjs';
@@ -85,7 +85,6 @@ import { AuthStore } from '../../core/store/auth.store';
     }
   `],
   templateUrl: './admin-shell.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminShell {
   protected readonly authStore = inject(AuthStore);

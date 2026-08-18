@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { AuthStore } from '../../../core/store/auth.store';
@@ -13,7 +13,6 @@ export interface NavLink {
   selector: 'app-navbar',
   templateUrl: './navbar.html',
   host: { class: 'block' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, RouterLinkActive, NgClass],
 })
 export class Navbar {

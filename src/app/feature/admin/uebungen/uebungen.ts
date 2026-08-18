@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -57,7 +56,6 @@ function stringToTime(s: string): LocalTime | undefined {
     provideIcons({ tablerPlus, tablerEdit, tablerTrash, tablerCheck, tablerLoader2 }),
   ],
   templateUrl: './uebungen.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UebungenComponent {
   protected readonly stufeStore = inject(StufeStore);

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { provideIcons } from '@ng-icons/core';
 import { tablerTrendingDown, tablerTrendingUp } from '@ng-icons/tabler-icons';
 import { HlmBadgeImports } from '@spartan-ng/helm/badge';
@@ -18,7 +18,6 @@ export interface MetricCard {
   selector: 'app-metric-cards',
   imports: [HlmCardImports, HlmBadgeImports, HlmIconImports],
   providers: [provideIcons({ tablerTrendingUp, tablerTrendingDown })],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="grid grid-cols-1 gap-4 px-4 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 lg:px-6">
       @for (card of cards(); track card.description) {

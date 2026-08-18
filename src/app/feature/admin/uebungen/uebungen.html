@@ -54,7 +54,7 @@
         } @else {
           @for (u of filteredUebungen(); track u.id) {
             <tr hlmTr>
-              <td hlmTd class="font-medium">{{ formatDate(u.date) }}</td>
+              <td hlmTd class="font-medium">{{ (u.date | date: 'dd.MM.yyyy') ?? '—' }}</td>
               <td hlmTd>{{ u.motto || '—' }}</td>
               <td hlmTd>{{ stufeName(u.stufeSlug) }}</td>
               <td hlmTd>

@@ -24,6 +24,6 @@ export class Home {
   );
 
   constructor() {
-    this.stufeStore.loadAll();
+    void this.stufeStore.loadAll();
   }
 }

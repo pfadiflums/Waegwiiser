@@ -5,7 +5,7 @@ import { AbteilungPageContent } from '../abteilung-page/abteilung-page.model';
 @Component({
   selector: 'app-abteilungskomitee',
   imports: [AbteilungPageComponent],
-  templateUrl: './abteilungskomitee.html',
+  template: `<app-abteilung-page [content]="content" />`,
 })
 export class AbteilungskomiteeComponent {
   protected readonly content: AbteilungPageContent = {

@@ -1,10 +1,4 @@
-import {
-  Component,
-  computed,
-  inject,
-  signal,
-  ViewChild,
-} from '@angular/core';
+import { Component, computed, inject, signal, viewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -47,8 +41,8 @@ import { HlmDialog } from '../../../shared/ui/dialog/src/lib/hlm-dialog';
 export class StufenComponent {
   protected readonly stufeStore = inject(StufeStore);
 
-  @ViewChild('stufeDialog') private stufeDialog!: HlmDialog;
-  @ViewChild('leiterDialog') private leiterDialog!: HlmDialog;
+  private readonly stufeDialog = viewChild.required<HlmDialog>('stufeDialog');
+  private readonly leiterDialog = viewChild.required<HlmDialog>('leiterDialog');
 
   protected readonly dialogMode = signal<'create' | 'edit'>('create');
   protected readonly saving = signal(false);
@@ -79,14 +73,14 @@ export class StufenComponent {
   private editingSlug: string | null = null;
 
   constructor() {
-    this.stufeStore.loadAll();
+    void this.stufeStore.loadAll();
   }
 
   protected openCreate(): void {
     this.editingSlug = null;
     this.dialogMode.set('create');
     this.stufeForm.reset({ primaryColor: '#000000' });
-    this.stufeDialog.open();
+    this.stufeDialog().open();
   }
 
   protected openEdit(stufe: StufeOverviewDto): void {
@@ -101,7 +95,7 @@ export class StufenComponent {
       groupPhotoUrl: stufe.groupPhotoUrl ?? '',
       googleCalendarIframeUrl: '',
     });
-    this.stufeDialog.open();
+    this.stufeDialog().open();
   }
 
   protected async save(): Promise<void> {
@@ -123,7 +117,7 @@ export class StufenComponent {
       } else if (this.editingSlug) {
         await this.stufeStore.update(this.editingSlug, req);
       }
-      this.stufeDialog.close();
+      this.stufeDialog().close();
     } finally {
       this.saving.set(false);
     }
@@ -135,7 +129,7 @@ export class StufenComponent {
     if (stufe.slug) {
       await this.stufeStore.loadDetail(stufe.slug);
     }
-    this.leiterDialog.open();
+    this.leiterDialog().open();
   }
 
   protected async addLeiter(): Promise<void> {

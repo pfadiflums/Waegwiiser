@@ -5,7 +5,7 @@ import { AbteilungPageContent } from '../abteilung-page/abteilung-page.model';
 @Component({
   selector: 'app-altpfader',
   imports: [AbteilungPageComponent],
-  templateUrl: './altpfader.html',
+  template: `<app-abteilung-page [content]="content" />`,
 })
 export class AltpfaderComponent {
   // TODO: Platzhaltertext aus dem Design — echten Altpfader-Text nachliefern lassen.

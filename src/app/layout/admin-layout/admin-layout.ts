@@ -1,9 +1,12 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { Component, DOCUMENT, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterOutlet } from '@angular/router';
+import { fromEvent, map } from 'rxjs';
 
 @Component({
   selector: 'app-admin-layout',
   imports: [RouterOutlet],
+  host: { '[class.dark]': 'isDark()' },
   template: `<router-outlet />`,
   styles: [`
     :host {
@@ -47,19 +50,17 @@ import { RouterOutlet } from '@angular/router';
     }
   `],
 })
-export class AdminLayout implements OnInit, OnDestroy {
-  private readonly _darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+export class AdminLayout {
+  private readonly darkQuery = inject(DOCUMENT).defaultView!.matchMedia(
+    '(prefers-color-scheme: dark)',
+  );
 
-  @HostBinding('class.dark')
-  isDark = this._darkQuery.matches;
-
-  private readonly _onChange = (e: MediaQueryListEvent) => { this.isDark = e.matches; };
-
-  ngOnInit(): void {
-    this._darkQuery.addEventListener('change', this._onChange);
-  }
-
-  ngOnDestroy(): void {
-    this._darkQuery.removeEventListener('change', this._onChange);
-  }
+  /**
+   * `toSignal` meldet sich beim Zerstoeren der Komponente selbst ab, darum
+   * braucht es hier kein `ngOnDestroy` mehr.
+   */
+  protected readonly isDark = toSignal(
+    fromEvent<MediaQueryListEvent>(this.darkQuery, 'change').pipe(map((e) => e.matches)),
+    { initialValue: this.darkQuery.matches },
+  );
 }

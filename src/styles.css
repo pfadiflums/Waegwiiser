@@ -13,6 +13,13 @@
   --color-pfader: #b78e60;
   --color-pios: #bf2e26;
 
+  /* Textsichere Varianten der Markenfarben fuer helle Hintergruende.
+     --color-primary (#ebc531) erreicht auf --color-app-bg nur 1.53:1 und
+     --color-biber (#eac04a) nur 1.59:1; beide verfehlen WCAG AA deutlich.
+     Diese abgedunkelten Toene halten den Farbton und erreichen >= 4.5:1. */
+  --color-primary-ink: #7f6b1b;
+  --color-biber-ink: #846c2a;
+
   /* Fonts */
   --font-sans: 'Outfit', sans-serif;
   --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,

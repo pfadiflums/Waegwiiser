@@ -1,17 +1,15 @@
-<div class="container flex flex-col pb-37.5 max-md:pb-20">
+<div class="container flex flex-col pb-section">
   <section class="pt-20 flex flex-col max-md:pt-30">
-    <h1
-      class="max-w-157.5 text-[96px] leading-30.25 text-biber uppercase font-extrabold tracking-widest m-0 max-md:text-[48px] max-md:leading-[1.1]"
-    >
+    <h1 class="max-w-157.5 text-display text-biber uppercase font-extrabold tracking-widest m-0">
       Pfadihaus
     </h1>
     <h2
-      class="max-w-161 text-[36px] leading-11.25 text-biber uppercase font-extrabold tracking-widest m-0 max-md:text-[20px] max-md:leading-[1.2]"
+      class="max-w-161 text-subheading-sm text-biber uppercase font-extrabold tracking-widest m-0"
     >
       Für dein Anlass oder Lager
     </h2>
 
-    <div class="mt-17.25 max-w-227 text-[20px] leading-6.25 max-md:mt-8 max-md:text-[16px]">
+    <div class="mt-flow-lg max-w-227 text-[20px] leading-6.25 max-md:text-[16px]">
       <p class="m-0">
         Das Pfadihaus der Pfadi St. Justus Flums bietet ideale Voraussetzungen für Lager, Weekends,
         Kurse und Vereinsanlässe. Das Haus verfügt über rund 34 Schlafplätze, Aufenthaltsräume, eine
@@ -23,7 +21,7 @@
     </div>
 
     <nav
-      class="mt-34.75 flex gap-4.5 max-md:mt-10 max-md:flex-col max-md:gap-3"
+      class="mt-block-lg flex gap-4.5 max-md:flex-col max-md:gap-3"
       aria-label="Pfadihaus Aktionen"
     >
       <a
@@ -47,7 +45,7 @@
     </nav>
   </section>
 
-  <section class="mt-17.25 max-md:mt-10" aria-label="Bildergalerie Pfadihaus">
+  <section class="mt-flow-xl" aria-label="Bildergalerie Pfadihaus">
     <img
       [ngSrc]="heroImage.src"
       [alt]="heroImage.alt"
@@ -70,10 +68,8 @@
     </div>
   </section>
 
-  <section class="mt-98.75 flex flex-col gap-17.5 max-md:mt-20 max-md:gap-6">
-    <h2
-      class="text-[36px] leading-11.25 text-pios uppercase font-extrabold tracking-widest m-0 max-md:text-[24px]"
-    >
+  <section class="mt-hero-gap flex flex-col gap-flow-md">
+    <h2 class="text-subheading text-pios uppercase font-extrabold tracking-widest m-0">
       Hier findest du uns
     </h2>
 
@@ -88,17 +84,15 @@
       </iframe>
     </div>
 
-        <div class="text-[20px] leading-6.25 max-md:text-[16px]">
+    <div class="text-[20px] leading-6.25 max-md:text-[16px]">
       <p class="m-0">{{ address.name }}</p>
       <p class="m-0">{{ address.street }}</p>
       <p class="m-0">{{ address.zip }} {{ address.city }}</p>
     </div>
   </section>
 
-  <section class="mt-42.25 flex flex-col gap-17.75 max-md:mt-16 max-md:gap-5">
-    <h2
-      class="text-[36px] leading-11.25 text-pios uppercase font-extrabold tracking-widest m-0 max-md:text-[24px]"
-    >
+  <section class="mt-block-xl flex flex-col gap-flow-sm">
+    <h2 class="text-subheading text-pios uppercase font-extrabold tracking-widest m-0">
       Belegungskalender
     </h2>
 
@@ -106,21 +100,31 @@
       Der Belegungskalender wird direkt bei pfadiheime.ch geführt. Dort siehst du, an welchen
       Terminen das Pfadihaus bereits reserviert ist.
     </p>
-    <iframe
-      title="Belegungsplan Pfadihaus St. Justus"
-      style="width: 1200px; height: 900px; overflow: hidden"
-      src="https://pfadiheime.ch/de/cottages/63/occupancies/calendar"
-      width="300"
-      height="150"
-      scrolling="no"
-      seamless="seamless"
-    ></iframe>
+    <!-- pfadiheime.ch renders the calendar at a fixed 1200px, so it cannot
+         reflow. Below that width it scrolls inside this box rather than
+         widening the page; on phones the link below replaces it entirely. -->
+    <div class="w-full overflow-x-auto max-md:hidden">
+      <iframe
+        title="Belegungsplan Pfadihaus St. Justus"
+        src="https://pfadiheime.ch/de/cottages/63/occupancies/calendar"
+        loading="lazy"
+        scrolling="no"
+        class="block h-225 w-300 max-w-none border-0"
+      ></iframe>
+    </div>
+
+    <a
+      href="https://pfadiheime.ch/de/cottages/63-pfadihaus-st-justus-flums-flums"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="hidden w-full h-14 border-[3px] border-black rounded-full items-center justify-center text-[16px] font-bold uppercase tracking-widest hover:bg-black hover:text-app-bg focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-black transition-colors max-md:flex"
+    >
+      Kalender öffnen
+    </a>
   </section>
 
-  <section class="mt-21.75 flex flex-col gap-17.75 max-md:mt-12 max-md:gap-5">
-    <h2
-      class="text-[36px] leading-11.25 text-pios uppercase font-extrabold tracking-widest m-0 max-md:text-[24px]"
-    >
+  <section class="mt-block-md flex flex-col gap-flow-sm">
+    <h2 class="text-subheading text-pios uppercase font-extrabold tracking-widest m-0">
       Kontaktiere uns
     </h2>
 

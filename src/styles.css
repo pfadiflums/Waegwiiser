@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;700;800&family=Inter:wght@300;400;500;600&display=swap');
 @import '@fontsource/geist/latin.css';
 @import '@fontsource/geist-mono/latin.css';
-@import "tailwindcss";
-@import "@spartan-ng/brain/hlm-tailwind-preset.css";
+@import 'tailwindcss';
+@import '@spartan-ng/brain/hlm-tailwind-preset.css';
 
 @theme {
   /* Public-only colors (do not conflict with spartan-ng token names) */
@@ -15,11 +15,53 @@
 
   /* Fonts */
   --font-sans: 'Outfit', sans-serif;
-  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
-    sans-serif;
+  --font-inter:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
   /* Override lg breakpoint to match project's desktop breakpoint */
   --breakpoint-lg: 62rem; /* 992px */
+
+  /* ─── Fluid type scale ────────────────────────────────────────────────────
+     Each value interpolates linearly between a 375px and a 1440px viewport.
+     The clamp bounds are the exact sizes the design already used at those two
+     widths, so phones and desktops render as before while everything between
+     them — the 768-991px tablet band especially — scales instead of jumping.
+     ─────────────────────────────────────────────────────────────────────── */
+  --text-display: clamp(3rem, 1.944rem + 4.507vw, 6rem); /* 48 → 96 */
+  --text-display--line-height: clamp(3.3rem, 1.799rem + 6.404vw, 7.5625rem);
+  --text-display-sm: clamp(2.5rem, 1.62rem + 3.756vw, 5rem); /* 40 → 80 */
+  --text-display-sm--line-height: 1.1;
+  --text-title: clamp(3rem, 2.472rem + 2.254vw, 4.5rem); /* 48 → 72 */
+  --text-title--line-height: 1.1;
+  --text-heading: clamp(1.75rem, 1.31rem + 1.878vw, 3rem); /* 28 → 48 */
+  --text-heading--line-height: 1.2;
+  --text-section: clamp(1.75rem, 1.574rem + 0.751vw, 2.25rem); /* 28 → 36 */
+  --text-section--line-height: 1.2;
+  --text-subheading: clamp(1.5rem, 1.236rem + 1.127vw, 2.25rem); /* 24 → 36 */
+  --text-subheading--line-height: clamp(1.8rem, 1.443rem + 1.521vw, 2.8125rem);
+  --text-subheading-sm: clamp(1.25rem, 0.898rem + 1.502vw, 2.25rem); /* 20 → 36 */
+  --text-subheading-sm--line-height: clamp(1.5rem, 1.038rem + 1.972vw, 2.8125rem);
+
+  /* ─── Fluid spacing scale ─────────────────────────────────────────────────
+     Same 375 → 1440 interpolation. Only the large rhythm values are fluid;
+     anything under roughly 40px reads fine at every width and stays on the
+     fixed scale. Comments give the phone → desktop pixel range.
+     ─────────────────────────────────────────────────────────────────────── */
+  --spacing-section: clamp(5rem, 3.46rem + 6.573vw, 9.375rem); /* 80 → 150 */
+  --spacing-hero-gap: clamp(5rem, -1.932rem + 29.577vw, 24.6875rem); /* 80 → 395 */
+  --spacing-block-xl: clamp(4rem, 1.689rem + 9.859vw, 10.5625rem); /* 64 → 169 */
+  --spacing-block-lg: clamp(2.5rem, 0.321rem + 9.296vw, 8.6875rem); /* 40 → 139 */
+  --spacing-block-md: clamp(3rem, 2.142rem + 3.662vw, 5.4375rem); /* 48 → 87 */
+  --spacing-block-sm: clamp(3.75rem, 2.87rem + 3.756vw, 6.25rem); /* 60 → 100 */
+  --spacing-flow-xl: clamp(2.5rem, 1.862rem + 2.723vw, 4.3125rem); /* 40 → 69 */
+  --spacing-flow-lg: clamp(2rem, 1.186rem + 3.474vw, 4.3125rem); /* 32 → 69 */
+  --spacing-flow-md: clamp(1.5rem, 0.488rem + 4.319vw, 4.375rem); /* 24 → 70 */
+  --spacing-flow-sm: clamp(1.25rem, 0.128rem + 4.789vw, 4.4375rem); /* 20 → 71 */
+
+  /* Hero decoration overlap. The decoration is hidden below md, so these are
+     applied md-and-up only and interpolate across 768 → 1440 instead. */
+  --spacing-hero-lift: clamp(8rem, -15rem + 47.917vw, 28.125rem); /* 128 → 450 */
+  --spacing-hero-lift-sm: clamp(6.25rem, -12.321rem + 38.69vw, 22.5rem); /* 100 → 360 */
 }
 
 /* ─── Spartan-ng neutral theme (global default) ──────────────────────────────
@@ -106,45 +148,38 @@
   }
 
   .public-app h1 {
-    font-size: 4rem;
+    font-size: clamp(2.5rem, 1.972rem + 2.254vw, 4rem);
     font-weight: 200;
-    @media (max-width: 767px) { font-size: 2.5rem; }
   }
 
   .public-app h2 {
-    font-size: 3rem;
+    font-size: clamp(2rem, 1.648rem + 1.502vw, 3rem);
     font-weight: 800;
-    @media (max-width: 767px) { font-size: 2rem; }
   }
 
   .public-app h3 {
-    font-size: 3rem;
+    font-size: clamp(2rem, 1.648rem + 1.502vw, 3rem);
     font-weight: 300;
-    @media (max-width: 767px) { font-size: 2rem; }
   }
 
   .public-app h4 {
-    font-size: 2.25rem;
+    font-size: clamp(1.5rem, 1.236rem + 1.127vw, 2.25rem);
     font-weight: 800;
-    @media (max-width: 767px) { font-size: 1.5rem; }
   }
 
   .public-app h5 {
-    font-size: 2.25rem;
+    font-size: clamp(1.5rem, 1.236rem + 1.127vw, 2.25rem);
     font-weight: 300;
-    @media (max-width: 767px) { font-size: 1.5rem; }
   }
 
   .public-app h6 {
-    font-size: 1.25rem;
+    font-size: clamp(1.125rem, 1.081rem + 0.188vw, 1.25rem);
     font-weight: 700;
-    @media (max-width: 767px) { font-size: 1.125rem; }
   }
 
   .public-app p {
-    font-size: 1.25rem;
+    font-size: clamp(1rem, 0.912rem + 0.376vw, 1.25rem);
     font-weight: 400;
-    @media (max-width: 767px) { font-size: 1rem; }
   }
 
   .public-app a,
@@ -166,7 +201,9 @@
   .public-app a {
     text-decoration: none;
     color: inherit;
-    &:hover { opacity: 0.9; }
+    &:hover {
+      opacity: 0.9;
+    }
   }
 
   .public-app button {
@@ -174,7 +211,9 @@
     border: none;
     background: none;
     cursor: pointer;
-    &:active:not(:disabled) { transform: scale(0.98); }
+    &:active:not(:disabled) {
+      transform: scale(0.98);
+    }
   }
 
   /* Responsive container used across all public pages */
@@ -182,9 +221,6 @@
     width: 100%;
     max-width: 90rem;
     margin-inline: auto;
-    padding-inline: 4.6875rem;
-
-    @media (max-width: 767px) { padding-inline: 1.25rem; }
-    @media (min-width: 768px) and (max-width: 991px) { padding-inline: 2.5rem; }
+    padding-inline: clamp(1.25rem, 0.04rem + 5.164vw, 4.6875rem);
   }
 }
